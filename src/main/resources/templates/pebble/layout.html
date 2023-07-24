@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>e-motion CT2</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' type="text/css" href='/semantic/semantic.css'/>
+    <link rel='stylesheet' type="text/css" href='/semantic/custom.css'/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script src="/semantic/semantic.js"></script>
+</head>
+<body class="container">
+    <div id="header">
+        <!--{% include "./header" %}-->
+    </div>
+    <div class="pusher">
+        {% block body %}{% endblock %}
+        <!--<%- defineContent('body') %>-->
+
+        <!-- <div class="ui inverted vertical footer segment">
+            <%- include('footer') %>
+        </div> -->
+    </div>
+</body>
+<script>
+const swiper = new Swiper('.swiper', {
+    // Optional parameters
+    direction: 'horizontal',
+    loop: true,
+
+    // If we need pagination
+    pagination: {
+        el: '.swiper-pagination',
+    },
+
+    // Navigation arrows
+    navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+    },
+
+    // And if we need scrollbar
+    scrollbar: {
+        //el: '.swiper-scrollbar',
+        draggable: true,
+    },
+    autoplay: {
+        delay: 4000,
+    },
+});
+
+let $slides = document.querySelectorAll('.swiper-slide');
+for (let i of $slides) {
+  i.addEventListener('mouseover', function(){
+    swiper.autoplay.stop();
+  });
+  i.addEventListener('mouseout', function(){
+     swiper.autoplay.start();
+  });
+}
+</script>
+</html>
