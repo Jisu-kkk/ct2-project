@@ -1,0 +1,35 @@
+
+<div class="ui vertical stripe segment intro" id="intro">
+  <div class="ui container">
+    <div class="left aligned row title">
+      <h2 class="logoFont colorRed">Intro {{ session.getAttribute("org").name }}</h2>
+    </div>
+  </div>
+  <div class="ui middle aligned stackable grid container">
+
+    {% for intro in introList %}
+      <div class="row">
+        {% if loop.index % 2 == 0 or loop.index == 0 %}
+          <div class="six wide left floated column img-wrapp">
+            {# img #}
+            <img src="/images/{{ intro.fileName }}" class="ui large bordered rounded image">
+          </div>
+          <div class="nine wide column">
+            <h3 class="ui header">{{ intro.title }}</h3>
+            <p>{{ loop.index }}</p>
+          </div>
+        {% else %}
+          <div class="nine wide column">
+            <h3 class="ui header">{{ intro.title }}</h3>
+            <p>{{ intro.content }}</p>
+          </div>
+          <div class="six wide right floated column img-wrapp">
+            {# img #}
+            <img src="/images/{{ intro.fileName }}" class="ui large bordered rounded image">
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+
+  </div>
+</div>

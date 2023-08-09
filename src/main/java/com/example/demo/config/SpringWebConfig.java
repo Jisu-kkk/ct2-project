@@ -5,11 +5,13 @@ import com.mitchellbosecke.pebble.loader.ClasspathLoader;
 import com.mitchellbosecke.pebble.loader.Loader;
 import com.mitchellbosecke.pebble.spring4.PebbleViewResolver;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @EnableWebMvc
@@ -20,7 +22,7 @@ public class SpringWebConfig implements WebMvcConfigurer {
     @Bean
     public Loader<?> pebbleLoader() {
         ClasspathLoader loader = new ClasspathLoader();
-        loader.setPrefix("templates/pebble/");
+        loader.setPrefix("templates/");
         loader.setSuffix(".html");
         return loader;
     }
@@ -37,9 +39,10 @@ public class SpringWebConfig implements WebMvcConfigurer {
     @Bean
     public ViewResolver viewResolver() {
         PebbleViewResolver resolver = new PebbleViewResolver();
-        resolver.setPrefix("templates/pebble/");
+        resolver.setPrefix("templates/");
         resolver.setSuffix(".html");
         resolver.setContentType("text/html; charset=UTF-8");
+        resolver.setExposeSessionAttributes(true);
         resolver.setPebbleEngine(pebbleEngine());
         return resolver;
     }

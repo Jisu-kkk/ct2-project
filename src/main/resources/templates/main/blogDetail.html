@@ -1,0 +1,26 @@
+{% extends "/layout/layout" %}
+
+{% block body %}
+<!-- Banner [S] -->
+<div class="ui vertical center aligned segment detail">
+  <div class="ui container">
+    {# img #}
+    <img src="/images/{{ blogDetail.fileName }}">
+  </div>
+</div>
+<!-- Banner [E] -->
+
+<!-- Detail [S] -->
+<div class="ui vertical stripe segment detailContent">
+  <div class="ui container">
+    <h1 class="ui header">{{ blogDetail.title | raw}}</h1>
+
+    {# content #}
+    {% autoescape false %}
+      {{ blogDetail.content }}
+    {% endautoescape %}
+
+  </div>
+</div>
+<!-- Detail [E] -->
+{% endblock %}

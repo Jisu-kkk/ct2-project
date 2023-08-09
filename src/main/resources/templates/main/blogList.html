@@ -1,0 +1,153 @@
+{% include '/layout/semanticCss' %}
+{% include '/layout/header' %}
+
+<div class="ui vertical stripe segment blog list">
+  <input type="hidden" id="currentPage" value="0"/>
+  <input type="hidden" id="endPage" value="1"/>
+  <input type="hidden" id="postCnt" value="10"/>
+
+  <!--tag-->
+  <div class="ui container">
+    <div class="ui very relaxed items">
+      <div class="item filter">
+        <div class="extra">
+          <a class="ui label active" id="allTag">#All</a>
+          {% for tag in tagList %}
+          <a class="ui label" data-value="{{ tag.tagId }}">#{{ tag.tagName }}</a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--content-->
+  <div class="ui container">
+    <div class="ui very relaxed divided items" id="blogList">
+
+    </div>
+  </div>
+</div>
+
+  <script type="text/javascript">
+    var filterTag = [];
+    $(document).ready(function() {
+      selectBlogList();
+
+      $(".ui .label").on("click", function() {
+        filterTag = [];
+
+        var value = $(this).data("value");
+
+        if (value == null) {
+          $(".active").each(function(index, item) {
+            $(this).removeClass("active");
+          });
+
+          $("#allTag").addClass("active");
+        } else {
+          if ($(this).hasClass("active")) {
+            if ($(".active").length > 1) {
+              $(this).removeClass("active");
+            }
+          } else {
+            $(this).addClass("active");
+          }
+
+          $("#allTag").removeClass("active");
+        }
+
+        $("#currentPage").val(0);
+
+        if ($(this).data("value") != null) {
+          // 현재 선택한 태그만
+          $(".active").each(function(index, item){
+            filterTag.push($(this).data("value"));
+          });
+        }
+
+        $("#blogList").html('');
+        selectBlogList();
+
+      });
+
+      // 스크롤 내려가면 목록조회
+      $(window).scroll(function() {
+        var scrollTop = $(window).scrollTop();
+        var documentHeight = $(document).height();
+        var windowHeight = $(window).height();
+
+        var scrollLocation = (Math.floor(( scrollTop / (documentHeight - windowHeight)) * 100));
+
+        // 80퍼 이상 내려가면 목록조회
+        if (scrollLocation >= 80) {
+          selectBlogList();
+        }
+
+      });
+    });
+
+    // 목록조회
+    function selectBlogList() {
+
+      var currentPage = parseInt($("#currentPage").val());
+      var endPage = parseInt($("#endPage").val());
+
+      var jsonData = { 'filterTag' : filterTag
+                      , 'orgCode' : '{{ session.getAttribute("org").orgCode }}'
+                      , 'currentPage' : currentPage
+                      , 'postCnt' : parseInt($("#postCnt").val())
+                     };
+
+      if (endPage > currentPage) {
+        $.ajax({
+          url : "/blogList/selectBlogListData",
+          data : JSON.stringify(jsonData),
+          type : "POST",
+          async : false,
+          dataType : "JSON",
+          contentType: "application/json; charset=utf-8",
+          success : function(result) {
+            $("#endPage").val(result.endPage);
+
+            var blogList = result.blogList;
+            var htmlCode = '';
+
+            if (blogList.length > 0) {
+              blogList.forEach(function(blog, blogIndex){
+                var tagList = blog.tagList;
+
+                htmlCode += '<div class="item">';
+                htmlCode +=   '<div class="ui medium bordered rounded image">';
+                htmlCode +=     '<img src="/images/' + blog.fileName + '">';
+                htmlCode +=   '</div>';
+
+                htmlCode +=   '<div class="content">';
+                htmlCode +=     '<a href="/{{ session.getAttribute("org").lowerName }}/detail/' + blog.id + '" class="header">blog.title</a>';
+                htmlCode +=     '<div class="description">' + blog.sub_title + '</div>';
+                htmlCode +=     '<div class="meta">';
+                htmlCode +=       '<span>' + blog.create_datetime + '</span>';
+                htmlCode +=     '</div>';
+                // 태그
+                htmlCode +=     '<div class="extra">'
+                tagList.forEach(function(tag, tagIndex){
+                htmlCode +=       '<div class="ui label ' + tag.tagColor + '"> #' + tag.tagName + '</div>';
+                });
+                htmlCode +=     '</div>';
+
+                htmlCode +=   '</div>';
+                htmlCode += '</div>';
+              });
+            }
+
+            $("#blogList").append(htmlCode);
+            $("#currentPage").val(currentPage + 1);
+
+          },
+          error : function(error) {
+            console.log(error);
+          }
+
+        });
+      }
+    }
+  </script>

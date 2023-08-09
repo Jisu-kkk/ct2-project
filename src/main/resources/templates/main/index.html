@@ -1,0 +1,107 @@
+{% extends "/layout/layout" %}
+
+{% block script %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+{% endblock %}
+
+{% block body %}
+  <!-- Banner [S] -->
+    <div class="ui vertical masthead center aligned segment banner">
+      <div class="ui text container">
+        <video src="https://emotion.co.kr/pc/media/emotion_main_video.9bdd387c.webm" muted="muted" autoplay="autoplay" loop="loop" type="video/mp4"></video>
+        <!-- <img src="/images/blue/118.png"/> -->
+        <!-- <p class="ui header title first">Creative Technology 2</p> -->
+        <!-- <p class="ui header title second">우리 부서는 이렇습니다.</p> -->
+        <!-- <div class="ui huge primary button">우리 부서는 이렇습니다. <i class="right arrow icon"></i></div> -->
+      </div>
+    </div>
+  <!-- Banner [E] -->
+
+  <!-- Intro [S] -->
+    {% include '/main/introList' %}
+  <!-- Intro [E] -->
+
+  <!-- Project [S] -->
+    {% include '/main/project' %}
+  <!-- Project [E] -->
+
+  <!-- Blog [S] -->
+    {% include '/main/mainBlogList' %}
+  <!-- Blog [E] -->
+{% endblock %}
+
+{% block swiperScript %}
+  <script>
+      const swiper = new Swiper('.swiper', {
+          // Optional parameters
+          direction: 'horizontal',
+          loop: true,
+          //slidesPerView: 3, // 한번에 보여질 view 개수
+          //slidesPerGroup : 3, // 한번에 넘어갈 view 개수
+          // spaceBetween: 50,
+          //loopedSlides: 1,
+
+          // effect: 'cards',
+          // cardsEffect: {
+          //     centeredSlides: true
+          // },
+
+          // effect: 'coverflow',
+          // coverflowEffect: {
+          //     rotate: 10,
+          //     slideShadows: false,
+          // },
+
+          // If we need pagination
+          pagination: {
+              el: '.swiper-pagination',
+          },
+
+          // Navigation arrows
+          navigation: {
+              nextEl: '.swiper-button-next',
+              prevEl: '.swiper-button-prev',
+          },
+
+          // And if we need scrollbar
+          scrollbar: {
+              //el: '.swiper-scrollbar',
+              draggable: true,
+          },
+
+          autoplay: {
+              delay: 4000,
+          },
+
+          breakpoints: {
+              // when window width is >= 320px
+              320: {
+                  slidesPerView: 1,
+                  slidesPerGroup : 1
+              },
+              // when window width is >= 720px
+              720: {
+                  slidesPerView: 2,
+                  slidesPerGroup : 2
+              },
+              // when window width is >= 1024px
+              1024: {
+                  slidesPerView: 3,
+                  //slidesPerGroup : 3,
+
+              }
+          }
+      });
+
+      let $slides = document.querySelectorAll('.swiper-slide');
+      for (let i of $slides) {
+        i.addEventListener('mouseover', function(){
+          swiper.autoplay.stop();
+        });
+        i.addEventListener('mouseout', function(){
+           swiper.autoplay.start();
+        });
+      }
+  </script>
+{% endblock %}

@@ -1,0 +1,37 @@
+<div class="ui vertical stripe segment project" id="project">
+  <div class="ui container">
+    <div class="left aligned row title">
+      <h2 class="logoFont colorRed">Project Works</h2>
+    </div>
+  </div>
+  <!-- Slider main container -->
+  <div class="ui container swiper">
+    <!-- Additional required wrapper -->
+    <div class="center aligned row swiper-wrapper">
+
+      {% for project in projectList %}
+        <div class="ui cards swiper-slide">
+          <div class="card">
+            <div class="content">
+              {# img #}
+              <div class="img-wrapp">
+                <img class="center aligned ui bordered rounded image" src="/images/{{ project.fileName }}">
+              </div>
+
+              <div class="header left aligned">
+                {{ project.name }}
+              </div>
+              <div class="description left aligned">
+                {{ project.client_name }}, {{ project.begin_date }}
+              </div>
+              <div class="meta left aligned">
+                {{ project.tagList }}
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</div>

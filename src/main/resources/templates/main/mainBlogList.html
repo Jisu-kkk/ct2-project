@@ -1,0 +1,39 @@
+<div class="ui vertical stripe segment blog" id="blog">
+  <div class="ui container">
+    <div class="left aligned row title">
+      <h2 class="logoFont colorRed">Blog Tech</h2>
+    </div>
+  </div>
+  <div class="ui container">
+    <div class="ui very relaxed divided items">
+
+      {% for blog in blogList %}
+        <div class="item">
+          <div class="ui medium bordered rounded image">
+            <img src="/images/{{ blog.fileName }}">
+          </div>
+          <div class="content">
+            <a href="/{{ session.getAttribute("org").lowerName }}/detail/{{ blog.id }}" class="header">{{ blog.title }}</a>
+            <div class="description">
+              {{ blog.sub_title }}
+            </div>
+            <div class="meta">
+              <a>{{ blog.create_datetime }}</a>
+            </div>
+            <div class="extra">
+              {% for tag in blog.tagList %}
+                <div class="ui label">#{{ tag.tagName }}</div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+
+    </div>
+  </div>
+  <div class="ui container right aligned">
+      <div class="ui row more">
+        <a href="/{{ session.getAttribute("org").lowerName }}/blogList" class="ui button red">Read More <i class="right arrow icon"></i></a>
+      </div>
+    </div>
+</div>

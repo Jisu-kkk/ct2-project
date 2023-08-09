@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.repo.BlogMapper">
+
+    <sql id="blogCondition">
+        <if test="filterTag != null and filterTag !=''">
+            AND tag_id IN
+            <foreach collection="filterTag" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </sql>
+
+    <select id="selectBlogListCnt" resultType="int" parameterType="map">
+        SELECT COUNT(*)
+          FROM board
+         WHERE is_use = 1
+           AND is_delete = 0
+           AND organization_code = #{orgCode}
+           AND board_category = 'BO002'
+        <include refid="blogCondition" />
+    </select>
+
+    <select id="selectBlogList" resultType="map" parameterType="map">
+        SELECT b.id
+             , b.title
+             , b.sub_title
+             , b.content
+             , b.tag_id AS strTagIds
+             , DATE_FORMAT(b.create_datetime, '%Y.%m.%d') AS create_datetime
+             , CONCAT(f.original_name, '.', f.type) AS oriFileName
+             , CONCAT(f.name, '.', f.type) AS fileName
+          FROM board b
+     LEFT JOIN file f
+            ON f.id = b.file_id
+         WHERE is_use = 1
+           AND is_delete = 0
+           AND organization_code = #{orgCode}
+           AND board_category = 'BO002'
+         <include refid="blogCondition" />
+      ORDER BY create_datetime DESC
+             , update_datetime DESC
+         LIMIT #{startPost}, #{postCnt}
+    </select>
+
+    <select id="selectBlogDetail" resultType="map" parameterType="long">
+        SELECT b.title
+             , b.sub_title
+             , b.content
+             , CONCAT(f.original_name, '.', f.type) AS oriFileName
+             , CONCAT(f.name, '.', f.type) AS fileName
+          FROM board b
+     LEFT JOIN file f
+            ON f.id = b.file_id
+         WHERE b.id = #{blogId}
+    </select>
+</mapper>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.repo.ProjectMapper">
+
+    <select id="selectProjectList" resultType="map" parameterType="map">
+        SELECT pj.id
+             , pj.name
+             , client_name
+             , DATE_FORMAT(begin_date, '%Y.%m') AS begin_date
+             , DATE_FORMAT(end_date, '%Y.%m') AS end_date
+             , tag_id AS strTagIds
+             , f.id AS file_id
+             , CONCAT(f.original_name, '.', f.type) AS oriFileName
+             , CONCAT(f.name, '.', f.type) AS fileName
+          FROM project pj
+          JOIN (
+                SELECT project_id
+                  FROM (
+                        SELECT user.id
+                          FROM user
+                         WHERE status_code = 'MB100001'
+                           AND organization_code IN (
+                                                        SELECT code
+                                                          FROM organization
+                                                         WHERE is_use = 1
+                                                           AND is_delete = 0
+                                                           AND parent_code = #{orgCode}
+                                                    )
+                       ) uu
+                  JOIN project_member pjm
+                    ON pjm.user_id = uu.id
+              GROUP BY project_id
+               ) mpj
+            ON mpj.project_id = pj.id
+     LEFT JOIN file f
+            ON f.id = pj.file_id
+    </select>
+</mapper>
