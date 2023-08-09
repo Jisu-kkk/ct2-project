@@ -1,14 +1,14 @@
 <div class="ui vertical stripe segment blog" id="blog">
   <div class="ui container">
     <div class="left aligned row title">
-      <h2 class="logoFont colorRed">Blog Tech</h2>
+      <h2 class="logoFont colorRed">Wiki {{ session.getAttribute("org").name }}</h2>
     </div>
   </div>
   <div class="ui container">
     <div class="ui very relaxed divided items">
 
       {% for blog in blogList %}
-        <div class="item">
+        <div class="item reveal">
           <div class="ui medium bordered rounded image">
             <img src="/images/{{ blog.fileName }}">
           </div>
@@ -22,7 +22,7 @@
             </div>
             <div class="extra">
               {% for tag in blog.tagList %}
-                <div class="ui label">#{{ tag.tagName }}</div>
+                <div class="ui label {{ tag.tagColor }}">#{{ tag.tagName }}</div>
               {% endfor %}
             </div>
           </div>

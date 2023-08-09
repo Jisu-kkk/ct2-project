@@ -1,11 +1,32 @@
 
-<div class="ui fixed secondary menu bgcolorWhite">
+<div class="ui fixed secondary menu device_pc bgcolorWhite">
   <div class="ui container">
     <a href="/{{ session.getAttribute('org').lowerName }}" class="header item">
       <span class="contour logoFont colorRed">e·motion {{ session.getAttribute("org").name }}</span>
     </a>
     <a href="/#intro" class="item">Intro</a>
     <a href="/#project" class="item">Project</a>
-    <a href="#blog" class="item">Blog</a>
+    <a href="/blogList" class="item">Wiki</a>
+    <a href="/#team" class="item">Team</a>
+  </div>
+</div>
+
+<div class="ui fixed secondary menu device_mobile bgcolorWhite">
+  <div class="ui container">
+    <a href="/{{ session.getAttribute('org').lowerName }}" class="header item">
+      <span class="contour logoFont colorRed">e·motion {{ session.getAttribute("org").name }}</span>
+    </a>
+    <div class="ui menu" style="border: 0px; box-shadow: none; margin-left: auto;">
+      <a id="mobile_item" class="item" onclick="$('.ui.sidebar').sidebar('toggle');"><i class="bars icon"></i></a>
+    </div>
+  </div>
+</div>
+
+<div class="ui pushable segment">
+  <div class="ui sidebar vertical menu right" style="margin-top: 50px !important;">
+    <a href="/#intro" class="item">Intro</a>
+    <a href="/#project" class="item">Project</a>
+    <a href="/blogList" class="item">Wiki</a>
+    <a href="/#team" class="item">Team</a>
   </div>
 </div>

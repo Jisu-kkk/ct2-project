@@ -60,32 +60,6 @@ public class MainController {
         return "main/index";
     }
 
-    /*@RequestMapping({"/{orgName}/blogList/{page}", "/{orgName}/blogList"})
-    public String blogList(@PathVariable String orgName, @PathVariable(required = false) Integer page
-                            , Model model, HttpSession session) {
-
-        Map<String, Object> org = (Map<String, Object>) session.getAttribute("org");
-        Map<String, Object> param = new HashMap<>();
-
-        param.put("tagType", "BO002");
-        param.put("orgCode", org.get("orgCode"));
-        param.put("postCnt", 10);
-
-        List<Map<String, Object>> tagList = commonService.selectTagList(param);
-
-        page = ((int) org.get("startPost")) * ((int) org.get("postCnt"));
-
-        param.put("startPost", page);
-        int endPage = blogService.selectBlogListEndPage(param);
-        if (page < endPage)
-        System.out.println(blogService.selectBlogListEndPage(param));
-        List<Map<String, Object>> blogList = blogService.selectBlogList(param);
-
-        model.addAttribute("tagList", tagList);
-        model.addAttribute("blogList", blogList);
-        return "main/blogList";
-    }*/
-
     @RequestMapping("/{orgName}/blogList")
     public String blogList(@PathVariable String orgName, Model model, HttpSession session) {
         Map<String, Object> org = (Map<String, Object>) session.getAttribute("org");

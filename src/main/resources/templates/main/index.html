@@ -29,79 +29,132 @@
   <!-- Blog [S] -->
     {% include '/main/mainBlogList' %}
   <!-- Blog [E] -->
+
+  <!-- team [S] -->
+    {% include '/main/teamMember' %}
+  <!-- team [E] -->
 {% endblock %}
 
 {% block swiperScript %}
   <script>
-      const swiper = new Swiper('.swiper', {
-          // Optional parameters
-          direction: 'horizontal',
-          loop: true,
-          //slidesPerView: 3, // 한번에 보여질 view 개수
-          //slidesPerGroup : 3, // 한번에 넘어갈 view 개수
-          // spaceBetween: 50,
-          //loopedSlides: 1,
+    const swiper = new Swiper('.swiper', {
+        // Optional parameters
+        direction: 'horizontal',
+        autoplay: {
+            delay: 4000
+        },
 
-          // effect: 'cards',
-          // cardsEffect: {
-          //     centeredSlides: true
-          // },
+        // If we need pagination
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true, // 버튼 클릭 여부
+        },
 
-          // effect: 'coverflow',
-          // coverflowEffect: {
-          //     rotate: 10,
-          //     slideShadows: false,
-          // },
+        // Navigation arrows
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
 
-          // If we need pagination
-          pagination: {
-              el: '.swiper-pagination',
-          },
+        // And if we need scrollbar
+        scrollbar: {
+            //el: '.swiper-scrollbar',
+            draggable: true,
+        },
 
-          // Navigation arrows
-          navigation: {
-              nextEl: '.swiper-button-next',
-              prevEl: '.swiper-button-prev',
-          },
+        breakpoints: {
+            // when window width is >= 320px
+            320: {
+                slidesPerView: 1,
+                slidesPerGroup: 1,
+            },
+            // when window width is >= 720px
+            720: {
+                slidesPerView: 2,
+                slidesPerGroup: 2,
+            },
+            // when window width is >= 1024px
+            1024: {
+                slidesPerView: 3,
+                slidesPerGroup: 3,
+            }
+        }
+    });
 
-          // And if we need scrollbar
-          scrollbar: {
-              //el: '.swiper-scrollbar',
-              draggable: true,
-          },
+    swiper.el.addEventListener('mouseover', function(){
+        swiper.autoplay.stop();
+    })
+    swiper.el.addEventListener('mouseleave', function(){
+        swiper.autoplay.start();
+    })
 
-          autoplay: {
-              delay: 4000,
-          },
+    const swiperTeam = new Swiper('.swiperTeam', {
+        // Optional parameters
+        direction: 'horizontal',
+        autoplay: {
+            delay: 4000
+        },
 
-          breakpoints: {
-              // when window width is >= 320px
-              320: {
-                  slidesPerView: 1,
-                  slidesPerGroup : 1
-              },
-              // when window width is >= 720px
-              720: {
-                  slidesPerView: 2,
-                  slidesPerGroup : 2
-              },
-              // when window width is >= 1024px
-              1024: {
-                  slidesPerView: 3,
-                  //slidesPerGroup : 3,
+        // If we need pagination
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true, // 버튼 클릭 여부
+        },
 
-              }
-          }
-      });
+        // Navigation arrows
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
 
-      let $slides = document.querySelectorAll('.swiper-slide');
-      for (let i of $slides) {
-        i.addEventListener('mouseover', function(){
-          swiper.autoplay.stop();
-        });
-        i.addEventListener('mouseout', function(){
-           swiper.autoplay.start();
-        });
-      }
-  </script>
+        // And if we need scrollbar
+        scrollbar: {
+            //el: '.swiper-scrollbar',
+            draggable: true,
+        },
+
+        breakpoints: {
+            // when window width is >= 320px
+            320: {
+                slidesPerView: 2,
+                slidesPerGroup: 1,
+            },
+            // when window width is >= 720px
+            720: {
+                slidesPerView: 3,
+                slidesPerGroup: 1,
+            },
+            // when window width is >= 1024px
+            1024: {
+                slidesPerView: 6,
+                slidesPerGroup: 1,
+            }
+        }
+    });
+
+    swiperTeam.el.addEventListener('mouseover', function(){
+        swiperTeam.autoplay.stop();
+    })
+    swiperTeam.el.addEventListener('mouseleave', function(){
+        swiperTeam.autoplay.start();
+    })
+    </script>
+    <script>
+    function reveal() {
+        var reveals = document.querySelectorAll(".reveal");
+        for (var i = 0; i < reveals.length; i++) {
+            var windowHeight = window.innerHeight;
+            var elementTop = reveals[i].getBoundingClientRect().top;
+            var elementVisible = 150;
+
+            if (elementTop < windowHeight - elementVisible) {
+            reveals[i].classList.add("active");
+            } else {
+            reveals[i].classList.remove("active");
+            }
+        }
+    }
+    window.addEventListener("scroll", reveal);
+    reveal();
+    </script>
 {% endblock %}
