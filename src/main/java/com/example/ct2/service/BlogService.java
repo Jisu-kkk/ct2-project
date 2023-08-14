@@ -1,7 +1,7 @@
-package com.example.demo.service;
+package com.example.ct2.service;
 
-import com.example.demo.repo.BlogMapper;
-import com.example.demo.service.Common.CommonService;
+import com.example.ct2.repo.BlogMapper;
+import com.example.ct2.service.Common.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

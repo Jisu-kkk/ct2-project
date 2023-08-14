@@ -1,4 +1,4 @@
-package com.example.demo.repo;
+package com.example.ct2.repo.Common;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -8,7 +8,7 @@ import java.util.Map;
 
 @Mapper
 @Repository
-public interface IntroMapper {
+public interface CommonMapper {
 
-    List<Map<String, Object>> selectIntroList(Map<String, Object> org);
+    List<Map<String, Object>> selectTagList(Map<String, Object> param);
 }

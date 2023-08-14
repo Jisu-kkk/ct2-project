@@ -1,4 +1,4 @@
-package com.example.demo.config;
+package com.example.ct2.config;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan(value = "com.example.demo", sqlSessionFactoryRef = "SqlSessionFactory")
+@MapperScan(value = "com.example.ct2", sqlSessionFactoryRef = "SqlSessionFactory")
 public class MyBatisConfig {
     @Value("classpath*:mapper/**/*.xml")
     String mPath;

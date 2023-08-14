@@ -1,4 +1,4 @@
-package com.example.demo.repo;
+package com.example.ct2.repo;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;

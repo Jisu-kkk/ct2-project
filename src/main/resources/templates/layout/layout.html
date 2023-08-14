@@ -9,14 +9,14 @@
     {% include '/layout/semanticCss' %}
 </head>
 <body class="container">
-    <div id="header">
-        {% include '/layout/header' %}
-    </div>
+    {% include '/layout/header' %}
+
     <div class="pusher">
         {% block body %}{% endblock %}
     </div>
 </body>
 
 {% block swiperScript %}{% endblock %}
+{% block blogListScript %}{% endblock %}
 
 </html>

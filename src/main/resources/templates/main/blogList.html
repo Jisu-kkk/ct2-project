@@ -1,33 +1,37 @@
-{% include '/layout/semanticCss' %}
-{% include '/layout/header' %}
+{% extends "/layout/layout" %}
 
-<div class="ui vertical stripe segment blog list">
-  <input type="hidden" id="currentPage" value="0"/>
-  <input type="hidden" id="endPage" value="1"/>
-  <input type="hidden" id="postCnt" value="10"/>
+{% block body %}
+<div class="pusher">
+  <div class="ui vertical stripe segment blog list">
+    <input type="hidden" id="currentPage" value="0"/>
+    <input type="hidden" id="endPage" value="1"/>
+    <input type="hidden" id="postCnt" value="10"/>
 
-  <!--tag-->
-  <div class="ui container">
-    <div class="ui very relaxed items">
-      <div class="item filter">
-        <div class="extra">
-          <a class="ui label active" id="allTag">#All</a>
-          {% for tag in tagList %}
-          <a class="ui label" data-value="{{ tag.tagId }}">#{{ tag.tagName }}</a>
-          {% endfor %}
+    <!--tag-->
+    <div class="ui container">
+      <div class="ui very relaxed items">
+        <div class="item filter">
+          <div class="extra">
+            <a class="ui label active" id="allTag">#All</a>
+            {% for tag in tagList %}
+            <a class="ui label" data-value="{{ tag.tagId }}">#{{ tag.tagName }}</a>
+            {% endfor %}
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!--content-->
-  <div class="ui container">
-    <div class="ui very relaxed divided items" id="blogList">
+    <!--content-->
+    <div class="ui container">
+      <div class="ui very relaxed divided items" id="blogList">
 
+      </div>
     </div>
   </div>
 </div>
+{% endblock %}
 
+{% block blogListScript %}
   <script type="text/javascript">
     var filterTag = [];
     $(document).ready(function() {
@@ -151,3 +155,4 @@
       }
     }
   </script>
+{% endblock %}

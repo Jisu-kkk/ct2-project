@@ -1,6 +1,6 @@
-package com.example.demo.resource;
+package com.example.ct2.resource;
 
-import com.example.demo.service.BlogService;
+import com.example.ct2.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

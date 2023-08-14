@@ -1,10 +1,10 @@
-package com.example.demo.controller;
+package com.example.ct2.controller;
 
-import com.example.demo.service.BlogService;
-import com.example.demo.service.Common.CommonService;
-import com.example.demo.service.IntroService;
-import com.example.demo.service.OrganizationService;
-import com.example.demo.service.ProjectService;
+import com.example.ct2.service.BlogService;
+import com.example.ct2.service.Common.CommonService;
+import com.example.ct2.service.IntroService;
+import com.example.ct2.service.OrganizationService;
+import com.example.ct2.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
