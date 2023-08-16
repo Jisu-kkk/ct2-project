@@ -1,0 +1,28 @@
+
+<html lang="en"><head>
+    <title>e-motion admin</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/semantic/semantic.css">
+    <link rel="stylesheet" href="/semantic/admin.css">
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script src="/semantic/semantic.js"></script>
+
+    {% block toastScript %}{% endblock %}
+</head>
+
+<body class="container">
+    <div class="sidebar">
+        {% include '/admin/layout/sidebar' %}
+    </div>
+
+    <div class="main">
+        {% block body %}{% endblock %}
+    </div>
+</body>
+
+    {% block script %}{% endblock %}
+
+</html>

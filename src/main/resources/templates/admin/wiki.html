@@ -1,0 +1,27 @@
+{% extends "/admin/layout/layout" %}
+
+  {% block toastScript %}
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+  {% endblock %}
+
+  {% block body %}
+  <div class="content" id="content">
+    <div class="card-layout">
+      <div class="card col-12" id="editor">
+        content area
+      </div>
+    </div>
+  </div>
+  {% endblock %}
+
+  {% block script %}
+    <script type="text/javascript">
+      const editor = new toastui.Editor({
+        el: document.querySelector('#editor'),
+        previewStyle: 'vertical',
+        height: '500px'
+      });
+    </script>
+  {% endblock %}
+
