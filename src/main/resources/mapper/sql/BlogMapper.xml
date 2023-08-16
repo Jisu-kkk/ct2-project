@@ -10,16 +10,24 @@
                 #{item}
             </foreach>
         </if>
+
     </sql>
 
     <select id="selectBlogListCnt" resultType="int" parameterType="map">
         SELECT COUNT(*)
-          FROM board
-         WHERE is_use = 1
-           AND is_delete = 0
+          FROM board b
+          JOIN (
+                SELECT board_id
+                  FROM board_tag
+                 WHERE 1 = 1
+                <include refid="blogCondition"/>
+              GROUP BY board_id
+               ) bt
+            ON bt.board_id = b.id
+         WHERE b.is_use = 1
+           AND b.is_delete = 0
            AND organization_code = #{orgCode}
            AND board_category = 'BO002'
-        <include refid="blogCondition" />
     </select>
 
     <select id="selectBlogList" resultType="map" parameterType="map">
@@ -31,16 +39,23 @@
              , CONCAT(f.original_name, '.', f.type) AS oriFileName
              , CONCAT(f.name, '.', f.type) AS fileName
           FROM board b
+          JOIN (
+                SELECT board_id
+                  FROM board_tag
+                 WHERE 1 = 1
+                <include refid="blogCondition"/>
+              GROUP BY board_id
+               ) bt
+            ON bt.board_id = b.id
      LEFT JOIN file f
             ON f.id = b.file_id
-         WHERE is_use = 1
-           AND is_delete = 0
+         WHERE b.is_use = 1
+           AND b.is_delete = 0
            AND organization_code = #{orgCode}
            AND board_category = 'BO002'
-         <include refid="blogCondition" />
       ORDER BY create_datetime DESC
              , update_datetime DESC
-         LIMIT #{startPost}, #{postCnt}
+        LIMIT #{startPost}, #{postCnt}
     </select>
 
     <select id="selectBlogDetail" resultType="map" parameterType="long">
@@ -57,6 +72,7 @@
 
     <select id="selectBoardTag" resultType="map" parameterType="map">
         SELECT t.tag_name AS tagName
+             , t.tag_color AS tagColor
           FROM board_tag bt
      LEFT JOIN tag t
             ON t.tag_id = bt.tag_id
