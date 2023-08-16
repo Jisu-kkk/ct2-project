@@ -11,4 +11,5 @@ import java.util.Map;
 public interface ProjectMapper {
 
     List<Map<String, Object>> selectProjectList(Map<String, Object> org);
+    List<Map<String, Object>> selectProjectTag(Map<String, Object> org);
 }

@@ -27,7 +27,6 @@
              , b.title
              , b.sub_title
              , b.content
-             , b.tag_id AS strTagIds
              , DATE_FORMAT(b.create_datetime, '%Y.%m.%d') AS create_datetime
              , CONCAT(f.original_name, '.', f.type) AS oriFileName
              , CONCAT(f.name, '.', f.type) AS fileName
@@ -54,5 +53,13 @@
      LEFT JOIN file f
             ON f.id = b.file_id
          WHERE b.id = #{blogId}
+    </select>
+
+    <select id="selectBoardTag" resultType="map" parameterType="map">
+        SELECT t.tag_name AS tagName
+          FROM board_tag bt
+     LEFT JOIN tag t
+            ON t.tag_id = bt.tag_id
+         WHERE bt.board_id = #{id}
     </select>
 </mapper>

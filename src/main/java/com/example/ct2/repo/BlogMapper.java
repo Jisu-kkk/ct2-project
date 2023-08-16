@@ -15,4 +15,6 @@ public interface BlogMapper {
     List<Map<String, Object>> selectBlogList(Map<String, Object> org);
 
     Map<String, Object> selectBlogDetail(Long blogId);
+
+    List<Map<String, Object>> selectBoardTag(Map<String, Object> org);
 }

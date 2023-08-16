@@ -43,8 +43,7 @@ public class BlogService {
         List<Map<String, Object>> blogList = blogMapper.selectBlogList(org);
 
         for (Map<String, Object> param : blogList) {
-            param.put("tagType", "BO002");
-            param.put("tagList", commonService.selectTagList(param));
+            param.put("tagList", blogMapper.selectBoardTag(param));
         }
         return blogList;
     }
