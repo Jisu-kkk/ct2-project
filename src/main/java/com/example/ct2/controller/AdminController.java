@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 public class AdminController {
 
-    @GetMapping("/wiki")
+    @GetMapping("/wikiList")
     public String wiki() {
-        return "admin/wiki";
+        return "admin/wiki/wikiList";
     }
 }

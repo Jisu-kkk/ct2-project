@@ -1441,8 +1441,8 @@ a,abbr,acronym,address,applet,article,aside,audio,b,big,blockquote,body,canvas,c
     padding: 0;
     border: 0;
     font-family: Noto Sans KR,Open Sans,sans-serif;
-    font-size: 100%;
-    line-height: 1.5;
+    /* font-size: 100%; */
+    /* line-height: 1.5; */
     vertical-align: baseline;
     letter-spacing: -.5px;
     -webkit-tap-highlight-color: rgba(255,255,255,0)
@@ -2569,4 +2569,71 @@ body.container {
     padding-left: calc(var(--pc-gap-x) * 0.5);
     margin-top: var(--pc-gap-y);
     box-sizing: border-box;
+}
+
+.profile .img {
+    overflow: hidden;
+}
+
+.profile .image {
+    /* position: absolute; */
+    inset: 0px;
+    box-sizing: border-box;
+    padding: 0px;
+    border: none;
+    margin: auto;
+    display: block;
+    width: 100px;
+    height: 100px;
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    max-height: 100%;
+    border: 0px !important;
+    object-fit: cover !important;
+}
+
+
+.content-header {
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+    padding: 30px 30px 0px;
+    box-sizing: border-box;
+}
+
+.content-header .title {
+    flex: 1 1 auto;
+}
+
+.card-inner {
+    max-width: 100%;
+    border-radius: 20px;
+    background: rgb(255, 255, 255);
+    box-shadow: rgba(80, 143, 244, 0.1) 0px 12px 30px;
+    box-sizing: border-box;
+    min-height: 100px;
+    padding: 30px;
+}
+
+.card-body {
+    box-sizing: border-box;
+}
+.card-body .search-area {
+    margin: 0px 0px 20px;
+}
+.card-body .content-area {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.ui.pagination.menu {
+    border: 0px !important;
+    box-shadow: none !important;
+}
+
+.profile .info .name, .profile .info .team {
+    line-height: 1.5;
 }
