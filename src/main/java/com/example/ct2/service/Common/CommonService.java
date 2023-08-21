@@ -29,4 +29,8 @@ public class CommonService {
         return tagList;
     }
 
+    public List<Map<String, Object>> selectOrgUserList(Map<String, Object> param) {
+        return commonMapper.selectOrgUserList(param);
+    }
+
 }

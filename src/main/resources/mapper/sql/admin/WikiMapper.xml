@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.ct2.repo.admin.WikiMapper">
+
+    <sql id="wikiCondition">
+    </sql>
+
+    <sql id="hashTagCondition">
+        <if test="hashTag != null and hashTag != 0">
+          JOIN (
+                SELECT board_id
+                  FROM board_tag
+                 WHERE tag_id = #{hashTag}
+               ) bt
+            ON bt.board_id = b.id
+        </if>
+    </sql>
+
+    <sql id="showStatusCondition">
+        <if test="showStatus != null and showStatus != ''">
+            AND b.is_use = #{showStatus}
+        </if>
+    </sql>
+
+    <sql id="userIdCondition">
+        <if test="userId != null and userId != 0">
+            AND u.id = #{userId}
+        </if>
+    </sql>
+
+    <sql id="titleCondition">
+        <if test="title != null and title != ''">
+            AND b.title LIKE CONCAT('%', #{title}, '%')
+        </if>
+    </sql>
+
+    <select id="selectWikiListCnt" resultType="int" parameterType="map">
+        SELECT COUNT(b.id)
+          FROM board b
+     LEFT JOIN user u
+            ON u.id = b.create_user
+        <include refid="hashTagCondition" />
+         WHERE b.organization_code = 'BS003002'
+           AND b.is_delete = 0
+           AND b.board_category = 'BO002'
+        <include refid="showStatusCondition" />
+        <include refid="userIdCondition" />
+        <include refid="titleCondition" />
+    </select>
+
+    <select id="selectWikiList" resultType="map" parameterType="map">
+        SELECT ROW_NUMBER() OVER(ORDER BY b.update_datetime DESC, b.create_datetime DESC) AS num
+             , A.*
+          FROM (
+                SELECT b.id
+                     , b.title
+                     , b.is_use AS useYn
+                     , u.name
+                     , DATE_FORMAT(b.update_datetime, '%Y.%m.%d') AS update_time
+                     , DATE_FORMAT(b.create_datetime, '%Y.%m.%d') AS create_time
+                     , b.update_datetime
+                     , b.create_datetime
+                  FROM board b
+             LEFT JOIN user u
+                    ON u.id = b.create_user
+        <include refid="hashTagCondition" />
+                 WHERE b.organization_code = 'BS003002' -- 조직코드
+                   AND b.is_delete = 0
+        <include refid="showStatusCondition" />
+        <include refid="userIdCondition" />
+        <include refid="titleCondition" />
+              ORDER BY b.update_datetime DESC
+                     , b.create_datetime DESC
+               ) A
+         LIMIT #{pagination.startIndex}, #{pagination.pageSize} -- 페이징
+    </select>
+
+</mapper>

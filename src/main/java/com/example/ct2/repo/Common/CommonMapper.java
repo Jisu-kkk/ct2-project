@@ -11,4 +11,6 @@ import java.util.Map;
 public interface CommonMapper {
 
     List<Map<String, Object>> selectTagList(Map<String, Object> param);
+
+    List<Map<String, Object>> selectOrgUserList(Map<String, Object> param);
 }
