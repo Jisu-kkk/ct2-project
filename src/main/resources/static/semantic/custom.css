@@ -596,6 +596,15 @@ body {
     }
 }
 
+.mobile_item_wrap {
+    border: 0px;
+    box-shadow: none;
+    margin-left: auto;
+}
+.mobile.ui.sidebar {
+    margin-top: 50px !important;
+}
+
 /* tooltip */
 .tooltip {
     position: relative;

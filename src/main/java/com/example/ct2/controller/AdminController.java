@@ -32,6 +32,11 @@ public class AdminController {
     @Autowired
     private FileService fileService;
 
+    @GetMapping("/index")
+    public String home() {
+        return "admin/main/index";
+    }
+
     @GetMapping("/wikiList")
     public String wikiList(@RequestParam(required = false) Map<String, Object> param,
                            @RequestParam(defaultValue = "1") int curPage,
@@ -88,6 +93,23 @@ public class AdminController {
         int result = wikiService.insertWiki(param);
 
         return "redirect:/" + "admin/wikiList";
+    }
+
+    @GetMapping("/project")
+    public String project(Model model) {
+        return "admin/project/projectList";
+    }
+
+    @GetMapping("/addProject")
+    public String addProject(Model model) {
+        model.addAttribute("status", "add");
+        return "admin/project/projectDetail";
+    }
+
+    @GetMapping("/editProject")
+    public String editProject(Model model) {
+        model.addAttribute("status", "edit");
+        return "admin/project/projectDetail";
     }
 
 }

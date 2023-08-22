@@ -1,6 +1,32 @@
+{% block sidebarScript %}
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('.ui.dropdown').dropdown();
+    $('.ui.checkbox').checkbox();
+    $('.ui.radio.checkbox').checkbox();
+
+    $('.menu-list .menu-item').on("click", function(e) {
+      var index = $(this).index();
+      $('.menu-list .menu-item a').removeClass('active');
+      $(this).find('a').addClass('active');
+    })
+  });
+
+  $(function() {
+    var url = window.location.pathname;
+    var urlRegExp = new RegExp(url.replace(/\/$/, '') + "$");
+    $('.menu-list .menu-item a').each(function () {
+      if (urlRegExp.test(this.href.replace(/\/$/, ''))) {
+        $(this).addClass('active');
+      }
+    });
+  });
+</script>
+{% endblock %}
+
 <div class="inner">
   <div class="top">
-    <a class="logo" href="/admin/wikiList">
+    <a class="logo" href="/admin/index">
       <span class="admin">e·motion CT2</span>
     </a>
   </div>
@@ -9,7 +35,7 @@
     <div class="cate-inner">
       <ul class="menu-list">
         <li class="menu-item">
-          <a class="" target="_self" href="/admin/wikiList">
+          <a class="" target="_self" href="/admin/index">
             <span class="icon">
               <!-- <i class="star outline icon"></i> -->
               😊
@@ -18,7 +44,7 @@
           </a>
         </li>
         <li class="menu-item">
-          <a class="" target="_self" href="/admin/wikiList">
+          <a class="" target="_self" href="/admin/project">
             <span class="icon">
               <!-- <i class="archive icon"></i> -->
               😎
