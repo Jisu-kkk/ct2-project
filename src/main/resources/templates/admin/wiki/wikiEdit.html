@@ -6,22 +6,191 @@
   {% endblock %}
 
   {% block body %}
-  <div class="content" id="content">
-    <div class="card-layout">
-      <div class="card col-12" id="editor">
-        content area
-      </div>
+<div class="content" id="content">
+  <div class="content-header">
+    <div class="title">
+      <h2>Wiki 등록</h2>
     </div>
   </div>
+
+  <form name="editParam" id="editParam" action="/admin/addWiki" method="post" enctype="multipart/form-data">
+    <div class="card-layout">
+      <div class="card col-12">
+        <div class="card-inner">
+          <div class="card-body">
+            <!-- 제목 -->
+            <div class="ui innerContent">
+              <div class="ui right aligned header">
+                <div class="ui toggle checkbox checked" id="showStatus">
+                  <input type="checkbox" name="showStatus" checked>
+                  <label>공개여부</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- 제목 -->
+            <div class="ui innerContent">
+              <div class="title">제목</div>
+              <div class="card-body">
+                <div class="ui input">
+                  <input type="text" name="title" id="title" placeholder="Wiki의 제목을 입력해주세요.">
+                </div>
+              </div>
+            </div>
+
+            <!-- 설명 -->
+            <div class="ui innerContent">
+              <div class="title">간편설명</div>
+              <div class="card-body">
+                <div class="ui input">
+                  <input type="text" name="subTitle" id="subTitle" placeholder="Wiki의 간편설명을 입력해주세요.">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 에디터 -->
+      <div class="card col-12">
+        <div class="card-inner">
+          <div class="card-body">
+            <div class="ui">
+              <div id="editor"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <input type="hidden" name="content" value=""/>
+
+      <!-- 해시태그 -->
+      <div class="card col-12">
+        <div class="card-inner">
+          <div class="ui innerContent">
+            <div class="title">해시태그</div>
+            <div class="card-body">
+              <input type="hidden" name="hashTag" id="hashTag" value="">
+
+              {% for tag in tagList %}
+              <div class="ui checkbox hashTag">
+                <input type="checkbox" class="hidden" name="tag" value="{{ tag.tagId }}">
+                <label class="hasgTagName">#{{ tag.tagName }}</label>
+              </div>
+              {% endfor %}
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card col-12">
+        <div class="card-inner">
+          <!-- 썸네일 첨부파일 -->
+          <div class="ui innerContent">
+            <div class="title">썸네일 이미지 첨부파일</div>
+            <div class="card-body">
+              <input type="file" name="thumbnail" id="thumbnail" accept="image/gif,image/jpeg,image/png">
+              <label for="thumbnail" class="ui button black">첨부파일</label>
+              <span class="fileList"></span>
+            </div>
+            <span class="guideText">1개의 이미지 파일만 등록 가능합니다. (300x200)</span>
+          </div>
+
+          <!-- 첨부파일 -->
+          <div class="ui innerContent">
+            <div class="title">Wiki 대표 이미지 첨부파일</div>
+            <div class="card-body">
+              <input type="file" name="titleImg" id="titleImg" accept="image/gif,image/jpeg,image/png">
+              <label for="titleImg" class="ui button black">첨부파일</label>
+              <span class="fileList"></span>
+            </div>
+            <span class="guideText">이미지 파일만 등록 가능합니다. (1280x380)</span>
+          </div>
+
+          <!-- 버튼 -->
+          <div class="ui right aligned header">
+            <button class="ui button primary" id="btnRegist">Wiki 등록</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
   {% endblock %}
 
   {% block script %}
     <script type="text/javascript">
-      const editor = new toastui.Editor({
-        el: document.querySelector('#editor'),
-        previewStyle: 'vertical',
-        height: '500px'
+      $(document).ready(function(){
+        $('.ui.checkbox').checkbox();
+        $('.ui.radio.checkbox').checkbox();
+
+        $("#btnRegist").on('click', function() {
+          if (validation()) {
+            $("#editParam").submit();
+          }
+        });
       });
+
+      const viewer = new toastui.Editor({
+          el: document.querySelector('#editor'),
+          viewer: true,
+          height: '500px',
+          placeholder: 'Wiki 본문을 입력해주세요.',
+          initialEditType: 'markdown'
+      });
+
+      $('input[type=file]').on('change', function(e){
+          fileCheck(e);
+      });
+
+      function fileCheck(e) {
+          var target = e.target;
+          var file = target.files[0].name;
+          var html = '<label>' + file + '</label>';
+          html += '<button class="delete" onclick="fileDelete(this);">';
+          html += '<i class="icon close"></i>';
+          html += '</button>';
+          $(target).closest('div').find('span').html(html);
+      }
+
+      function fileDelete(e) {
+          var parentEl = e.closest('.card-body');
+          $(parentEl).find('span').empty();
+          $(parentEl).find($('input[type=file]')).val("");
+      }
+
+      function validation() {
+        // 에디터
+        $("input[name=content]").val(viewer.getHTML());
+
+        // 해시태그
+        var hashTagList = new Array();
+        $('input:checkbox[name=tag]:checked').each(function() {
+          hashTagList.push($(this).val());
+        });
+
+        // 제목, 간편설정 확인
+        if ($("#title").val() == '' || $("#subTitle").val() == '') {
+          return false;
+        }
+
+        // 에디터 확인
+        if ($("input[name=contnet]").val() == '<p><br></p>' || $("input[name=contnet]").val() == null) {
+          return false;
+        }
+
+        // 해시태그 확인
+        $("#hashTag").val(hashTagList);
+        if ($("#hashTag").val() == '') {
+          return false;
+        }
+
+        // 이미지확인
+        if ($("#thumbnail").val() == '' || $("#titleImg").val() == '') {
+          return false;
+        }
+        return false;
+      }
     </script>
   {% endblock %}
 

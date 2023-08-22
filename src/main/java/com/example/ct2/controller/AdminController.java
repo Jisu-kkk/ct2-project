@@ -4,9 +4,11 @@ import com.example.ct2.service.Common.CommonService;
 import com.example.ct2.service.admin.WikiService;
 import com.example.ct2.vo.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -17,6 +19,9 @@ import java.util.Map;
 @RequestMapping("/admin")
 public class AdminController {
 
+    @Value("${resource.path}")
+    private String resourcePath;
+
     @Autowired
     private WikiService wikiService;
 
@@ -26,7 +31,6 @@ public class AdminController {
     @GetMapping("/wikiList")
     public String wikiList(@RequestParam(required = false) Map<String, Object> param,
                            @RequestParam(defaultValue = "1") int curPage,
-                           HttpServletRequest request,
                            Model model) {
 
         param.put("tagType", "BO002");
@@ -54,8 +58,29 @@ public class AdminController {
     }
 
     @GetMapping("/addWiki")
-    public String addWiki(Model model) {
+    public String getAddWiki(Model model) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("tagType", "BO002");
+        List<Map<String, Object>> tagList = commonService.selectTagList(param);
+
+        model.addAttribute("tagList", tagList);
         return "admin/wiki/wikiEdit";
+    }
+
+    @PostMapping("/addWiki")
+    public String postAddWiki(@RequestParam Map<String, Object> param,
+                              @RequestParam MultipartFile thumbnail,
+                              @RequestParam MultipartFile titleImg,
+                              HttpServletRequest request,
+                              Model model) {
+        // 사용여부
+        String showStatus = (String) param.get("showStatus");
+        if (showStatus != null) {
+            param.put("showStatus", 1);
+        }
+
+        System.out.println(param);
+        return "redirect:/" + "admin/addWiki";
     }
 
 }
