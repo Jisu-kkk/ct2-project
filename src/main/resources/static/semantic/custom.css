@@ -164,6 +164,8 @@ body {
     overflow: hidden;
 }
 .intro > .container > .row > .img-wrapp > img {
+    max-width: 450px;
+    max-height: 230px;
     transition: all 0.8s ease !important;
 }
 
@@ -204,6 +206,8 @@ body {
     overflow: hidden;
 }
 .project .ui.cards > .card > .content > .img-wrapp > img {
+    max-width: 380px;
+    max-height: 250px;
     transition: all 0.8s ease;
 }
 /* .project .ui.cards > .card > .content > .img-wrapp > img:hover {
@@ -224,13 +228,15 @@ body {
     padding-bottom: 3em !important;
 }
 .blog img {
+    max-width: 300px;
     min-height: 100px;
+    max-height: 200px;
 }
 .blog .content {
     /* margin-left: 1rem !important;
     margin-right: 1rem !important;
     padding: 3em 1.5em 3em 1.5em !important; */
-    /* margin: auto !important; */
+    margin: auto !important;
     margin-left: 1rem !important;
     margin-right: 1rem !important;
 }
@@ -243,14 +249,14 @@ body {
 }
 .blog .items > .item:hover {
     border-radius: 14px;
-    box-shadow: 4px 12px 30px 6px rgba(0,0,0,.09);
-    transform: translate(-5px, 0px);
+    box-shadow: 2px 10px 20px 2px rgba(0,0,0,.09);
+    transform: translate(0px, -5px);
     transition: all 0.5s;
 }
 .blog .items > .item > .content > .description {
-    /* text-overflow: ellipsis !important;
+    text-overflow: ellipsis !important;
     white-space: nowrap !important;
-    overflow: hidden !important; */
+    overflow: hidden !important;
 }
 .blog.list {
     padding-top: 5em !important;
@@ -281,15 +287,15 @@ body {
 
 /* team */
 .team {
-    padding: 3em 0em 5em 0em !important;
+    padding: 0em 0em 5em 0em !important;
 }
 .team .ui.grid {
     padding-top: 2em !important;
     padding-bottom: 2em !important;
 }
 .team .img-wrapp {
-    width: 160px !important;
-    height: 160px !important;
+    width: 140px !important;
+    height: 140px !important;
     border-radius: 70% !important;
     overflow: hidden !important;
     margin: 0px auto 10px !important;
@@ -354,9 +360,14 @@ body {
 .detail > .ui.container > img {
     margin-top: 50px !important;
     width: 100% !important;
+    max-width: 1280px;
+    max-height: 380px;
 }
 .detailContent {
     padding: 5em 0em !important;
+}
+.detailContent > .ui.container > .title {
+    margin-bottom: 2em !important;
 }
 
 /* login */
@@ -615,10 +626,10 @@ body {
     transform: translate(.5em, -50%);
 
     width: 0;
-	height: 0;
-	border-top: 10px solid transparent;
-	border-bottom: 10px solid transparent;
-	border-right: 10px solid teal;/* 화살표 */
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 10px solid teal;/* 화살표 */
     opacity: 0.9;
 }
 
