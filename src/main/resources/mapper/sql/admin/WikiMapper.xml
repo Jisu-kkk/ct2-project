@@ -76,4 +76,50 @@
          LIMIT #{pagination.startIndex}, #{pagination.pageSize} -- 페이징
     </select>
 
+    <insert id="insertWiki" parameterType="map">
+        <selectKey keyProperty="board_id" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO board
+                  ( organization_code
+                  , title
+                  , sub_title
+                  , content
+                  , board_category
+                  , create_user
+                  , create_datetime
+                  , update_user
+                  , update_datetime
+                  , is_use
+                  , is_delete
+                  , title_img
+                  , thumbnail_img
+                  )
+             VALUES
+                  ( 'BS003002'
+                  , #{title}
+                  , #{subTitle}
+                  , #{content}
+                  , 'BO002'
+                  , 1
+                  , SYSDATE()
+                  , 1
+                  , SYSDATE()
+                  , #{showStatus}
+                  , 0
+                  , #{titleImgNo}
+                  , #{thumbnailNo}
+                  )
+    </insert>
+
+    <insert id="insertWikiTag" parameterType="map">
+        INSERT INTO board_tag
+                  ( board_id
+                  , tag_id )
+             VALUES
+                  ( #{board_id}
+                  , #{tag_id}
+                  )
+    </insert>
+
 </mapper>

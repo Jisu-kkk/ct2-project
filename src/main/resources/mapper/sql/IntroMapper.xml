@@ -6,8 +6,8 @@
     <select id="selectIntroList" resultType="map" parameterType="map">
         SELECT title
              , content
-             , CONCAT(original_name, '.',type) AS oriFileName
-             , CONCAT(name, '.', type) AS fileName
+             , CONCAT(original_name, type) AS oriFileName
+             , CONCAT(name, type) AS fileName
           FROM (
                 SELECT *
                   FROM intro

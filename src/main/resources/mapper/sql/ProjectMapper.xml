@@ -10,8 +10,8 @@
              , DATE_FORMAT(begin_date, '%Y.%m') AS begin_date
              , DATE_FORMAT(end_date, '%Y.%m') AS end_date
              , f.id AS file_id
-             , CONCAT(f.original_name, '.', f.type) AS oriFileName
-             , CONCAT(f.name, '.', f.type) AS fileName
+             , CONCAT(f.original_name, f.type) AS oriFileName
+             , CONCAT(f.name, f.type) AS fileName
           FROM project pj
           JOIN (
                 SELECT project_id

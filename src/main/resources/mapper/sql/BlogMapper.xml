@@ -36,8 +36,16 @@
              , b.sub_title
              , b.content
              , DATE_FORMAT(b.create_datetime, '%Y.%m.%d') AS create_datetime
-             , CONCAT(f.original_name, '.', f.type) AS oriFileName
-             , CONCAT(f.name, '.', f.type) AS fileName
+             , (
+                SELECT CONCAT(f.name, f.type)
+                  FROM file f
+                 WHERE b.title_img = f.id
+               ) AS title_img
+             , (
+                SELECT CONCAT(f.name, f.type)
+                  FROM file f
+                 WHERE b.thumbnail_img = f.id
+               ) AS thumbnail_img
           FROM board b
           JOIN (
                 SELECT board_id
@@ -47,8 +55,6 @@
               GROUP BY board_id
                ) bt
             ON bt.board_id = b.id
-     LEFT JOIN file f
-            ON f.id = b.file_id
          WHERE b.is_use = 1
            AND b.is_delete = 0
            AND organization_code = #{orgCode}
@@ -62,11 +68,17 @@
         SELECT b.title
              , b.sub_title
              , b.content
-             , CONCAT(f.original_name, '.', f.type) AS oriFileName
-             , CONCAT(f.name, '.', f.type) AS fileName
+             , (
+				SELECT CONCAT(f.name, f.type)
+				  FROM file f
+				 WHERE b.title_img = f.id
+			   ) AS title_img
+             , (
+				SELECT CONCAT(f.name, f.type)
+				  FROM file f
+				 WHERE b.thumbnail_img = f.id
+			   ) AS thumbnail_img
           FROM board b
-     LEFT JOIN file f
-            ON f.id = b.file_id
          WHERE b.id = #{blogId}
     </select>
 

@@ -1,6 +1,7 @@
 package com.example.ct2.controller;
 
 import com.example.ct2.service.Common.CommonService;
+import com.example.ct2.service.Common.FileService;
 import com.example.ct2.service.admin.WikiService;
 import com.example.ct2.vo.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class AdminController {
 
     @Autowired
     private CommonService commonService;
+
+    @Autowired
+    private FileService fileService;
 
     @GetMapping("/wikiList")
     public String wikiList(@RequestParam(required = false) Map<String, Object> param,
@@ -78,9 +82,12 @@ public class AdminController {
         if (showStatus != null) {
             param.put("showStatus", 1);
         }
+        param.put("title_img", titleImg);
+        param.put("thumbnail_img", thumbnail);
 
-        System.out.println(param);
-        return "redirect:/" + "admin/addWiki";
+        int result = wikiService.insertWiki(param);
+
+        return "redirect:/" + "admin/wikiList";
     }
 
 }

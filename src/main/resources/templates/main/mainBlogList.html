@@ -10,7 +10,7 @@
       {% for blog in blogList %}
         <div class="item reveal">
           <div class="ui medium bordered rounded image">
-            <img src="/images/{{ blog.fileName }}">
+            <img src="/images/{{ blog.thumbnail_img }}">
           </div>
           <div class="content">
             <a href="/{{ session.getAttribute("org").lowerName }}/detail/{{ blog.id }}" class="header">{{ blog.title }}</a>

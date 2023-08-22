@@ -109,7 +109,7 @@
 
           <!-- 버튼 -->
           <div class="ui right aligned header">
-            <button class="ui button primary" id="btnRegist">Wiki 등록</button>
+            <button type="button" class="ui button primary" id="btnRegist">Wiki 등록</button>
           </div>
         </div>
       </div>
@@ -169,27 +169,31 @@
           hashTagList.push($(this).val());
         });
 
-        // 제목, 간편설정 확인
+        // 제목, 간편설명 확인
         if ($("#title").val() == '' || $("#subTitle").val() == '') {
+          alert("제목과 간편설명 확인해주세요.");
           return false;
         }
 
         // 에디터 확인
-        if ($("input[name=contnet]").val() == '<p><br></p>' || $("input[name=contnet]").val() == null) {
+        if ($("input[name=content]").val() == '<p><br></p>' || $("input[name=content]").val() == null) {
+          alert("글이 없습니다.");
           return false;
         }
 
         // 해시태그 확인
         $("#hashTag").val(hashTagList);
         if ($("#hashTag").val() == '') {
+          alert("해시태그 확인좀");
           return false;
         }
 
         // 이미지확인
         if ($("#thumbnail").val() == '' || $("#titleImg").val() == '') {
+          alert("이미지 확인좀");
           return false;
         }
-        return false;
+        return true;
       }
     </script>
   {% endblock %}
