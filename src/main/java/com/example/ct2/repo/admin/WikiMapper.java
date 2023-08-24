@@ -17,4 +17,12 @@ public interface WikiMapper {
     int insertWiki(Map<String, Object> param);
 
     int insertWikiTag(Map<String, Object> param);
+
+    Map<String, Object> selectWiki(int wikiId);
+
+    List<Integer> selectWikiTagList(int wikiId);
+
+    int updateWiki(Map<String, Object> param);
+
+    int deleteWikiTag(Map<String, Object> param);
 }

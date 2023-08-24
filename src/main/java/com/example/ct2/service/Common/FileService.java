@@ -4,6 +4,7 @@ import com.example.ct2.repo.Common.FileMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -22,11 +23,15 @@ public class FileService {
     @Autowired
     private FileMapper fileMapper;
 
+    @Transactional
     public int insertFile(MultipartFile file) {
         int result = -1;
         Map<String, Object> param = new HashMap<>();
 
         String fileRealName = file.getOriginalFilename();
+        int lastStr = fileRealName.lastIndexOf(".");
+        String realName = fileRealName.substring(0, lastStr);
+
         Long size = file.getSize();
 
         String fileExtension = fileRealName.substring(fileRealName.lastIndexOf("."),fileRealName.length());
@@ -37,7 +42,7 @@ public class FileService {
 
         File saveFile = new File(uploadDir+"\\"+uniqueName + fileExtension);
 
-        param.put("original_name", fileRealName);
+        param.put("original_name", realName);
         param.put("name", uniqueName);
         param.put("path", uploadDir);
         param.put("type", fileExtension);
@@ -56,4 +61,45 @@ public class FileService {
         return result;
     }
 
+    @Transactional
+    public int updateFile(MultipartFile file, int fileId) {
+        int result = -1;
+        Map<String, Object> param = new HashMap<>();
+
+        param.put("file_id", fileId);
+        Map<String, Object> selectFile = fileMapper.selectFile(param);
+
+        String fileRealName = file.getOriginalFilename();
+
+        if (fileRealName != null && !("").equals(fileRealName)) {
+            int lastStr = fileRealName.lastIndexOf(".");
+            String realName = fileRealName.substring(0, lastStr);
+
+            Long size = file.getSize();
+
+            String fileExtension = fileRealName.substring(fileRealName.lastIndexOf("."),fileRealName.length());
+
+            File saveFile = new File(uploadDir+"\\"+((String) selectFile.get("name")) + fileExtension);
+
+            param.put("file_id", fileId);
+            param.put("original_name", realName);
+            param.put("name", selectFile.get("name"));
+            param.put("path", uploadDir);
+            param.put("type", fileExtension);
+            param.put("size", size);
+
+            try {
+                file.transferTo(saveFile);
+                result = fileMapper.updateFile(param);
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else {
+            result = 1;
+        }
+
+        return result;
+    }
 }

@@ -122,4 +122,59 @@
                   )
     </insert>
 
+    <select id="selectWiki" parameterType="int" resultType="map">
+        SELECT b.id
+             , b.title
+             , b.sub_title
+             , b.content
+             , b.create_user
+             , is_use
+             , title_img AS titleImgNo
+             , (
+                SELECT CONCAT(f.original_name, f.type)
+                  FROM file f
+                 WHERE b.title_img = f.id
+               ) AS ori_title_img
+             , (
+                SELECT CONCAT(f.name, f.type)
+                  FROM file f
+                 WHERE b.title_img = f.id
+               ) AS title_img
+             , thumbnail_img AS thumbnailNo
+             , (
+                 SELECT CONCAT(f.original_name, f.type)
+                   FROM file f
+                  WHERE b.thumbnail_img = f.id
+               ) AS ori_thumbnail_img
+             , (
+                SELECT CONCAT(f.name, f.type)
+                  FROM file f
+                 WHERE b.thumbnail_img = f.id
+               ) AS thumbnail_img
+          FROM board b
+         WHERE id = #{wikiId}
+    </select>
+
+    <select id="selectWikiTagList" parameterType="int" resultType="int" >
+        SELECT t.tag_id
+          FROM board_tag bt
+     LEFT JOIN tag t
+            ON t.tag_id = bt.tag_id
+         WHERE bt.board_id = #{wikiId}
+    </select>
+
+    <update id="updateWiki" parameterType="map">
+        UPDATE board
+           SET title = #{title}
+             , sub_title = #{subTitle}
+             , content = #{content}
+             , update_datetime = SYSDATE()
+             , is_use = #{showStatus}
+         WHERE id = #{wikiId}
+    </update>
+
+    <delete id="deleteWikiTag" parameterType="map">
+        DELETE FROM board_tag WHERE board_id = #{wikiId}
+    </delete>
+
 </mapper>

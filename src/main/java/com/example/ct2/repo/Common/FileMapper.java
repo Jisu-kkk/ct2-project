@@ -11,4 +11,10 @@ import java.util.Map;
 public interface FileMapper {
 
     int insertFile(Map<String, Object> param);
+
+    Map<String, Object> selectFile(Map<String, Object> param);
+
+    int updateFile(Map<String, Object> param);
+
+    int deleteFile(Map<String, Object> param);
 }

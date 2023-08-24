@@ -15,6 +15,8 @@
                   , byte_size
                   , create_user
                   , create_datetime
+                  , update_user
+                  , update_datetime
                   )
              VALUES
                   ( #{original_name}
@@ -24,6 +26,30 @@
                   , #{size}
                   , 1
                   , SYSDATE()
+                  , 1
+                  , SYSDATE()
                   )
     </insert>
+
+    <select id="selectFile" parameterType="map" resultType="map">
+        SELECT *
+          FROM file
+         WHERE id = #{file_id}
+    </select>
+
+    <update id="updateFile" parameterType="map">
+        UPDATE file
+           SET original_name = #{original_name}
+             , name = #{name}
+             , `path` = #{path}
+             , `type` = #{type}
+             , byte_size = #{size}
+             , update_user = 1
+             , update_datetime = SYSDATE()
+         WHERE id = #{file_id}
+    </update>
+
+    <delete id="deleteFile" parameterType="map">
+        DELETE file WHERE id = #{file_id}
+    </delete>
 </mapper>

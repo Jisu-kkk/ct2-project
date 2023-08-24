@@ -9,11 +9,17 @@
 <div class="content" id="content">
   <div class="content-header">
     <div class="title">
+      {% if wiki.id != null %}
+      <h2>Wiki 수정</h2>
+      <button class="ui button red right floated">삭제</button>
+      {% else %}
       <h2>Wiki 등록</h2>
+      {% endif %}
     </div>
   </div>
 
-  <form name="editParam" id="editParam" action="/admin/addWiki" method="post" enctype="multipart/form-data">
+  <form name="editParam" id="editParam" action="{{ wiki.id != null ? '/admin/editWiki' : '/admin/addWiki' }}" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="wikiId" value="{{ wiki.id }}"/>
     <div class="card-layout">
       <div class="card col-12">
         <div class="card-inner">
@@ -33,7 +39,7 @@
               <div class="title">제목</div>
               <div class="card-body">
                 <div class="ui input">
-                  <input type="text" name="title" id="title" placeholder="Wiki의 제목을 입력해주세요.">
+                  <input type="text" name="title" id="title" placeholder="Wiki의 제목을 입력해주세요." value="{{ wiki.title }}">
                 </div>
               </div>
             </div>
@@ -43,7 +49,7 @@
               <div class="title">간편설명</div>
               <div class="card-body">
                 <div class="ui input">
-                  <input type="text" name="subTitle" id="subTitle" placeholder="Wiki의 간편설명을 입력해주세요.">
+                  <input type="text" name="subTitle" id="subTitle" placeholder="Wiki의 간편설명을 입력해주세요." value="{{ wiki.sub_title }}">
                 </div>
               </div>
             </div>
@@ -61,7 +67,7 @@
           </div>
         </div>
       </div>
-      <input type="hidden" name="content" value=""/>
+      <input type="hidden" name="content" value="{{ wiki.content }}"/>
 
       <!-- 해시태그 -->
       <div class="card col-12">
@@ -69,7 +75,7 @@
           <div class="ui innerContent">
             <div class="title">해시태그</div>
             <div class="card-body">
-              <input type="hidden" name="hashTag" id="hashTag" value="">
+              <input type="hidden" name="hashTag" id="hashTag" value="{{ wikiTag }}">
 
               {% for tag in tagList %}
               <div class="ui checkbox hashTag">
@@ -89,9 +95,10 @@
           <div class="ui innerContent">
             <div class="title">썸네일 이미지 첨부파일</div>
             <div class="card-body">
-              <input type="file" name="thumbnail" id="thumbnail" accept="image/gif,image/jpeg,image/png">
+              <input type="file" name="thumbnail" id="thumbnail" accept="image/gif,image/jpeg,image/png"
+                  value="/images/{{ wiki.thumbnail_img }}">
               <label for="thumbnail" class="ui button black">첨부파일</label>
-              <span class="fileList"></span>
+              <span class="fileList" id="thumbnailTxt"></span>
             </div>
             <span class="guideText">1개의 이미지 파일만 등록 가능합니다. (300x200)</span>
           </div>
@@ -100,16 +107,22 @@
           <div class="ui innerContent">
             <div class="title">Wiki 대표 이미지 첨부파일</div>
             <div class="card-body">
-              <input type="file" name="titleImg" id="titleImg" accept="image/gif,image/jpeg,image/png">
+              <input type="file" name="titleImg" id="titleImg" accept="image/gif,image/jpeg,image/png"
+                  value="/images/{{ wiki.title_img }}">
               <label for="titleImg" class="ui button black">첨부파일</label>
-              <span class="fileList"></span>
+              <span class="fileList" id="titleImgTxt"></span>
             </div>
             <span class="guideText">이미지 파일만 등록 가능합니다. (1280x380)</span>
           </div>
 
           <!-- 버튼 -->
           <div class="ui right aligned header">
+            <a href="/admin/wikiList" class="ui button grey">목록</a>
+            {% if wiki.id != null %}
+            <button type="button" class="ui button primary" id="btnUpdate">Wiki 수정</button>
+            {% else %}
             <button type="button" class="ui button primary" id="btnRegist">Wiki 등록</button>
+            {% endif %}
           </div>
         </div>
       </div>
@@ -124,11 +137,13 @@
         $('.ui.checkbox').checkbox();
         $('.ui.radio.checkbox').checkbox();
 
-        $("#btnRegist").on('click', function() {
+        $("#btnRegist, #btnUpdate").on('click', function() {
           if (validation()) {
             $("#editParam").submit();
           }
         });
+
+        setData();
       });
 
       const viewer = new toastui.Editor({
@@ -189,11 +204,55 @@
         }
 
         // 이미지확인
-        if ($("#thumbnail").val() == '' || $("#titleImg").val() == '') {
+        if ($("#thumbnailTxt").html() == '' || $("#titleImgTxt").html() == '') {
           alert("이미지 확인좀");
           return false;
         }
         return true;
+      }
+
+      function setData() {
+
+        var wikiId = '{{ wiki.id }}';
+        if (wikiId != null || wikiId != 0) {
+          // 에디터
+          var content = $("input[name=content]").val();
+          viewer.setHTML(content, true);
+
+          // 해시태그
+          var wikiTagList = $("#hashTag").val().split(',');
+          wikiTagList.forEach(function(wikiTag) {
+            $('input:checkbox[name=tag]').each(function(){
+              if($(this).val() == wikiTag) {
+                $(this).parent('div').addClass("checked");
+                $(this).attr("checked",true);
+              }
+            });
+          });
+
+          // 썸네일 txt
+          var thumbnailTxt = '';
+          var thumbnail_img = '{{ wiki.ori_thumbnail_img }}';
+          if (thumbnail_img != '') {
+            thumbnailTxt += '<label>' + thumbnail_img + '</label>';
+            thumbnailTxt += '<button class="delete" onclick="fileDelete(this);">';
+            thumbnailTxt += '<i class="icon close"></i>';
+            thumbnailTxt += '</button>';
+            $("#thumbnailTxt").html(thumbnailTxt);
+          }
+
+          // 대표 txt
+          var titleImgTxt = '';
+          var title_img = '{{ wiki.ori_title_img }}';
+          if (title_img != '') {
+            titleImgTxt += '<label>' + title_img + '</label>';
+            titleImgTxt += '<button class="delete" onclick="fileDelete(this);">';
+            titleImgTxt += '<i class="icon close"></i>';
+            titleImgTxt += '</button>';
+            $("#titleImgTxt").html(titleImgTxt);
+          }
+
+        }
       }
     </script>
   {% endblock %}

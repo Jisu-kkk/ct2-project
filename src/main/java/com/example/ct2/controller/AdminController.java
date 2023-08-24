@@ -112,4 +112,49 @@ public class AdminController {
         return "admin/project/projectDetail";
     }
 
+    @GetMapping("/editWiki")
+    public String getEditWiki(@RequestParam int wikiId,
+                           Model model) {
+
+        Map<String, Object> param = new HashMap<>();
+        param.put("tagType", "BO002");
+
+        Map<String, Object> wiki = wikiService.selectWiki(wikiId);
+        List<Integer> wikiTagList = wikiService.selectWikiTagList(wikiId);
+        String wikiTag = "";
+        for (int i = 0; i < wikiTagList.size(); i++) {
+            if (i != 0){
+                wikiTag += ",";
+            }
+            wikiTag += wikiTagList.get(i);
+        }
+
+        // 해시태그 전체
+        List<Map<String, Object>> tagList = commonService.selectTagList(param);
+
+        model.addAttribute("wiki", wiki);
+        model.addAttribute("wikiTagList", wikiTagList);
+        model.addAttribute("wikiTag", wikiTag);
+        model.addAttribute("tagList", tagList);
+        return "admin/wiki/wikiEdit";
+    }
+
+    @PostMapping("/editWiki")
+    public String postEditWiki(@RequestParam Map<String, Object> param,
+                               @RequestParam MultipartFile thumbnail,
+                               @RequestParam MultipartFile titleImg) {
+        // 사용여부
+        String showStatus = (String) param.get("showStatus");
+        if (showStatus != null) {
+            param.put("showStatus", 1);
+        }
+
+        param.put("title_img", titleImg);
+        param.put("thumbnail_img", thumbnail);
+
+        int result = wikiService.updateWiki(param);
+
+        return "redirect:/" + "admin/wikiList";
+    }
+
 }
