@@ -2720,6 +2720,62 @@ body.loginContainer {
     color: rgb(173, 181, 189) !important;
     margin-top: 20px !important;
 }
+.content-title {
+    font-size: 25px;
+    font-weight: bold;
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    width: 100%;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgb(233, 236, 239);
+}
+.intro-layout .ui.innerContent > h4{
+    padding: 15px 0;
+    font-weight: 700;
+}
+.intro-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4%;
+    box-sizing: border-box;
+}
+.intro-layout .cardContainer .card-body {
+    padding: 0px !important;
+    cursor: move;
+}
+.draggable.dragging {
+    opacity: 0.5;
+}
+.intro-layout .card-body+.card-body {
+    margin-top: 35px;
+}
+.intro-wrap .intro-con {
+    flex: 0 0 100%;
+    width: 100%;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: rgba(80, 143, 244, 0.05) 0px 12px 10px;
+    box-sizing: border-box;
+}
+.intro-wrap .intro-con .column {
+    color: grey !important;
+}
+.intro-wrap .intro-con-close {
+    display: flex;
+    margin-left: auto;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(221 221 221);
+    width: 30px;
+    height: 30px;
+    border: 1px solid rgb(221 221 221);
+    border-radius: 50%;
+    opacity: 0.3;
+}
+.intro-wrap .intro-con-close i {
+    margin: 0px;
+}
 
 .con-wrap {
     display: flex;
@@ -2728,10 +2784,71 @@ body.loginContainer {
     box-sizing: border-box;
 }
 .con-wrap .con {
-    flex: 0 0 30%;
-    width: 30%;
+    flex: 0 0 48%;
+    width: 48%;
     padding: 30px;
     border-radius: 20px;
     box-shadow: rgba(80, 143, 244, 0.1) 0px 12px 30px;
     box-sizing: border-box;
+}
+.con-wrap .con .img {
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border: 1px solid rgb(241, 243, 245);
+    background: rgb(255, 255, 255);
+    box-shadow: rgba(80, 143, 244, 0.1) 0px 12px 30px;
+    border-radius: 100%;
+    font-size: 30px;
+}
+.con-wrap .con .title {
+    font-size: 18px;
+    font-weight: 400;
+    padding-top: 15px;
+    padding-bottom: 10px;
+    border: 0px;
+}
+.con-wrap .con button {
+    -webkit-box-pack: start;
+    justify-content: flex-start;
+    display: inline-flex;
+}
+.con-wrap .con .con-button {
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    min-width: 95px;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 500;
+    cursor: pointer;
+    box-sizing: border-box;
+    height: 36px;
+    color: rgb(134, 142, 150);
+    background: rgb(255, 255, 255);
+    padding: 6px 0px;
+}
+.con-wrap .con .number {
+    margin-top: 25px;
+    font-weight: bold;
+    font-size: 45px;
+    font-family: "Noto Sans KR", sans-serif !important;
+    color: rgb(25, 118, 210);
+}
+.con-wrap .con .number.red {
+    color: rgb(240, 62, 62);
+}
+
+.intro-wrap > .intro-con > .ui.grid > .row > .column {
+    padding: 0px !important;
+}
+
+.ui.form .inline.fields .field {
+    padding: 0em 25px 0em 0em !important;
 }

@@ -1,0 +1,223 @@
+{% extends "/admin/layout/layout" %}
+
+{% block body %}
+<div class="content" id="content">
+  <div class="content-header">
+    <div class="title">
+      <h2>본부소개</h2>
+      <button class="ui button primary right floated">저장</button>
+    </div>
+  </div>
+  <div class="card-layout intro-layout">
+    <div class="card col-12">
+      <div class="card-inner">
+        <div class="card-body">
+          <div class="ui innerContent cardContainer">
+            <!--no contents[S]-->
+            <h4>작성된 컨텐츠가 없습니다.</h4>
+            <!--no contents[E]-->
+
+            <!--Contents[S]-->
+            <div class="card-body draggable" draggable="true" title="컨텐츠를 드래그하여 위/아래로 순서변경이 가능합니다.">
+              <div class="intro-wrap">
+                <div class="intro-con-close">
+                  <i class="close icon"></i>
+                </div>
+                <div class="intro-con">
+                  <div class="ui middle aligned stackable grid container">
+                    <div class="row reveal active">
+                      <div class="six wide left floated column img-wrapp">
+                        <img class="ui large bordered rounded image" src="https://www.emotion.co.kr/pc/img/02_img_02.cd3f8a5d.webp">
+                      </div>
+                      <div class="nine wide column">
+                        <h3 class="ui header">우리는 사람을 향한 따뜻한 감성과 이성적 사고를 겸비한 디지털 전문가 집단입니다.</h3>
+                        <p>다양한 실전 경험과 지식을 갖춘 전문가들이 당신의 사업 파트너가 되어 높은 수준의 구축과 안정적인 운영 서비스를 제공합니다.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-body draggable" draggable="true">
+              <div class="intro-wrap">
+                <div class="intro-con-close">
+                  <i class="close icon"></i>
+                </div>
+                <div class="intro-con">
+                  <div class="ui middle aligned stackable grid container">
+                    <div class="row reveal active">
+                      <div class="nine wide column">
+                        <h3 class="ui header">사고의 폭과 깊이를 확장시키는 수평적이고 자유로운 분위기 속에서 함께 성장합니다.</h3>
+                        <p>우리는 각자의 개성과 관점을 존중하고 서로 다름을 이해하며 공동의 목표를 향해 나아갑니다. 동료를 향한 신뢰는 유연한 팀 문화를 만들고 그 속에서 몰입을 통한 폭발적인 성장을 경험하게 됩니다.</p>
+                      </div>
+                      <div class="six wide right floated column img-wrapp">
+                        <img class="ui large bordered rounded image" src="https://www.emotion.co.kr/pc/img/02_img_03.d71a6f53.webp">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--Contents[E]-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-layout">
+    <div class="card col-12">
+      <div class="card-inner">
+        <div class="card-body">
+          <!-- 정렬 -->
+          <div class="ui innerContent">
+            <div class="title">컨텐츠정렬</div>
+            <div class="card-body">
+              <div class="ui form">
+                <div class="inline fields">
+                  <div class="field">
+                    <div class="ui radio checkbox">
+                      <input type="radio" name="align" checked="checked">
+                      <label>왼쪽정렬</label>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <div class="ui radio checkbox">
+                      <input type="radio" name="align">
+                      <label>오른쪽정렬</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 타이틀 -->
+          <div class="ui innerContent">
+            <div class="title">타이틀</div>
+            <div class="card-body">
+              <div class="ui input">
+                <input type="text" name="title" placeholder="타이틀을 입력해주세요." value="">
+              </div>
+            </div>
+          </div>
+
+          <!-- 부가설명 -->
+          <div class="ui innerContent">
+            <div class="title">부가설명</div>
+            <div class="card-body">
+              <div class="ui form">
+                <div class="field">
+                  <textarea name="content" rows="5" placeholder="타이틀에 대한 부가설명을 입력해주세요."></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 썸네일 첨부파일 -->
+          <div class="ui innerContent">
+            <div class="title">썸네일 이미지 첨부파일</div>
+            <div class="card-body">
+              <input type="file" name="thumbnail" id="thumbnail" accept="image/gif,image/jpeg,image/png" value="">
+              <label for="thumbnail" class="ui button black">첨부파일</label>
+              <span class="fileList">
+                <!-- 파일표기[S] -->
+                <!--<label>wallpaper_20220411180152_2880_1880_sunset.jpg</label>
+                <button class="delete" onclick="fileDelete(this);">
+                    <i class="icon close"></i>
+                </button>-->
+                <!-- 파일표기[E] -->
+              </span>
+            </div>
+            <span class="guideText">1개의 이미지 파일만 등록 가능합니다. (450x230)</span>
+          </div>
+
+          <!-- 버튼 -->
+          <div class="ui right aligned header">
+            <button class="ui button primary">추가</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript">
+/* file[S] */
+$(document).ready(function () {
+  $('input[type=file]').on('change', function(e){
+    fileCheck(e);
+  });
+});
+
+function fileCheck(e) {
+  var target = e.target;
+  var file = target.files[0].name;
+  var html = '<label>' + file + '</label>';
+  html += '<button class="delete" onclick="fileDelete(this);">';
+  html += '<i class="icon close"></i>';
+  html += '</button>';
+  $(target).closest('div').find('span').html(html);
+}
+
+function fileDelete(e) {
+  var parentEl = e.closest('.card-body');
+  $(parentEl).find('span').empty();
+  $(parentEl).find($('input[type=file]')).val("");
+}
+/* file[E] */
+
+/* Drag & Drop[S] */
+const draggables = document.querySelectorAll(".draggable");
+const containers = document.querySelectorAll(".cardContainer");
+
+draggables.forEach(draggable => {
+  draggable.addEventListener("dragstart", () => {
+    draggable.classList.add("dragging");
+  });
+
+  draggable.addEventListener("dragend", () => {
+    draggable.classList.remove("dragging");
+  });
+});
+
+containers.forEach(container => {
+  container.addEventListener("dragover", e => {
+    e.preventDefault();
+    const afterElement = getDragAfterElement(container, e.clientY);
+    const draggable = document.querySelector(".dragging");
+    if (afterElement === undefined) {
+      container.appendChild(draggable);
+    } else {
+      container.insertBefore(draggable, afterElement);
+    }
+  });
+});
+
+function getDragAfterElement(container, y) {
+  const draggableElements = [
+    ...container.querySelectorAll(".draggable:not(.dragging)"),
+  ];
+
+  return draggableElements.reduce(
+    (closest, child) => {
+      const box = child.getBoundingClientRect();
+      const offset = y - box.top - box.height/2;
+      // console.log(offset);
+      if (offset < 0 && offset > closest.offset) {
+        return { offset: offset, element: child };
+      } else {
+        return closest;
+      }
+    },
+    { offset: Number.NEGATIVE_INFINITY },
+  ).element;
+}
+/* Drag & Drop[E] */
+</script>
+{% endblock %}

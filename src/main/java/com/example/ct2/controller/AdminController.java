@@ -33,8 +33,13 @@ public class AdminController {
     private FileService fileService;
 
     @GetMapping("/index")
-    public String home() {
+    public String home(Model model) {
         return "admin/main/index";
+    }
+
+    @GetMapping("/intro")
+    public String intro(Model model) {
+        return "admin/intro/intro";
     }
 
     @GetMapping("/wikiList")
