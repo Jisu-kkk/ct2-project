@@ -42,6 +42,18 @@ public class AdminController {
         return "admin/intro/intro";
     }
 
+    @GetMapping("/addIntro")
+    public String addIntro(Model model) {
+        model.addAttribute("status", "add");
+        return "admin/intro/introDetail";
+    }
+
+    @GetMapping("/editIntro")
+    public String editIntro(Model model) {
+        model.addAttribute("status", "edit");
+        return "admin/intro/introDetail";
+    }
+
     @GetMapping("/wikiList")
     public String wikiList(@RequestParam(required = false) Map<String, Object> param,
                            @RequestParam(defaultValue = "1") int curPage,
