@@ -2834,6 +2834,9 @@ body.loginContainer {
     background: rgb(255, 255, 255);
     padding: 6px 0px;
 }
+.con-wrap .con .con-button i {
+    margin: 0px !important;
+}
 .con-wrap .con .number {
     margin-top: 25px;
     font-weight: bold;
@@ -2851,4 +2854,27 @@ body.loginContainer {
 
 .ui.form .inline.fields .field {
     padding: 0em 25px 0em 0em !important;
+}
+
+@media only screen and (min-width: 1200px) {
+    .ui.container {
+        width: 1127px;
+        margin-left: 0px !important;
+        margin-right: 0px !important;
+    }
+
+    .ui.grid.container {
+        width: 100% !important;
+    }
+
+    .ui.relaxed.grid.container {
+        width: 100% !important;
+    }
+
+    .ui.very.relaxed.grid.container {
+        width: 100% !important;
+    }
+}
+.ui.grid {
+    margin: 0px !important;
 }
