@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -98,7 +97,26 @@ public class WikiService {
                 }
             }
         }
+        return result;
+    }
 
+    @Transactional
+    public int deleteWiki(Map<String, Object> param) {
+        int result = -1;
+
+        int wikiId = ((Long) param.get("id")).intValue();
+        param.put("wikiId", wikiId);
+
+        // tag 삭제
+        int deleteWikiTag = wikiMapper.deleteWikiTag(param);
+        if (deleteWikiTag > 0) {
+            // wiki 삭제
+            int delWiki = wikiMapper.deleteWiki(param);
+            if (delWiki > 0) {
+                fileService.deleteFile((Long) param.get("thumbnailNo"));
+                fileService.deleteFile((Long) param.get("titleImgNo"));
+            }
+        }
 
         return result;
     }

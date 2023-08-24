@@ -9,7 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -98,6 +97,29 @@ public class FileService {
             }
         }else {
             result = 1;
+        }
+
+        return result;
+    }
+
+    @Transactional
+    public int deleteFile(Long fileId) {
+        int result = -1;
+        Map<String, Object> param = new HashMap<>();
+        param.put("file_id", fileId);
+
+        Map<String, Object> selectFile = fileMapper.selectFile(param);
+
+        File delFile = new File(uploadDir + "\\"
+                                + ((String) selectFile.get("name"))
+                                + ((String) selectFile.get("type")));
+
+        if (delFile.exists()){
+            if (fileMapper.deleteFile(param) > 0) {
+                if(delFile.delete()){
+                    result = 1;
+                }
+            }
         }
 
         return result;

@@ -25,4 +25,6 @@ public interface WikiMapper {
     int updateWiki(Map<String, Object> param);
 
     int deleteWikiTag(Map<String, Object> param);
+
+    int deleteWiki(Map<String, Object> param);
 }

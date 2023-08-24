@@ -174,4 +174,14 @@ public class AdminController {
         return "redirect:/" + "admin/wikiList";
     }
 
+    @PostMapping("/deleteWiki")
+    public String deleteWiki(@RequestParam Map<String, Object> param) {
+
+        int wikiId = Integer.parseInt((String) param.get("wikiId"));
+        Map<String, Object> selectWiki = wikiService.selectWiki(wikiId);
+        wikiService.deleteWiki(selectWiki);
+
+        return "redirect:/" + "admin/wikiList";
+    }
+
 }

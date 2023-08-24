@@ -50,6 +50,6 @@
     </update>
 
     <delete id="deleteFile" parameterType="map">
-        DELETE file WHERE id = #{file_id}
+        DELETE FROM file WHERE id = #{file_id}
     </delete>
 </mapper>

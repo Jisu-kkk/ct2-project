@@ -177,4 +177,12 @@
         DELETE FROM board_tag WHERE board_id = #{wikiId}
     </delete>
 
+    <update id="deleteWiki" parameterType="map">
+        UPDATE board
+           SET is_delete = 1
+             , title_img = 0
+             , thumbnail_img = 0
+         WHERE id = #{wikiId}
+    </update>
+
 </mapper>
