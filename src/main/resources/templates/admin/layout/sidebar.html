@@ -18,6 +18,9 @@
     replaceString.forEach(function (str) {
       locationPath = locationPath.replace(str, '');
     })
+    if (locationPath.indexOf('wiki') != -1 && locationPath.indexOf('list') == -1) {
+      locationPath = locationPath + 'list';
+    }
 
     var locationPathRegExp = new RegExp(locationPath.replace(/\/$/, '') + "$");
     $('.menu-list .menu-item a').each(function () {

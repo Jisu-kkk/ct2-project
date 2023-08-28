@@ -2288,7 +2288,7 @@ table thead th {
 
 @media(max-width: 1200px) {
     [class*=col-] {
-        width:100%!important
+        /*width:100%!important*/
     }
 
     .select {
@@ -2572,6 +2572,7 @@ body.loginContainer {
     align-items: center;
     padding: 30px 30px 0px;
     box-sizing: border-box;
+    min-width: 1027px;
 }
 
 .content-header .title {
@@ -2730,6 +2731,26 @@ body.loginContainer {
     padding-bottom: 20px;
     border-bottom: 1px solid rgb(233, 236, 239);
 }
+.content-title .con-button {
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    min-width: 95px;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 500;
+    cursor: pointer;
+    box-sizing: border-box;
+    height: 36px;
+    color: rgb(134, 142, 150);
+    background: rgb(255, 255, 255);
+    padding: 6px 0px;
+}
+.content-title .con-button:hover {
+    color: rgb(210, 210, 210);
+}
 .intro-layout .ui.innerContent > h4{
     padding: 15px 0;
     font-weight: 700;
@@ -2833,6 +2854,9 @@ body.loginContainer {
     color: rgb(134, 142, 150);
     background: rgb(255, 255, 255);
     padding: 6px 0px;
+}
+.con-wrap .con .con-button:hover {
+    color: rgb(210, 210, 210);
 }
 .con-wrap .con .con-button i {
     margin: 0px !important;

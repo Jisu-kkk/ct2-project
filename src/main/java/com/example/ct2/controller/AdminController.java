@@ -32,6 +32,11 @@ public class AdminController {
     @Autowired
     private FileService fileService;
 
+    @GetMapping("/login")
+    public String login(Model model) {
+        return "admin/login/login";
+    }
+
     @GetMapping("/index")
     public String home(Model model) {
         return "admin/main/index";
