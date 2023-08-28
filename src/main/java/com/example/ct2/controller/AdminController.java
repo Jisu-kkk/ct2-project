@@ -113,7 +113,10 @@ public class AdminController {
     }
 
     @GetMapping("/project")
-    public String project(Model model) {
+    public String project(@RequestParam(required = false) Map<String, Object> param,
+                          @RequestParam(defaultValue = "1") int curPage,
+                          Model model) {
+
         return "admin/project/projectList";
     }
 

@@ -43,4 +43,39 @@
             ON t.tag_id = pt.tag_id
          WHERE pt.project_id = #{id}
     </select>
+
+    <select id="adminProjectList" resultType="map" parameterType="map">
+        SELECT @ROWNUM := @ROWNUM + 1 num
+             , A.*
+          FROM (
+                SELECT pj.id
+                     , pj.name AS pj_name
+                     , pj.client_name
+                     , pj.is_use
+                     , u.name AS u_name
+                     , pj.create_datetime
+                     , DATE_FORMAT(pj.create_datetime, '%Y-%m-%d') AS create_dt
+                  FROM project pj
+             LEFT JOIN (
+                        SELECT *
+                          FROM user
+                         WHERE LEFT(organization_code, 8) = 'BS003002'
+                       ) u
+                    ON u.id = pj.create_user
+                 JOIN (
+                        SELECT pt.project_id
+                             , t.tag_id
+                             , t.tag_name
+                             , t.tag_type
+                          FROM project_tag pt
+                          JOIN tag t
+                            ON t.tag_id = pt.tag_id
+                         WHERE t.tag_id = 5
+                       ) t
+                    ON t.project_id = pj.id
+                 WHERE pj.is_delete = 0
+              ORDER BY create_datetime DESC
+               ) A
+         WHERE (@ROWNUM := 0) = 0
+    </select>
 </mapper>
