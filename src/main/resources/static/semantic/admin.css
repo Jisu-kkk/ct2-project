@@ -2579,6 +2579,17 @@ body.loginContainer {
     flex: 1 1 auto;
 }
 
+.main-title {
+    font-size: 35px;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+    letter-spacing: -.5px;
+    -webkit-tap-highlight-color: rgba(255,255,255,0);
+}
+
 .card-inner {
     max-width: 100%;
     border-radius: 20px;
@@ -2812,6 +2823,14 @@ body.loginContainer {
     box-shadow: rgba(80, 143, 244, 0.1) 0px 12px 30px;
     box-sizing: border-box;
 }
+.con-wrap .con-main {
+    flex: 0 0 100%;
+    width: 100%;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: rgba(80, 143, 244, 0.1) 0px 12px 30px;
+    box-sizing: border-box;
+}
 .con-wrap .con .img {
     display: flex;
     -webkit-box-pack: center;
@@ -2852,13 +2871,41 @@ body.loginContainer {
     box-sizing: border-box;
     height: 36px;
     color: rgb(134, 142, 150);
-    background: rgb(255, 255, 255);
+    /*background: rgb(255, 255, 255);*/
     padding: 6px 0px;
 }
 .con-wrap .con .con-button:hover {
     color: rgb(210, 210, 210);
 }
 .con-wrap .con .con-button i {
+    margin: 0px !important;
+}
+.con-wrap .con-main button {
+    -webkit-box-pack: start;
+    justify-content: flex-start;
+    display: inline-flex;
+}
+.con-wrap .con-main .con-button {
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    min-width: 95px;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 24px;
+    font-weight: 500;
+    cursor: pointer;
+    box-sizing: border-box;
+    height: 36px;
+    color: rgb(134, 142, 150);
+    /*background: rgb(255, 255, 255);*/
+    padding: 6px 0px;
+}
+.con-wrap .con-main .con-button:hover {
+    color: rgb(210, 210, 210);
+}
+.con-wrap .con-main .con-button i {
     margin: 0px !important;
 }
 .con-wrap .con .number {
@@ -2869,6 +2916,16 @@ body.loginContainer {
     color: rgb(25, 118, 210);
 }
 .con-wrap .con .number.red {
+    color: rgb(240, 62, 62);
+}
+.con-wrap .con-main .number {
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 45px;
+    font-family: "Noto Sans KR", sans-serif !important;
+    color: rgb(25, 118, 210);
+}
+.con-wrap .con-main .number.red {
     color: rgb(240, 62, 62);
 }
 
@@ -2901,4 +2958,31 @@ body.loginContainer {
 }
 .ui.grid {
     margin: 0px !important;
+}
+
+.main-button {
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    margin-top: 50px;
+    width: 100%;
+    height: 60px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 20px;
+    box-shadow: rgba(80, 143, 244, 0.1) 0px 12px 30px;
+}
+.main-button.on {
+    background: rgb(25, 118, 210);
+    color: rgb(255, 255, 255);
+}
+.main-button.off {
+    background: rgb(255, 255, 255);
+    color: rgb(52, 58, 64);
+}
+
+.main-button+button {
+    margin-top: 20px;
 }
