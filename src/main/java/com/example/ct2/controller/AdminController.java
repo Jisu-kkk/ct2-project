@@ -3,6 +3,8 @@ package com.example.ct2.controller;
 import com.example.ct2.service.Common.CommonService;
 import com.example.ct2.service.Common.FileService;
 import com.example.ct2.service.UserService;
+import com.example.ct2.service.admin.IntroMngService;
+import com.example.ct2.service.admin.ProjectMngService;
 import com.example.ct2.service.admin.WikiService;
 import com.example.ct2.vo.Pagination;
 import com.example.ct2.vo.admin.UserVo;
@@ -28,6 +30,12 @@ public class AdminController {
     private String resourcePath;
 
     @Autowired
+    private IntroMngService introMngService;
+
+    @Autowired
+    private ProjectMngService projectMngService;
+
+    @Autowired
     private WikiService wikiService;
 
     @Autowired
@@ -40,7 +48,7 @@ public class AdminController {
     private FileService fileService;
 
     @GetMapping("/login")
-    public String login() {
+    public String login(Model model) {
         return "admin/login/login";
     }
 
@@ -50,14 +58,40 @@ public class AdminController {
     }
 
     @GetMapping("/index")
-    public String home(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserVo userVo = (UserVo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public String home(Model model, Map<String, Object> param) {
+        /*TODO_받아와야하는 부분*/
+        param.put("orgCode", "BS003002");
+
+        /*Wiki Count*/
+        int wikiShowCnt = commonService.selectWikiListCnt(param, "1");
+        int wikiHideCnt = commonService.selectWikiListCnt(param, "0");
+
+        /*프로젝트 Count*/
+        int projectShowCnt = commonService.selectProjectListCnt(param, "1");
+        int projectHideCnt = commonService.selectProjectListCnt(param, "0");
+
+        /*본부소개*/
+        List<Map<String, Object>> introList = introMngService.selectIntroList(param);
+
+        model.addAttribute("wikiShowCnt", wikiShowCnt);
+        model.addAttribute("wikiHideCnt", wikiHideCnt);
+        model.addAttribute("projectShowCnt", projectShowCnt);
+        model.addAttribute("projectHideCnt", projectHideCnt);
+        model.addAttribute("introList", introList);
+
         return "admin/main/index";
     }
 
     @GetMapping("/intro")
-    public String intro(Model model) {
+    public String intro(Model model, Map<String, Object> param) {
+        /*TODO_받아와야하는 부분*/
+        param.put("orgCode", "BS003002");
+
+        /*본부소개*/
+        List<Map<String, Object>> introList = introMngService.selectIntroList(param);
+
+        model.addAttribute("introList", introList);
+
         return "admin/intro/intro";
     }
 
