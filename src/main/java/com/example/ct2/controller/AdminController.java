@@ -2,10 +2,14 @@ package com.example.ct2.controller;
 
 import com.example.ct2.service.Common.CommonService;
 import com.example.ct2.service.Common.FileService;
+import com.example.ct2.service.UserService;
 import com.example.ct2.service.admin.WikiService;
 import com.example.ct2.vo.Pagination;
+import com.example.ct2.vo.admin.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,15 +34,25 @@ public class AdminController {
     private CommonService commonService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private FileService fileService;
 
     @GetMapping("/login")
-    public String login(Model model) {
+    public String login() {
         return "admin/login/login";
+    }
+
+    @PostMapping("/auth")
+    public String auth(Model model) {
+        return "admin/main/index";
     }
 
     @GetMapping("/index")
     public String home(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserVo userVo = (UserVo) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return "admin/main/index";
     }
 

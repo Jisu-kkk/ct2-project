@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/main")
 public class MainController {
 
     @Autowired

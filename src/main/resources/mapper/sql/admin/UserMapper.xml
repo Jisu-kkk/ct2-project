@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.ct2.repo.admin.UserMapper">
+
+    <select id="selectUserByEmail" resultType="com.example.ct2.vo.admin.UserVo">
+        SELECT bc.id
+             , bc.email
+             , bc.password
+             , gu.mobile_phone AS phone
+             , gu.name AS userName
+          FROM groupware.basic_account bc
+          JOIN groupware.user gu
+            ON gu.id = bc.user_id
+         WHERE bc.email = #{email}
+    </select>
+
+    <select id="selectUserById" resultType="com.example.ct2.vo.admin.UserVo">
+        SELECT bc.id
+             , bc.email
+             , bc.password
+             , gu.mobile_phone AS phone
+             , gu.name AS userName
+          FROM groupware.basic_account bc
+          JOIN groupware.user gu
+            ON gu.id = bc.user_id
+         WHERE bc.user_id = #{id}
+    </select>
+
+</mapper>

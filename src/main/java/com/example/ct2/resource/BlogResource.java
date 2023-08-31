@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/blogList")
+@RequestMapping("/main/blogList")
 public class BlogResource {
 
     @Autowired

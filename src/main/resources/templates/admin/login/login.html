@@ -20,7 +20,7 @@
           <span class="contour logoFont colorRed">e·motion</span>
         </div>
       </h2>
-      <form action="" method="get" class="ui large form">
+      <form action="/admin/auth" method="post" class="ui large form" name="login">
         <div class="ui stacked secondary segment">
           <div class="field">
             <div class="ui left icon input">
@@ -34,7 +34,7 @@
               <input type="password" name="password" placeholder="Password">
             </div>
           </div>
-          <div class="ui fluid large red submit button">Login</div>
+          <div class="ui fluid large red submit button" id="login">Login</div>
         </div>
         <div class="ui error message"></div>
       </form>
@@ -42,4 +42,11 @@
   </div>
 </div>
 </body>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $("#login").on("click", function() {
+        $('form[name=login]').submit();
+      });
+    });
+  </script>
 </html>

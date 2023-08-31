@@ -9,7 +9,11 @@
       var index = $(this).index();
       $('.menu-list .menu-item a').removeClass('active');
       $(this).find('a').addClass('active');
-    })
+    });
+
+    $("#logout").on("click", function() {
+      window.location.href = "/admin/logout";
+    });
   });
 
   $(function() {
@@ -86,7 +90,7 @@
       </div>
     </div>
     <div class="bottom">
-      <button class="logout">
+      <button class="logout" id="logout">
         <span class="icon">
           <i class="sign out icon"></i>
         </span>로그아웃

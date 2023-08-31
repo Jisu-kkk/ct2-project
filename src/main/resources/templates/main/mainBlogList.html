@@ -13,7 +13,7 @@
             <img src="/images/{{ blog.thumbnail_img }}">
           </div>
           <div class="content">
-            <a href="/{{ session.getAttribute("org").lowerName }}/detail/{{ blog.id }}" class="header">{{ blog.title }}</a>
+            <a href="/main/{{ session.getAttribute("org").lowerName }}/detail/{{ blog.id }}" class="header">{{ blog.title }}</a>
             <div class="description">
               {{ blog.sub_title }}
             </div>
@@ -33,7 +33,7 @@
   </div>
   <div class="ui container right aligned">
       <div class="ui row more">
-        <a href="/{{ session.getAttribute("org").lowerName }}/blogList" class="ui button red">Read More <i class="right arrow icon"></i></a>
+        <a href="/main/{{ session.getAttribute("org").lowerName }}/blogList" class="ui button red">Read More <i class="right arrow icon"></i></a>
       </div>
     </div>
 </div>
