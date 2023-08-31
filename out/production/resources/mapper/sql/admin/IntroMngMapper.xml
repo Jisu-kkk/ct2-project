@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.ct2.repo.admin.IntroMngMapper">
+
+    <select id="selectIntroList" resultType="map" parameterType="map">
+        SELECT
+            A.id
+            , A.title
+            , A.content
+            , A.depth
+            , CASE WHEN A.location = 0 then 0 ELSE 1 END AS location
+            , CONCAT(B.original_name, type) AS oriFileName
+            , CONCAT(B.name, type) AS fileName
+        FROM (
+            SELECT
+                *
+            FROM
+                intro
+            WHERE 1 = 1
+                AND organization_code = #{orgCode}
+                AND is_use = 1
+                AND is_delete = 0
+        ) A
+        LEFT JOIN file B
+        ON B.id = A.file_id
+
+        ORDER BY A.depth ASC
+    </select>
+
+</mapper>
