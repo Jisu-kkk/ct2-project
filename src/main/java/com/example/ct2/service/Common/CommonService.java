@@ -1,6 +1,8 @@
 package com.example.ct2.service.Common;
 
 import com.example.ct2.repo.Common.CommonMapper;
+import com.example.ct2.repo.admin.ProjectMngMapper;
+import com.example.ct2.repo.admin.WikiMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,12 @@ public class CommonService {
 
     @Autowired
     private CommonMapper commonMapper;
+
+    @Autowired
+    private WikiMapper wikiMapper;
+
+    @Autowired
+    private ProjectMngMapper projectMngMapper;
 
     public List<Map<String, Object>> selectTagList(Map<String, Object> param) {
         List<Map<String, Object>> tagList = new ArrayList<>();
@@ -31,6 +39,16 @@ public class CommonService {
 
     public List<Map<String, Object>> selectOrgUserList(Map<String, Object> param) {
         return commonMapper.selectOrgUserList(param);
+    }
+
+    public int selectWikiListCnt(Map<String, Object> param, String useState) {
+        param.put("showStatus", useState);
+        return wikiMapper.selectWikiListCnt(param);
+    }
+
+    public int selectProjectListCnt(Map<String, Object> param, String useState) {
+        param.put("showStatus", useState);
+        return projectMngMapper.selectProjectListCnt(param);
     }
 
 }

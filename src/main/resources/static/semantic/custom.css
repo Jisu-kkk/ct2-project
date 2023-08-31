@@ -164,6 +164,7 @@ body {
     overflow: hidden;
 }
 .intro > .container > .row > .img-wrapp > img {
+    width: 100% !important;
     max-width: 450px;
     max-height: 230px;
     transition: all 0.8s ease !important;
@@ -597,9 +598,9 @@ body {
 }
 
 .mobile_item_wrap {
-    border: 0px;
-    box-shadow: none;
-    margin-left: auto;
+    border: 0px !important;
+    box-shadow: none !important;
+    margin-left: auto !important;
 }
 .mobile.ui.sidebar {
     margin-top: 50px !important;

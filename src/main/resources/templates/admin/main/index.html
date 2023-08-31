@@ -8,9 +8,9 @@
                 <div class="card-body">
                     <h1 class="main-title">금문일님 😃<br> 안녕하세요!</h1>
                     <!-- 조직장 -->
-                    <button class="main-button on">프로젝트 문의 현황 보기</button>
+                    <!--<button class="main-button on">프로젝트 문의 현황 보기</button>-->
                     <!-- 공통 -->
-                    <button class="main-button off">본부사이트 보기</button>
+                    <button class="main-button off" onclick="window.open('/ct2')">본부사이트 보기</button>
                 </div>
             </div>
         </div>
@@ -23,17 +23,17 @@
                             <div class="con-wrap">
                                 <div class="con">
                                     <div class="img">🤗</div>
-                                    <div class="number">10</div>
+                                    <div class="number">{{ projectShowCnt }}</div>
                                     <h4 class="title">공개</h4>
-                                    <button class="con-button">
+                                    <button class="con-button" onclick="location.href='/admin/project?showStatus=1'">
                                         <span>자세히 보기 <i class="icon long arrow alternate right"></i></span>
                                     </button>
                                 </div>
                                 <div class="con">
                                     <div class="img">😴</div>
-                                    <div class="number red">7</div>
+                                    <div class="number red">{{ projectHideCnt }}</div>
                                     <h4 class="title">비공개</h4>
-                                    <button class="con-button">
+                                    <button class="con-button" onclick="location.href='/admin/project?showStatus=0'">
                                         <span>자세히 보기 <i class="icon long arrow alternate right"></i></span>
                                     </button>
                                 </div>
@@ -52,17 +52,17 @@
                             <div class="con-wrap">
                                 <div class="con">
                                     <div class="img">🤗</div>
-                                    <div class="number">10</div>
+                                    <div class="number">{{ wikiShowCnt }}</div>
                                     <h4 class="title">공개</h4>
-                                    <button class="con-button">
+                                    <button class="con-button" onclick="location.href='/admin/wikiList?showStatus=1'">
                                         <span>자세히 보기 <i class="icon long arrow alternate right"></i></span>
                                     </button>
                                 </div>
                                 <div class="con">
                                     <div class="img">😴</div>
-                                    <div class="number red">7</div>
+                                    <div class="number red">{{ wikiHideCnt }}</div>
                                     <h4 class="title">비공개</h4>
-                                    <button class="con-button">
+                                    <button class="con-button" onclick="location.href='/admin/wikiList?showStatus=0'">
                                         <span>자세히 보기 <i class="icon long arrow alternate right"></i></span>
                                     </button>
                                 </div>
@@ -81,12 +81,46 @@
                     <div class="ui innerContent">
                         <div class="content-title">
                             본부소개
-                            <button class="con-button">
+                            <button class="con-button" onclick="location.href='/admin/intro'">
                                 <span>자세히 보기 <i class="icon long arrow alternate right"></i></span>
                             </button>
                         </div>
-                        <!--Contents[S]-->
+
+                        {% for intro in introList %}
                         <div class="card-body">
+                            <div class="intro-wrap">
+                                <div class="intro-con">
+                                    <div class="ui middle aligned stackable grid container">
+                                        <div class="row">
+                                        {% if intro.location == 0 %}
+                                            <div class="six wide left floated column img-wrapp">
+                                                <img class="ui left floated large bordered rounded image" src="../semantic/themes/default/assets/images/ct2-intro-crop-image-{{ intro.id }}.png">
+                                                <!--<img class="ui left floated large bordered rounded image" src="https://www.emotion.co.kr/pc/img/02_img_02.cd3f8a5d.webp">-->
+                                                <!--<img class="ui left floated large bordered rounded image" src="/images/{{ intro.fileName }}">-->
+                                            </div>
+                                            <div class="nine wide column">
+                                                <h3 class="ui header">{{ intro.title }}</h3>
+                                                <p>{{ intro.content }}</p>
+                                            </div>
+                                        {% else %}
+                                            <div class="nine wide column">
+                                                <h3 class="ui header">{{ intro.title }}</h3>
+                                                <p>{{ intro.content }}</p>
+                                            </div>
+                                            <div class="six wide right floated column img-wrapp">
+                                                <img class="ui right floated large bordered rounded image" src="../semantic/themes/default/assets/images/ct2-intro-crop-image-{{ intro.id }}.png">
+                                                <!--<img class="ui right floated large bordered rounded image" src="https://www.emotion.co.kr/pc/img/02_img_03.d71a6f53.webp">-->
+                                                <!--<img class="ui left floated large bordered rounded image" src="/images/{{ intro.fileName }}">-->
+                                            </div>
+                                        {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <!--Contents[S]-->
+                        <!--<div class="card-body">
                             <div class="intro-wrap">
                                 <div class="intro-con">
                                     <div class="ui middle aligned stackable grid container">
@@ -103,9 +137,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!--Contents[E]-->
-
-                        <!--Contents[S]-->
                         <div class="card-body">
                             <div class="intro-wrap">
                                 <div class="intro-con">
@@ -122,7 +153,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                         <!--Contents[E]-->
                     </div>
                 </div>

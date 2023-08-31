@@ -2733,13 +2733,13 @@ body.loginContainer {
     margin-top: 20px !important;
 }
 .content-title {
-    font-size: 25px;
+    font-size: 22px;
     font-weight: bold;
     display: flex;
     -webkit-box-pack: justify;
     justify-content: space-between;
     width: 100%;
-    padding-bottom: 20px;
+    padding-bottom: 15px;
     border-bottom: 1px solid rgb(233, 236, 239);
 }
 .content-title .con-button {
@@ -2771,6 +2771,13 @@ body.loginContainer {
     flex-wrap: wrap;
     gap: 4%;
     box-sizing: border-box;
+}
+.intro-wrap >.intro-con > .container > .row img {
+    min-width: 380px;
+    min-height: 190px;
+    max-height: 250px;
+    object-position: top;
+    object-fit: cover;
 }
 .intro-layout .cardContainer .card-body {
     padding: 0px !important;
@@ -2846,11 +2853,11 @@ body.loginContainer {
     font-size: 30px;
 }
 .con-wrap .con .title {
-    font-size: 18px;
-    font-weight: 400;
+    font-size: 16px;
+    /*font-weight: bold;*/
     padding-top: 15px;
     padding-bottom: 10px;
-    border: 0px;
+    border: 0;
 }
 .con-wrap .con button {
     -webkit-box-pack: start;
@@ -2974,13 +2981,18 @@ body.loginContainer {
     border-radius: 20px;
     box-shadow: rgba(80, 143, 244, 0.1) 0px 12px 30px;
 }
+.main-button {
+    box-shadow: 0 0 0 0 rgba(34,36,38,.15) inset
+}
 .main-button.on {
     background: rgb(25, 118, 210);
     color: rgb(255, 255, 255);
 }
 .main-button.off {
-    background: rgb(255, 255, 255);
-    color: rgb(52, 58, 64);
+    /*background: rgb(255, 255, 255);
+    color: rgb(52, 58, 64);*/
+    background-color: #21ba45;
+    color: #fff;
 }
 
 .main-button+button {
