@@ -13,13 +13,16 @@
       <div class="card-inner">
         <div class="card-body">
           <div class="ui innerContent cardContainer">
-            {% for intro in introList %}
+          {% for intro in introList %}
+            {% if loop.length == 0 %}
+            <h4>작성된 본부소개가 없습니다. 본부소개를 등록해 주세요<span>🤗</span></h4>
+            {% else %}
             <div id="{{ intro.id }}" class="card-body draggable" draggable="true" title="컨텐츠를 드래그하여 위/아래로 순서변경이 가능합니다.">
               <div class="intro-wrap">
                 <div class="intro-con">
                   <div class="ui middle aligned stackable grid container">
                     <div class="row">
-                    {% if intro.location == 0 %}
+                      {% if intro.location == 0 %}
                       <div class="six wide left floated column img-wrapp">
                         <img class="ui left floated large bordered rounded image" src="../semantic/themes/default/assets/images/ct2-intro-crop-image-{{ intro.id }}.png">
                         <!--<img class="ui left floated large bordered rounded image" src="https://www.emotion.co.kr/pc/img/02_img_02.cd3f8a5d.webp">-->
@@ -31,7 +34,7 @@
                         </a>
                         <p>{{ intro.content }}</p>
                       </div>
-                    {% else %}
+                      {% else %}
                       <div class="nine wide column">
                         <a class="ui header" href="/admin/editIntro">
                           <h3 class="ui header">{{ intro.title }}</h3>
@@ -43,13 +46,14 @@
                         <!--<img class="ui right floated large bordered rounded image" src="https://www.emotion.co.kr/pc/img/02_img_03.d71a6f53.webp">-->
                         <!--<img class="ui right floated large bordered rounded image" src="/images/{{ intro.fileName }}">-->
                       </div>
-                    {% endif %}
+                      {% endif %}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            {% endfor %}
+            {% endif %}
+          {% endfor %}
 
             <!--Contents[S]-->
             <!--<div class="card-body draggable" draggable="true" title="컨텐츠를 드래그하여 위/아래로 순서변경이 가능합니다.">

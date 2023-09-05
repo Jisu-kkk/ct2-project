@@ -34,6 +34,28 @@
     });
   });
 </script>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    var jsonData = {};
+    $.ajax({
+      url : "/api/v1/loginUserProfile",
+      data : JSON.stringify(jsonData),
+      type : "POST",
+      async : false,
+      dataType : "JSON",
+      contentType: "application/json; charset=utf-8",
+      success : function(result) {
+        $("#login_user_img").attr("src", result.profile_img);
+        $("#login_user_name").text(result.name_grade);
+        $("#login_user_team").text(result.org_nm);
+      },
+      error : function(error) {
+        console.log(error);
+      }
+    });
+  });
+</script>
 {% endblock %}
 
 <div class="inner">
@@ -81,12 +103,12 @@
     <div class="user">
       <div class="img">
         <a href="/admin/wikiList">
-          <img class="center aligned ui bordered rounded image" src="https://group.emotion.co.kr/_next/image?url=http%3A%2F%2Fgroup.emotion.co.kr%2Fpublic%2Freal%2FUSER%2F202304%2Fe89e922d-654c-4a27-9ee7-78843b2e0e52.jpeg&w=256&q=75">
+          <img id="login_user_img" class="center aligned ui bordered rounded image" src="">
         </a>
       </div>
       <div class="info">
-        <span class="name">금문일 선임리더</span>
-        <span class="team">CT2 본부</span>
+        <span id="login_user_name" class="name"></span>
+        <span id="login_user_team" class="team"></span>
       </div>
     </div>
     <div class="bottom">

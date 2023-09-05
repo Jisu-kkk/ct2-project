@@ -10,4 +10,5 @@ public class UserVo {
     private String password;
     private String phone;
     private String userName;
+    private String organizationCode;
 }

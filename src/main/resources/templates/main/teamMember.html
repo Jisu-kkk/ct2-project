@@ -11,7 +11,24 @@
     <!-- Additional required wrapper -->
     <div class="center aligned row swiper-wrapper">
       <!-- Slides -->
+      {% for profile in userProfileList %}
       <div class="ui cards swiper-slide">
+        <div class="card">
+          <div class="content">
+            <div class="img-wrapp">
+              <img class="center aligned ui bordered rounded image" src="{{ profile.profile_img }}">
+            </div>
+            <div class="header center aligned">
+              {{ profile.name }}
+            </div>
+            <div class="description center aligned">
+              {{ profile.code_nm }}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      <!--<div class="ui cards swiper-slide">
         <div class="card">
           <div class="content">
             <div class="img-wrapp">
@@ -175,7 +192,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div>-->
     </div>
   </div>
 </div>

@@ -13,4 +13,8 @@ public interface CommonMapper {
     List<Map<String, Object>> selectTagList(Map<String, Object> param);
 
     List<Map<String, Object>> selectOrgUserList(Map<String, Object> param);
+
+    List<Map<String, Object>> selectOrgUserProfileList(Map<String, Object> param);
+
+    Map<String, Object> selectOrgUserProfileOne(Map<String, Object> param);
 }

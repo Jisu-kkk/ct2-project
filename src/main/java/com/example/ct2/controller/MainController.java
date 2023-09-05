@@ -53,9 +53,13 @@ public class MainController {
             // 기술
             List<Map<String, Object>> blogList = blogService.selectBlogList(org);
 
+            // 팀원목록
+            List<Map<String, Object>> userProfileList = commonService.selectOrgUserProfileList(org);
+
             model.addAttribute("introList", introList);
             model.addAttribute("projectList", projectList);
             model.addAttribute("blogList", blogList);
+            model.addAttribute("userProfileList", userProfileList);
         }
         return "main/index";
     }

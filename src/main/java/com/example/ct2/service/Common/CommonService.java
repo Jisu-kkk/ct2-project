@@ -51,4 +51,12 @@ public class CommonService {
         return projectMngMapper.selectProjectListCnt(param);
     }
 
+    public List<Map<String, Object>> selectOrgUserProfileList(Map<String, Object> param) {
+        return commonMapper.selectOrgUserProfileList(param);
+    }
+
+    public Map<String, Object> selectOrgUserProfileOne(Map<String, Object> param) {
+        return commonMapper.selectOrgUserProfileOne(param);
+    }
+
 }

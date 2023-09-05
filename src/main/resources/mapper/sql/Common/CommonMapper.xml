@@ -3,6 +3,12 @@
 
 <mapper namespace="com.example.ct2.repo.Common.CommonMapper">
 
+    <sql id="userIdCondition">
+        <if test="userId != null and userId != 0">
+            AND A.id = #{userId}
+        </if>
+    </sql>
+
     <sql id="tagCondition">
         <if test="tagIds != null and tagIds != ''">
             AND tag_id IN
@@ -27,4 +33,86 @@
           FROM user
          WHERE SUBSTR(organization_code, 1, 8) = #{orgCode}
     </select>
+
+    <select id="selectOrgUserProfileList" resultType="map" parameterType="map">
+        SELECT
+            A.name
+             , (select value from groupware.code where code = A.grade_code) as code_nm
+             , (select name from groupware.organization where code = #{orgCode}) as org_nm
+             , CONCAT(A.name, ' ', (select value from groupware.code where code = A.grade_code)) AS name_grade
+             , A.grade_code
+             , A.organization_code
+             , A.position_code
+             , A.status_code
+             , A.type_code
+             , CONCAT('https://group.emotion.co.kr/', C.path, '/', C.name, '.', C.type) AS profile_img
+        FROM
+            groupware.user A
+            INNER JOIN (
+                SELECT
+                    *
+                FROM
+                    groupware.user_profile
+                WHERE (user_id, file_id, is_delete) IN (
+                    SELECT
+                        user_id, max(file_id) AS file_id, is_delete
+                    FROM
+                        groupware.user_profile
+                    WHERE is_delete = 0
+                    GROUP BY user_id
+                )
+            ) B
+            ON A.id = B.user_id
+
+            INNER JOIN groupware.file C
+            ON A.id = C.target_id
+            AND B.file_id = C.id
+            AND C.section = 'USER'
+        WHERE 1 = 1
+            AND SUBSTR(A.organization_code, 1, 8) = #{orgCode}
+            AND A.status_code = 'MB100001'
+        ORDER BY A.grade_code, position_code, role_id ASC
+    </select>
+
+    <select id="selectOrgUserProfileOne" resultType="Map" parameterType="map">
+        SELECT
+            A.name
+            , (select value from groupware.code where code = A.grade_code) as code_nm
+            , (select name from groupware.organization where code = #{orgCode}) as org_nm
+            , CONCAT(A.name, ' ', (select value from groupware.code where code = A.grade_code)) AS name_grade
+            , A.grade_code
+            , A.organization_code
+            , A.position_code
+            , A.status_code
+            , A.type_code
+            , CONCAT('https://group.emotion.co.kr/', C.path, '/', C.name, '.', C.type) AS profile_img
+        FROM
+            groupware.user A
+            INNER JOIN (
+                SELECT
+                    *
+                FROM
+                    groupware.user_profile
+                WHERE (user_id, file_id, is_delete) IN (
+                    SELECT
+                        user_id, max(file_id) AS file_id, is_delete
+                    FROM
+                        groupware.user_profile
+                    WHERE is_delete = 0
+                    GROUP BY user_id
+                )
+            ) B
+            ON A.id = B.user_id
+
+            INNER JOIN groupware.file C
+            ON A.id = C.target_id
+            AND B.file_id = C.id
+            AND C.section = 'USER'
+        WHERE 1 = 1
+            AND SUBSTR(A.organization_code, 1, 8) = #{orgCode}
+            AND A.status_code = 'MB100001'
+            <include refid="userIdCondition" />
+        ORDER BY A.grade_code, position_code, role_id ASC
+    </select>
+
 </mapper>
