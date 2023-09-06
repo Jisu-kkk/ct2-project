@@ -39,7 +39,7 @@
               <div class="title">제목</div>
               <div class="card-body">
                 <div class="ui input">
-                  <input type="text" name="title" id="title" placeholder="Wiki의 제목을 입력해주세요." value="{{ wiki.title }}">
+                  <input type="text" name="title" id="title" placeholder="Wiki의 제목을 입력해주세요." maxlength="100" value="{{ wiki.title }}">
                 </div>
               </div>
             </div>
@@ -49,7 +49,7 @@
               <div class="title">간편설명</div>
               <div class="card-body">
                 <div class="ui input">
-                  <input type="text" name="subTitle" id="subTitle" placeholder="Wiki의 간편설명을 입력해주세요." value="{{ wiki.sub_title }}">
+                  <input type="text" name="subTitle" id="subTitle" placeholder="Wiki의 간편설명을 입력해주세요." maxlength="200" value="{{ wiki.sub_title }}">
                 </div>
               </div>
             </div>

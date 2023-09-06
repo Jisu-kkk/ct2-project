@@ -28,7 +28,13 @@
 
     <sql id="titleCondition">
         <if test="title != null and title != ''">
-            AND pj.name LIKE CONCAT('%', #{title}, '%')
+            AND (
+                pj.name LIKE CONCAT('%', #{title}, '%')
+                OR
+                pj.name LIKE CONCAT('%', #{title}, '%')
+                OR
+                u.name LIKE CONCAT('%', #{title}, '%')
+                )
         </if>
     </sql>
 
@@ -37,9 +43,12 @@
           FROM project pj
      LEFT JOIN groupware.user u
             ON u.id = pj.create_user
+        <include refid="tagCondition" />
          WHERE pj.organization_code = 'BS003002'
            AND pj.is_delete = 0
         <include refid="showStatusCondition" />
+        <include refid="titleCondition" />
+        <include refid="userIdCondition" />
 
         <!--SELECT
             COUNT(pj.id)

@@ -31,14 +31,18 @@
 
     <sql id="titleCondition">
         <if test="title != null and title != ''">
-            AND b.title LIKE CONCAT('%', #{title}, '%')
+            AND (
+                b.title LIKE CONCAT('%', #{title}, '%')
+                OR
+                u.name LIKE CONCAT('%', #{title}, '%')
+                )
         </if>
     </sql>
 
     <select id="selectWikiListCnt" resultType="int" parameterType="map">
         SELECT COUNT(b.id)
           FROM board b
-     LEFT JOIN user u
+     LEFT JOIN groupware.user u
             ON u.id = b.create_user
         <include refid="hashTagCondition" />
          WHERE b.organization_code = 'BS003002'
@@ -62,7 +66,7 @@
                      , b.update_datetime
                      , b.create_datetime
                   FROM board b
-             LEFT JOIN user u
+             LEFT JOIN groupware.user u
                     ON u.id = b.create_user
         <include refid="hashTagCondition" />
                  WHERE b.organization_code = 'BS003002' -- 조직코드
