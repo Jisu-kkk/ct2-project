@@ -45,7 +45,7 @@
      LEFT JOIN groupware.user u
             ON u.id = b.create_user
         <include refid="hashTagCondition" />
-         WHERE b.organization_code = 'BS003002'
+         WHERE b.organization_code = #{orgCode}
            AND b.is_delete = 0
            AND b.board_category = 'BO002'
         <include refid="showStatusCondition" />
@@ -69,7 +69,7 @@
              LEFT JOIN groupware.user u
                     ON u.id = b.create_user
         <include refid="hashTagCondition" />
-                 WHERE b.organization_code = 'BS003002' -- 조직코드
+                 WHERE b.organization_code = #{orgCode}
                    AND b.is_delete = 0
         <include refid="showStatusCondition" />
         <include refid="userIdCondition" />
@@ -100,7 +100,7 @@
                   , thumbnail_img
                   )
              VALUES
-                  ( 'BS003002'
+                  ( #{orgCode}
                   , #{title}
                   , #{subTitle}
                   , #{content}

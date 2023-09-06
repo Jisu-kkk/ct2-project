@@ -115,9 +115,9 @@ public class AdminController {
                            Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserVo userVo = (UserVo) authentication.getPrincipal();
+        param.put("orgCode", userVo.getOrganizationCode());
 
         param.put("tagType", "BO002");
-        param.put("orgCode", "BS003002");
 
         // 해시태그 전체
         List<Map<String, Object>> tagList = commonService.selectTagList(param);
@@ -156,6 +156,9 @@ public class AdminController {
                               @RequestParam MultipartFile titleImg,
                               HttpServletRequest request,
                               Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserVo userVo = (UserVo) authentication.getPrincipal();
+
         // 사용여부
         String showStatus = (String) param.get("showStatus");
         if (showStatus != null) {
@@ -163,6 +166,7 @@ public class AdminController {
         }
         param.put("title_img", titleImg);
         param.put("thumbnail_img", thumbnail);
+        param.put("orgCode", userVo.getOrganizationCode());
 
         int result = wikiService.insertWiki(param);
 
