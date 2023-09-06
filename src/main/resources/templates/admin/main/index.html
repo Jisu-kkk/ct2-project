@@ -85,8 +85,10 @@
                                 <span>자세히 보기 <i class="icon long arrow alternate right"></i></span>
                             </button>
                         </div>
-
-                        {% for intro in introList %}
+                    {% for intro in introList %}
+                        {% if loop.length == 0 %}
+                        <h4 class="no-data">작성된 본부소개가 없습니다. 본부소개를 등록해 주세요<span>🤗</span></h4>
+                        {% else %}
                         <div class="card-body">
                             <div class="intro-wrap">
                                 <div class="intro-con">
@@ -118,7 +120,8 @@
                                 </div>
                             </div>
                         </div>
-                        {% endfor %}
+                        {% endif %}
+                    {% endfor %}
                         <!--Contents[S]-->
                         <!--<div class="card-body">
                             <div class="intro-wrap">

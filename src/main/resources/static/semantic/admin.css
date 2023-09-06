@@ -1650,6 +1650,10 @@ body.mb-open {
     transition: all .2s ease-in-out
 }
 
+.sidebar .inner .profile .user .img a {
+    cursor: default;
+}
+
 .sidebar .inner .profile .bottom {
     height: 20px;
     display: flex;
@@ -2680,6 +2684,10 @@ body.loginContainer {
     font-size: 11px !important;
     color: rgb(173, 181, 189) !important;
     margin-top: 20px !important;
+}
+.no-data {
+    margin-top: 30px;
+    text-align: center;
 }
 .content-title {
     font-size: 22px;

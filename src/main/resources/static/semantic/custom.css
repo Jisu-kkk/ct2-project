@@ -165,9 +165,13 @@ body {
 }
 .intro > .container > .row > .img-wrapp > img {
     width: 100% !important;
+    min-width: 380px;
+    min-height: 190px;
     max-width: 450px;
-    max-height: 230px;
+    max-height: 250px;
     transition: all 0.8s ease !important;
+    object-position: top;
+    object-fit: cover;
 }
 
 /* Project */
