@@ -30,8 +30,8 @@
     <select id="selectOrgUserList" resultType="map" parameterType="map">
         SELECT id
              , name
-          FROM user
-         WHERE SUBSTR(organization_code, 1, 8) = #{orgCode}
+          FROM groupware.user
+         WHERE organization_code = #{orgCode}
     </select>
 
     <select id="selectOrgUserProfileList" resultType="map" parameterType="map">
