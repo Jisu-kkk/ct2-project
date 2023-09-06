@@ -59,6 +59,8 @@ public class AdminController {
 
     @GetMapping("/index")
     public String home(Model model, Map<String, Object> param) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserVo userVo = (UserVo) authentication.getPrincipal();
         /*TODO_받아와야하는 부분*/
         param.put("orgCode", "BS003002");
 
@@ -111,6 +113,8 @@ public class AdminController {
     public String wikiList(@RequestParam(required = false) Map<String, Object> param,
                            @RequestParam(defaultValue = "1") int curPage,
                            Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserVo userVo = (UserVo) authentication.getPrincipal();
 
         param.put("tagType", "BO002");
         param.put("orgCode", "BS003002");
@@ -169,7 +173,26 @@ public class AdminController {
     public String project(@RequestParam(required = false) Map<String, Object> param,
                           @RequestParam(defaultValue = "1") int curPage,
                           Model model) {
+        param.put("tagType", "BO001");
+        param.put("orgCode", "BS003002");
 
+        // 프로젝트 유형 전체
+        List<Map<String, Object>> tagList = commonService.selectTagList(param);
+        // 해당 부서 사람 전체
+        List<Map<String, Object>> orgUserList = commonService.selectOrgUserList(param);
+
+        int totalCnt = projectMngService.selectProjectListCnt(param);
+        Pagination pagination = new Pagination(totalCnt, curPage);
+
+        param.put("pagination", pagination);
+
+        List<Map<String, Object>> projectList = projectMngService.selectProjectList(param);
+
+        model.addAttribute("tagList", tagList);
+        model.addAttribute("orgUserList", orgUserList);
+        model.addAttribute("pagination", pagination);
+        model.addAttribute("projectList", projectList);
+        model.addAttribute("param", param);
         return "admin/project/projectList";
     }
 
@@ -180,7 +203,8 @@ public class AdminController {
     }
 
     @GetMapping("/editProject")
-    public String editProject(Model model) {
+    public String editProject(@RequestParam int projectId,
+                              Model model) {
         model.addAttribute("status", "edit");
         return "admin/project/projectDetail";
     }

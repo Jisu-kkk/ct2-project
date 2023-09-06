@@ -13,57 +13,58 @@
                 <div class="card-body">
                     <!-- search-area -->
                     <div class="search-area">
-                        <div class="ui grid">
-                            <div class="three column row">
-                                <div class="column">
-                                    <div class="ui selection dropdown">
-                                        <input type="hidden" name="hashTag">
-                                        <i class="dropdown icon"></i>
-                                        <div class="default text">프로젝트 유형</div>
-                                        <div class="menu">
-                                            <div class="item" data-value="0">전체</div>
-                                            <div class="item" data-value="1">PC web</div>
-                                            <div class="item" data-value="2">Mobile Web</div>
-                                            <div class="item" data-value="3">Mobile App</div>
-                                            <div class="item" data-value="4">Construction</div>
-                                            <div class="item" data-value="5">Maintenance</div>
-                                            <div class="item" data-value="6">Renewal</div>
+                        <form name="searchPram" action="/admin/project" method="get">
+                            <input type="hidden" name="curPage" id="curPage" value="{{ pagination.curPage }}">
+                            <div class="ui grid">
+                                <div class="three column row">
+                                    <div class="column">
+                                        <div class="ui selection dropdown">
+                                            <input type="hidden" name="tag" value="{{ param.tag }}">
+                                            <i class="dropdown icon"></i>
+                                            <div class="default text">프로젝트 유형</div>
+                                            <div class="menu" id="tag">
+                                                <div class="item" data-value="0">전체</div>
+                                                {% for tag in tagList %}
+                                                <div class="item" id="tagValue{{ tag.tagId }}" data-value="{{ tag.tagId }}">{{ tag.tagName }}</div>
+                                                {% endfor %}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="column">
-                                    <div class="ui selection dropdown">
-                                        <input type="hidden" name="showStatus">
-                                        <i class="dropdown icon"></i>
-                                        <div class="default text">공개여부</div>
-                                        <div class="menu">
-                                            <div class="item" data-value="0">전체</div>
-                                            <div class="item" data-value="1">공개</div>
-                                            <div class="item" data-value="2">비공개</div>
+                                    <div class="column">
+                                        <div class="ui selection dropdown">
+                                            <input type="hidden" name="showStatus" value="{{ param.showStatus }}">
+                                            <i class="dropdown icon"></i>
+                                            <div class="default text" id="showStatusTxt">공개여부</div>
+                                            <div class="menu">
+                                                <div class="item" name="showStatusValue">전체</div>
+                                                <div class="item" name="showStatusValue" data-value="1">공개</div>
+                                                <div class="item" name="showStatusValue" data-value="0">비공개</div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="column">
-                                    <div class="ui selection dropdown">
-                                        <input type="hidden" name="userName">
-                                        <i class="dropdown icon"></i>
-                                        <div class="default text">작성자</div>
-                                        <div class="menu">
-                                            <div class="item" data-value="0">전체</div>
-                                            <div class="item" data-value="1">한승규</div>
-                                            <div class="item" data-value="2">강지수</div>
+                                    <div class="column">
+                                        <div class="ui selection dropdown">
+                                            <input type="hidden" name="userId">
+                                            <i class="dropdown icon"></i>
+                                            <div class="default text" id="userIdTxt">작성자</div>
+                                            <div class="menu">
+                                                <div class="item" data-value="0">전체</div>
+                                                {% for orgUser in orgUserList %}
+                                                <div class="item" namd="userIdValue" data-value="{{ orgUser.id }}">{{ orgUser.name }}</div>
+                                                {% endfor %}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="ui grid">
-                            <div class="ui input">
-                                <input type="text" name="title" placeholder="검색어를 입력해주세요.">
-                                <button class="ui button black">검색</button>
+                            <div class="ui grid">
+                                <div class="ui input">
+                                    <input type="text" name="title" placeholder="검색어를 입력해주세요." value="{{ param.title }}">
+                                    <button class="ui button black" id="search">검색</button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
 
                     <!-- content-area -->
@@ -80,42 +81,51 @@
                             </tr>
                             </thead>
                             <tbody>
+                            {% for project in projectList %}
                             <tr>
-                                <td class="center aligned">1</td>
+                                <td class="center aligned">{{ project.num }}</td>
                                 <td class="center aligned">
-                                    <a href="/admin/editProject">LG Innotek</a>
+                                    <a href="/admin/editProject?projectId={{ project.id }}">{{ project.projectName }}</a>
                                 </td>
-                                <td class="center aligned">LG이노텍</td>
+                                <td class="center aligned">{{ project.client_name }}</td>
+                                {% if project.useYn == true %}
                                 <td class="center aligned positive"><i class="icon circle outline"></i></td>
-                                <td class="center aligned">한승규</td>
-                                <td class="center aligned">2022-08-09</td>
-                            </tr>
-                            <tr>
-                                <td class="center aligned">2</td>
-                                <td class="center aligned">
-                                    <a href="/admin/editProject">Battle Dart</a>
-                                </td>
-                                <td class="center aligned">(주)피닉스다트</td>
+                                {% else %}
                                 <td class="center aligned negative"><i class="icon close"></i></td>
-                                <td class="center aligned">강지수</td>
-                                <td class="center aligned">2022-04-09</td>
+                                {% endif %}
+                                <td class="center aligned">{{ project.userName }}</td>
+                                <td class="center aligned">{{ project.update_time }}</td>
                             </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
 
                         <div class="ui center aligned header">
                             <div class="ui pagination menu">
-                                <a class="icon item">
-                                    <i class="left chevron icon"></i>
+                                {% if pagination.startPage > 1 %}
+                                <a class="icon item" href="/admin/project?curPage={{ pagination.startPage - 1 }}">
+                                  <i class="left chevron icon"></i>
                                 </a>
-                                <a class="item active">1</a>
-                                <a class="item">2</a>
-                                <a class="item">3</a>
-                                <a class="item">4</a>
-                                <a class="item">5</a>
-                                <a class="icon item">
-                                    <i class="right chevron icon"></i>
+                                {% endif %}
+
+                                {% for pageNum in pagination.startPage .. pagination.endPage %}
+                                  {% if pageNum == pagination.curPage %}
+                                    <a class="item active">
+                                  {% else %}
+                                      <a class="icon item" onclick="paging({{ pageNum }})">
+                                      {#
+                                      <a class="icon item" href="/admin/project?curPage={{ pageNum }}">
+                                        #}
+                                  {% endif %}
+                                      {{ pageNum }}
+                                    </a>
+                                {% endfor %}
+
+                                {% if pagination.endPage + 1 <= pagination.pageCnt %}
+                                <a class="icon item" href="/admin/project?curPage={{ pagination.endPage + 1 }}">
+                                  <i class="right chevron icon"></i>
                                 </a>
+                                {% endif %}
                             </div>
                         </div>
 
@@ -128,4 +138,55 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#search").on('click', function(){
+               paging(1);
+            });
+
+            validation();
+        });
+
+        function validation() {
+            // 프로젝트 유형
+            var tag = '{{ param.tag }}';
+            $("#tagValue" + tag).addClass("active");
+            $("#tagValue" + tag).addClass("selected");
+
+            // 공개여부
+            var showStatus = '{{ param.showStatus }}';
+            if (showStatus != '') {
+                $('div[name=showStatusValue]').each(function(index, item) {
+                   if (showStatus == $(this).data("value")) {
+                       $(this).addClass("active");
+                       $(this).addClass("selected");
+                       $("#showStatusText").html($(this).html());
+                       $("#showStatusText").removeClass("default");
+                   }
+                });
+            }
+
+            // 작성자
+            var userId = '{{ param.userId }}';
+            if (userId != '') {
+                $('div[name=userIdValue]').each(function(index, item) {
+                    if (userId == $(this).data("value")) {
+                        $(this).addClass("active");
+                        $(this).addClass("selected");
+                        $("#userIdTxt").html($(this).html());
+                        $("#userIdTxt").removeClass("default");
+                    }
+                });
+            }
+
+        }
+
+        function paging(page) {
+            $("#curPage").val(page);
+            $('form[name=serarchParam]').submit();
+        }
+    </script>
 {% endblock %}

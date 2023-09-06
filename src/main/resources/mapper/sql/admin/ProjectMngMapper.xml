@@ -9,8 +9,39 @@
         </if>
     </sql>
 
+    <sql id="tagCondition">
+        <if test="tag != null and tag != 0">
+            JOIN (
+                    SELECT project_id
+                      FROM project_tag
+                     WHERE tag_id = #{tag}
+                 ) pt
+              ON pt.project_id = pj.id
+        </if>
+    </sql>
+
+    <sql id="userIdCondition">
+        <if test="userId != null and userId != 0">
+            AND pj.create_user = #{userId}
+        </if>
+    </sql>
+
+    <sql id="titleCondition">
+        <if test="title != null and title != ''">
+            AND pj.name LIKE CONCAT('%', #{title}, '%')
+        </if>
+    </sql>
+
     <select id="selectProjectListCnt" resultType="int" parameterType="map">
-        SELECT
+        SELECT COUNT(pj.id)
+          FROM project pj
+     LEFT JOIN groupware.user u
+            ON u.id = pj.create_user
+         WHERE pj.organization_code = 'BS003002'
+           AND pj.is_delete = 0
+        <include refid="showStatusCondition" />
+
+        <!--SELECT
             COUNT(pj.id)
         FROM
             project pj
@@ -36,7 +67,33 @@
             ) mpj
             ON mpj.project_id = pj.id
             LEFT JOIN file f
-            ON f.id = pj.file_id
+            ON f.id = pj.file_id-->
+    </select>
+
+    <select id="selectProjectList" resultType="map" parameterType="map">
+        SELECT ROW_NUMBER() OVER(ORDER BY pj.update_datetime DESC, pj.create_datetime DESC) AS num
+             , A.*
+          FROM (
+                SELECT pj.id
+                     , pj.client_name
+                     , pj.name AS projectName
+                     , is_use AS useYn
+                     , u.name AS userName
+                     , DATE_FORMAT(pj.update_datetime, '%Y.%m.%d') AS update_time
+                     , DATE_FORMAT(pj.create_datetime, '%Y.%m.%d') AS create_time
+                     , pj.create_datetime
+                     , pj.update_datetime
+                  FROM project pj
+             LEFT JOIN groupware.user u
+                    ON u.id = pj.create_user
+                <include refid="tagCondition" />
+                 WHERE pj.organization_code = 'BS003002'
+                   AND pj.is_delete = 0
+                <include refid="showStatusCondition" />
+                <include refid="titleCondition" />
+                <include refid="userIdCondition" />
+               ) A
+         LIMIT #{pagination.startIndex}, #{pagination.pageSize} -- 페이징
     </select>
 
 </mapper>

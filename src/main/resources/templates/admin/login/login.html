@@ -45,8 +45,35 @@
   <script type="text/javascript">
     $(document).ready(function () {
       $("#login").on("click", function() {
-        $('form[name=login]').submit();
+        if (validation()) {
+          $('form[name=login]').submit();
+        }
+      });
+
+      $("input[name=password]").on('keyup', function(e) {
+        if (e.keyCode === 13) {
+          if (validation()) {
+            $('form[name=login]').submit();
+          }
+        }
       });
     });
+
+    function validation() {
+      var email = $("input[name=email]").val();
+      var pwd = $("input[name=password]").val();
+
+      if (email == '' || email.length == 0) {
+        alert("이메일을 입력해 주세요.");
+        return false;
+      }
+
+      if (pwd == '' || pwd.length == 0) {
+        alert("비밀번호를 입력해 주세요.");
+        return false;
+      }
+
+      return true;
+    }
   </script>
 </html>
