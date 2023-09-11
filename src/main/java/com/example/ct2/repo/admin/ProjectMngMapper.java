@@ -14,4 +14,12 @@ public interface ProjectMngMapper {
 
     List<Map<String, Object>> selectProjectList(Map<String, Object> param);
 
+    int insertProject(Map<String, Object> param);
+
+    int insertProjectTag(Map<String, Object> param);
+
+    Map<String, Object> selectProject(int projectId);
+
+    List<Integer> selectProjectTagList(int projectId);
+
 }

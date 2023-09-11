@@ -4,129 +4,109 @@
 <div class="content" id="content">
     <div class="content-header">
         <div class="title">
-            {% if status == "add" %}
-            <h2>프로젝트 등록</h2>
-            {% elseif status == "edit" %}
+            {% if project != null %}
             <h2>프로젝트 수정</h2>
-            <button class="ui button red right floated">삭제</button>
+            <button class="ui button red right floated" id="deleteProject">삭제</button>
+            {% else %}
+            <h2>프로젝트 등록</h2>
             {% endif %}
         </div>
     </div>
-    <div class="card-layout">
-        <div class="card col-12">
-            <div class="card-inner">
-                <div class="card-body">
-                    <!-- 공개여부 -->
-                    <div class="ui innerContent">
-                        <div class="ui right aligned header">
-                            <div class="ui toggle checkbox">
-                                <input type="checkbox" name="showStatus" checked>
-                                <label>공개여부</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 서비스명 -->
-                    <div class="ui innerContent">
-                        <div class="title">서비스명</div>
-                        <div class="card-body">
-                            <div class="ui input">
-                                <input type="text" name="title" placeholder="서비스명을 입력해주세요." value="Battle Dart">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 고객사명 -->
-                    <div class="ui innerContent">
-                        <div class="title">고객사명</div>
-                        <div class="card-body">
-                            <div class="ui input">
-                                <input type="text" name="subTitle" placeholder="고객사명을 입력해주세요." value="(주)피닉스다트">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 수행 완료일 -->
-                    <div class="ui innerContent">
-                        <div class="title">수행 완료일</div>
-                        <div class="card-body">
-                            <div class="ui input">
-                                <input type="text" name="subTitle" class="datepicker" readonly placeholder="수행 완료일을 입력해주세요." value="2022.04">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 프로젝트 유형 -->
-        <div class="card col-12">
-            <div class="card-inner">
-                <div class="ui innerContent">
-                    <div class="title">프로젝트 유형</div>
+    <form name="projectForm" id="projectForm" action="{{ project != null ? '/admin/editProject' : '/admin/addProject' }}" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="projectId" value="{{ project.id }}"/>
+        <div class="card-layout">
+            <div class="card col-12">
+                <div class="card-inner">
                     <div class="card-body">
-                        <div class="ui checkbox hashTag checked">
-                            <input type="checkbox" class="hidden hashChk" name="hashTag" checked>
-                            <label class="hasgTagName">PC web</label>
+                        <!-- 공개여부 -->
+                        <div class="ui innerContent">
+                            <div class="ui right aligned header">
+                                <div class="ui toggle checkbox">
+                                    <input type="checkbox" name="showStatus" checked>
+                                    <label>공개여부</label>
+                                </div>
+                            </div>
                         </div>
-                        <div class="ui checkbox hashTag checked">
-                            <input type="checkbox" class="hidden hashChk" name="hashTag" checked>
-                            <label class="hasgTagName">Mobile Web</label>
+
+                        <!-- 서비스명 -->
+                        <div class="ui innerContent">
+                            <div class="title">서비스명</div>
+                            <div class="card-body">
+                                <div class="ui input">
+                                    <input type="text" name="serviceName" placeholder="서비스명을 입력해주세요." value="{{ project.name }}">
+                                </div>
+                            </div>
                         </div>
-                        <div class="ui checkbox hashTag">
-                            <input type="checkbox" class="hidden hashChk" name="hashTag">
-                            <label class="hasgTagName">Mobile App</label>
+
+                        <!-- 고객사명 -->
+                        <div class="ui innerContent">
+                            <div class="title">고객사명</div>
+                            <div class="card-body">
+                                <div class="ui input">
+                                    <input type="text" name="clientName" placeholder="고객사명을 입력해주세요." value="{{ project.client_name }}">
+                                </div>
+                            </div>
                         </div>
-                        <div class="ui checkbox hashTag checked">
-                            <input type="checkbox" class="hidden hashChk" name="hashTag" checked>
-                            <label class="hasgTagName">Construction</label>
-                        </div>
-                        <div class="ui checkbox hashTag">
-                            <input type="checkbox" class="hidden hashChk" name="hashTag">
-                            <label class="hasgTagName">Maintenance</label>
-                        </div>
-                        <div class="ui checkbox hashTag">
-                            <input type="checkbox" class="hidden hashChk" name="hashTag">
-                            <label class="hasgTagName">Renewal</label>
+
+                        <!-- 수행 완료일 -->
+                        <div class="ui innerContent">
+                            <div class="title">수행 완료일</div>
+                            <div class="card-body">
+                                <div class="ui input">
+                                    <input type="text" name="finishDate" class="datepicker" readonly placeholder="수행 완료일을 입력해주세요." value="{{ project.finish_date }}">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="card col-12">
-            <div class="card-inner">
-                <!-- 썸네일 첨부파일 -->
-                <div class="ui innerContent">
-                    <div class="title">썸네일 이미지 첨부파일</div>
-                    <div class="card-body">
-                        <input type="file" name="thumbnail" id="thumbnail" accept="image/gif,image/jpeg,image/png"
-                               value="C:\\fakepath\\wallpaper_20220411180152_2880_1880_sunset.jpg">
-                        <label for="thumbnail" class="ui button black">첨부파일</label>
-                        <span class="fileList">
-                            <!-- 파일표기[S] -->
-                            <label>wallpaper_20220411180152_2880_1880_sunset.jpg</label>
-                            <button class="delete" onclick="fileDelete(this);">
-                                <i class="icon close"></i>
-                            </button>
-                            <!-- 파일표기[E] -->
-                        </span>
+            <!-- 프로젝트 유형 -->
+            <div class="card col-12">
+                <div class="card-inner">
+                    <div class="ui innerContent">
+                        <div class="title">프로젝트 유형</div>
+                        <div class="card-body">
+                            <input type="hidden" name="projectTag" id="projectTag" value="{{ projectTag }}"/>
+                            {% for tag in tagList %}
+                            <div class="ui checkbox hashTag">
+                                <input type="checkbox" class="hidden hashChk" name="hashTag" value="{{ tag.tagId }}">
+                                <label class="hasgTagName">{{ tag.tagName }}</label>
+                            </div>
+                            {% endfor %}
+                        </div>
                     </div>
-                    <span class="guideText">1개의 이미지 파일만 등록 가능합니다. (380x250)</span>
                 </div>
+            </div>
 
-                <!-- 버튼 -->
-                <div class="ui right aligned header">
-                    <a href="/admin/project" class="ui button grey">목록</a>
-                    {% if status == "add" %}
-                    <button class="ui button primary">프로젝트 등록</button>
-                    {% elseif status == "edit" %}
-                    <button class="ui button primary">프로젝트 수정</button>
-                    {% endif %}
+            <div class="card col-12">
+                <div class="card-inner">
+                    <!-- 썸네일 첨부파일 -->
+                    <div class="ui innerContent">
+                        <div class="title">썸네일 이미지 첨부파일</div>
+                        <div class="card-body">
+                            <input type="file" name="thumbnail" id="thumbnail" accept="image/gif,image/jpeg,image/png"
+                                   value="/images/{{ project.thumbnail_img }}">
+                            <label for="thumbnail" class="ui button black">첨부파일</label>
+                            <span class="fileList" id="thumbnailTxt">
+                            </span>
+                        </div>
+                        <span class="guideText">1개의 이미지 파일만 등록 가능합니다. (380x250)</span>
+                    </div>
+
+                    <!-- 버튼 -->
+                    <div class="ui right aligned header">
+                        <a href="/admin/project" class="ui button grey">목록</a>
+                        {% if project != null %}
+                        <button class="ui button primary" id="btnUpdate">프로젝트 수정</button>
+                        {% else %}
+                        <button class="ui button primary" id="btnRegist">프로젝트 등록</button>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 </div>
 {% endblock %}
 
@@ -135,6 +115,17 @@
     $(document).ready(function () {
         $('input[type=file]').on('change', function(e){
             fileCheck(e);
+        });
+
+        $("#btnRegist, #btnUpdate").on('click', function() {
+            if (validation()) {
+               $("#projectForm").submit();
+            };
+        });
+
+        $("#deleteProject").on('click', function() {
+            $("#projectForm").attr("action", "/admin/deleteProject");
+            $("#projectForm").submit();
         });
 
         $(".datepicker").datepicker({
@@ -158,7 +149,9 @@
             showMonthAfterYear: true,
             /*showAnim: "slideDown",*/
             yearSuffix: "년"
-        })
+        });
+
+        setData();
     });
     function fileCheck(e) {
         var target = e.target;
@@ -174,6 +167,43 @@
         var parentEl = e.closest('.card-body');
         $(parentEl).find('span').empty();
         $(parentEl).find($('input[type=file]')).val("");
+    }
+
+    function validation() {
+        var projectTagList = new Array();
+        $('input:checkbox[name=hashTag]:checked').each(function(){
+           projectTagList.push($(this).val());
+        });
+
+        $("#projectTag").val(projectTagList);
+    }
+
+    function setData() {
+        // 프로젝트 유형
+        var projectTag = $("#projectTag").val().split(',');
+        projectTag.forEach(function(projectTag){
+            $('input:checkbox[name=hashTag]').each(function() {
+                if($(this).val() == projectTag) {
+                    $(this).parent('div').addClass("checked");
+                    $(this).attr("checked", true);
+                }
+            });
+        });
+
+        // 썸네일 txt
+        var projectId = '{{ project.id }}';
+        if (projectId != null || projectId != 0) {
+            // 썸네일 이미지 첨부파일 txt
+            var thumbnailTxt = '';
+            var thumbnail_img = '{{ project.ori_thumbnail_img }}';
+            if (thumbnail_img != '') {
+                thumbnailTxt += '<label>' + thumbnail_img + '</label>';
+                thumbnailTxt += '<button class="delete" onclick="fileDelete(this);">';
+                thumbnailTxt += '<i class="icon close"></i>';
+                thumbnailTxt += '</button>';
+                $("#thumbnailTxt").html(thumbnailTxt);
+            }
+        }
     }
 </script>
 {% endblock %}

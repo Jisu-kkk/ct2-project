@@ -105,4 +105,67 @@
          LIMIT #{pagination.startIndex}, #{pagination.pageSize} -- 페이징
     </select>
 
+    <select id="selectProject" parameterType="int" resultType="map">
+        SELECT pj.id
+             , pj.client_name
+             , pj.name
+             , DATE_FORMAT(pj.finish_date, '%Y.%m.%d') AS finish_date
+             , CONCAT(f.original_name, f.`type`) AS ori_thumbnail_img
+             , CONCAT(f.name, f.`type`) AS thumbnail_img
+          FROM project pj
+          JOIN file f
+            ON f.id = pj.file_id
+         WHERE pj.id = #{projectId}
+    </select>
+
+    <select id="selectProjectTagList" parameterType="int" resultType="int">
+        SELECT t.tag_id
+          FROM project_tag pt
+     LEFT JOIN tag t
+            ON t.tag_id = pt.tag_id
+         WHERE pt.project_id = #{projectId}
+    </select>
+
+    <insert id="insertProject" parameterType="map">
+        <selectKey keyProperty="projectId" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO project
+                  ( client_name
+                  , name
+                  , finish_date
+                  , is_use
+                  , is_delete
+                  , create_user
+                  , create_datetime
+                  , update_user
+                  , update_datetime
+                  , file_id
+                  , organization_code
+                  )
+             VALUES
+                  ( #{clientName}
+                  , #{serviceName}
+                  , #{finishDate}
+                  , #{showStatus}
+                  , 0
+                  , #{userVo.id}
+                  , SYSDATE()
+                  , #{userVo.id}
+                  , SYSDATE()
+                  , #{thumbnailNo}
+                  , #{userVo.organizationCode}
+                  )
+    </insert>
+
+    <insert id="insertProjectTag" parameterType="map">
+        INSERT INTO project_tag
+                  ( project_id
+                  , tag_id )
+             VALUES
+                  ( #{projectId}
+                  , #{tag_id}
+                  )
+    </insert>
+
 </mapper>

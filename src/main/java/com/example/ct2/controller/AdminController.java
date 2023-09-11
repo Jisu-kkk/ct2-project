@@ -177,8 +177,11 @@ public class AdminController {
     public String project(@RequestParam(required = false) Map<String, Object> param,
                           @RequestParam(defaultValue = "1") int curPage,
                           Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserVo userVo = (UserVo) authentication.getPrincipal();
+
+        param.put("orgCode", userVo.getOrganizationCode());
         param.put("tagType", "BO001");
-        param.put("orgCode", "BS003002");
 
         // 프로젝트 유형 전체
         List<Map<String, Object>> tagList = commonService.selectTagList(param);
@@ -202,15 +205,65 @@ public class AdminController {
 
     @GetMapping("/addProject")
     public String addProject(Model model) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("tagType", "BO001");
+        // 프로젝트 유형 전체
+        List<Map<String, Object>> tagList = commonService.selectTagList(param);
+
         model.addAttribute("status", "add");
+        model.addAttribute("tagList", tagList);
         return "admin/project/projectDetail";
+    }
+
+    @PostMapping("/addProject")
+    public String addProjectPost(@RequestParam Map<String, Object> param,
+                                 @RequestParam MultipartFile thumbnail,
+                                 HttpServletRequest request,
+                                 Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserVo userVo = (UserVo) authentication.getPrincipal();
+
+        // 사용여부
+        String showStatus = (String) param.get("showStatus");
+        if (showStatus != null) {
+            param.put("showStatus", 1);
+        }
+        param.put("thumbnail_img", thumbnail);
+        param.put("userVo", userVo);
+
+        int result = projectMngService.insertProject(param);
+
+        return "redirect:/" + "admin/project";
     }
 
     @GetMapping("/editProject")
     public String editProject(@RequestParam int projectId,
                               Model model) {
-        model.addAttribute("status", "edit");
+        Map<String, Object> param = new HashMap<>();
+        param.put("tagType", "BO001");
+
+        Map<String, Object> project = projectMngService.selectProject(projectId);
+        List<Integer> projectTagList = projectMngService.selectProjectTagList(projectId);
+        String projectTag = "";
+        for (int i = 0; i < projectTagList.size(); i++) {
+            if (i != 0) {
+                projectTag += ",";
+            }
+            projectTag += projectTagList.get(i);
+        }
+
+        List<Map<String, Object>> tagList = commonService.selectTagList(param);
+
+        model.addAttribute("project", project);
+        model.addAttribute("projectTagList", projectTagList);
+        model.addAttribute("projectTag", projectTag);
+        model.addAttribute("tagList", tagList);
         return "admin/project/projectDetail";
+    }
+
+    @PostMapping("/deleteProject")
+    public String deleteProject(@RequestParam Map<String, Object> param) {
+        return "redirect:/" + "admin/project";
     }
 
     @GetMapping("/editWiki")
