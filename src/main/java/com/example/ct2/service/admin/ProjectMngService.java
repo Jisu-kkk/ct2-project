@@ -88,4 +88,21 @@ public class ProjectMngService {
         return result;
     }
 
+    @Transactional
+    public int deleteProject(Map<String, Object> param) {
+        int result = -1;
+
+        int projectId = ((Long) param.get("id")).intValue();
+        param.put("projectId", projectId);
+
+        int deleteProjectTag = projectMngMapper.deleteProjectTag(param);
+        if (deleteProjectTag > 0) {
+            int delProject = projectMngMapper.deleteProject(param);
+            if (delProject > 0) {
+                fileService.deleteFile((Long) param.get("file_id"));
+            }
+        }
+        return result;
+    }
+
 }

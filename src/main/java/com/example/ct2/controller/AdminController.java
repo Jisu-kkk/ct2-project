@@ -278,7 +278,12 @@ public class AdminController {
     }
 
     @PostMapping("/deleteProject")
-    public String deleteProject(@RequestParam Map<String, Object> param) {
+    public String deleteProject(@RequestParam Map<String, Object> param,
+                                Model model) {
+        int projectId = Integer.parseInt((String) param.get("projectId"));
+        Map<String, Object> selectProject = projectMngService.selectProject(projectId);
+        projectMngService.deleteProject(selectProject);
+
         return "redirect:/" + "admin/project";
     }
 
