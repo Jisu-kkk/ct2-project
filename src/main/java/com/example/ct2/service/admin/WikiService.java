@@ -76,7 +76,7 @@ public class WikiService {
         MultipartFile titleImg = (MultipartFile) param.get("title_img");
 
         int updateThumbnail = fileService.updateFile(thumbnail, ((Long)selectWiki.get("thumbnailNo")).intValue());
-        int updateTitleImg = fileService.updateFile(titleImg, ((Long)selectWiki.get("thumbnailNo")).intValue());
+        int updateTitleImg = fileService.updateFile(titleImg, ((Long)selectWiki.get("titleImgNo")).intValue());
 
         // 이미지 수정
         if (updateThumbnail > 0 && updateTitleImg > 0) {

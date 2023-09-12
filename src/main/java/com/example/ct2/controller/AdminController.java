@@ -261,6 +261,22 @@ public class AdminController {
         return "admin/project/projectDetail";
     }
 
+    @PostMapping("/editProject")
+    public String editProjectPost(@RequestParam Map<String, Object> param,
+                                  @RequestParam MultipartFile thumbnail) {
+        // 사용여부
+        String showStatus = (String) param.get("showStatus");
+        if (showStatus != null) {
+            param.put("showStatus", 1);
+        }
+
+        param.put("thumbnail_img", thumbnail);
+
+        projectMngService.updateProject(param);
+
+        return "redirect:/" + "admin/project";
+    }
+
     @PostMapping("/deleteProject")
     public String deleteProject(@RequestParam Map<String, Object> param) {
         return "redirect:/" + "admin/project";

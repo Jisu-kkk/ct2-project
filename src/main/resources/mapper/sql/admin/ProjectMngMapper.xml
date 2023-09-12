@@ -112,6 +112,8 @@
              , DATE_FORMAT(pj.finish_date, '%Y.%m.%d') AS finish_date
              , CONCAT(f.original_name, f.`type`) AS ori_thumbnail_img
              , CONCAT(f.name, f.`type`) AS thumbnail_img
+             , pj.create_user
+             , pj.file_id
           FROM project pj
           JOIN file f
             ON f.id = pj.file_id
@@ -167,5 +169,26 @@
                   , #{tag_id}
                   )
     </insert>
+
+    <update id="updateProject" parameterType="map">
+        UPDATE project
+           SET name = #{serviceName}
+             , client_name = #{clientName}
+             , finish_date = #{finishDate}
+             , is_use = #{showStatus}
+             , update_datetime = SYSDATE()
+         WHERE id = #{projectId}
+    </update>
+
+    <delete id="deleteProjectTag" parameterType="map">
+        DELETE FROM project_tag WHERE project_id = #{projectId}
+    </delete>
+
+    <delete id="deleteProject" parameterType="map">
+        UPDATE project
+           SET is_delete = 1
+             , file_id = 0
+         WHERE id = #{projectId}
+    </delete>
 
 </mapper>

@@ -60,4 +60,32 @@ public class ProjectMngService {
         return projectMngMapper.selectProjectTagList(projectId);
     }
 
+    @Transactional
+    public int updateProject(Map<String, Object> param) {
+        int result = -1;
+        int updateProject = -1;
+
+        Map<String, Object> selectProject = selectProject(Integer.parseInt((String)param.get("projectId")));
+        MultipartFile thumbnail = (MultipartFile) param.get("thumbnail_img");
+
+        int updateThumbnail = fileService.updateFile(thumbnail, ((Long)selectProject.get("file_id")).intValue());
+
+        if (updateThumbnail > 0) {
+            updateProject = projectMngMapper.updateProject(param);
+        }
+
+        if (updateProject > 0) {
+            int deleteTag = projectMngMapper.deleteProjectTag(param);
+            if (deleteTag > 0) {
+                String[] tagList = ((String) param.get("projectTag")).split(",");
+                for (String tag : tagList) {
+                    param.put("tag_id", tag);
+                    param.put("project_id", param.get("projectId"));
+                    projectMngMapper.insertProjectTag(param);
+                }
+            }
+        }
+        return result;
+    }
+
 }
