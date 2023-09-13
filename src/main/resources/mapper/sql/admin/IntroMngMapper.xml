@@ -28,4 +28,49 @@
         ORDER BY A.depth ASC
     </select>
 
+    <select id="selectIntro" resultType="map" parameterType="map">
+        SELECT intro.id
+             , intro.title
+             , intro.content
+             , intro.location
+             , intro.file_id
+             , CONCAT(f.original_name, f.`type`) AS ori_thumbnail_img
+             , CONCAT(f.name, f.`type`) AS thumbnail_img
+          FROM intro
+          JOIN file f
+            ON f.id = intro.file_id
+         WHERE intro.id = #{introId}
+    </select>
+
+    <update id="updateIntroDepth" parameterType="map">
+        UPDATE intro
+           SET `depth` = #{depth}
+         WHERE id = #{id}
+    </update>
+
+    <insert id="insertIntro" parameterType="map">
+        <selectKey resultType="int" keyProperty="depth" order="BEFORE">
+            SELECT (MAX(depth) + 1) FROM intro WHERE organization_code = #{orgCode}
+        </selectKey>
+        INSERT INTO intro
+                  ( organization_code
+                  , title
+                  , content
+                  , depth
+                  , file_id
+                  , is_use
+                  , is_delete
+                  , location
+                  )
+             VALUES
+                  ( #{orgCode}
+                  , #{title}
+                  , #{content}
+                  , #{depth}
+                  , #{thumbnailNo}
+                  , #{showStatus}
+                  , 0
+                  , #{align}
+                  )
+    </insert>
 </mapper>

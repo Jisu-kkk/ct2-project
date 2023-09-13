@@ -12,4 +12,10 @@ public interface IntroMngMapper {
 
     List<Map<String, Object>> selectIntroList(Map<String, Object> org);
 
+    Map<String, Object> selectIntro(Map<String, Object> param);
+
+    int updateIntroDepth(Map<String, Object> param);
+
+    int insertIntro(Map<String, Object> param);
+
 }

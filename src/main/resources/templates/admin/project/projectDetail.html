@@ -120,7 +120,7 @@
         $("#btnRegist, #btnUpdate").on('click', function() {
             if (validation()) {
                $("#projectForm").submit();
-            };
+            }
         });
 
         $("#deleteProject").on('click', function() {
@@ -199,7 +199,7 @@
             if (thumbnail_img != '') {
                 thumbnailTxt += '<label>' + thumbnail_img + '</label>';
                 thumbnailTxt += '<button class="delete" onclick="fileDelete(this);">';
-                thumbnailTxt += '<i class="icon close"></i>';
+                thumbnailTxt +=     '<i class="icon close"></i>';
                 thumbnailTxt += '</button>';
                 $("#thumbnailTxt").html(thumbnailTxt);
             }

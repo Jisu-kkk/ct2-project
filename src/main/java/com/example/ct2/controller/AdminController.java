@@ -62,7 +62,7 @@ public class AdminController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserVo userVo = (UserVo) authentication.getPrincipal();
         /*TODO_받아와야하는 부분*/
-        param.put("orgCode", "BS003002");
+        param.put("orgCode", userVo.getOrganizationCode());
 
         /*Wiki Count*/
         int wikiShowCnt = commonService.selectWikiListCnt(param, "1");
@@ -86,8 +86,10 @@ public class AdminController {
 
     @GetMapping("/intro")
     public String intro(Model model, Map<String, Object> param) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserVo userVo = (UserVo) authentication.getPrincipal();
         /*TODO_받아와야하는 부분*/
-        param.put("orgCode", "BS003002");
+        param.put("orgCode", userVo.getOrganizationCode());
 
         /*본부소개*/
         List<Map<String, Object>> introList = introMngService.selectIntroList(param);
@@ -97,16 +99,62 @@ public class AdminController {
         return "admin/intro/intro";
     }
 
+    @ResponseBody
+    @PostMapping("/updateIntroDepth")
+    public Map<String, Object> updateIntroDepth(@RequestBody Map<String, Object> param) {
+        Map<String, Object> result = new HashMap<>();
+
+        List<String> depthList = (List<String>) param.get("depthList");
+        introMngService.updateIntroDepth(depthList);
+
+        return result;
+    }
+
     @GetMapping("/addIntro")
     public String addIntro(Model model) {
         model.addAttribute("status", "add");
         return "admin/intro/introDetail";
     }
 
+    @PostMapping("/addIntro")
+    public String addIntroPost(@RequestParam Map<String, Object> param,
+                               @RequestParam MultipartFile thumbnail) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserVo userVo = (UserVo) authentication.getPrincipal();
+
+        String showStatus = (String) param.get("showStatus");
+        if (showStatus != null) {
+            param.put("showStatus", 1);
+        }
+        param.put("orgCode", userVo.getOrganizationCode());
+        param.put("thumbnail_img", thumbnail);
+
+        introMngService.insertIntro(param);
+
+        return "redirect:/" + "admin/intro";
+    }
+
     @GetMapping("/editIntro")
-    public String editIntro(Model model) {
+    public String editIntro(@RequestParam int introId,
+                            Model model) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("introId", introId);
+
+        Map<String, Object> intro = introMngService.selectIntro(param);
+
         model.addAttribute("status", "edit");
+        model.addAttribute("intro", intro);
         return "admin/intro/introDetail";
+    }
+
+    @PostMapping("/editIntro")
+    public String editIntroPost(@RequestParam Map<String, Object> param,
+                                @RequestParam MultipartFile thumbnail) {
+
+        System.out.println(param);
+
+        return "redirect:/" + "admin/intro";
     }
 
     @GetMapping("/wikiList")
