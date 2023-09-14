@@ -126,8 +126,10 @@ public class AdminController {
         String showStatus = (String) param.get("showStatus");
         if (showStatus != null) {
             param.put("showStatus", 1);
+        } else {
+            param.put("showStatus", 0);
         }
-        param.put("orgCode", userVo.getOrganizationCode());
+        param.put("userVo", userVo);
         param.put("thumbnail_img", thumbnail);
 
         introMngService.insertIntro(param);
@@ -152,7 +154,9 @@ public class AdminController {
     public String editIntroPost(@RequestParam Map<String, Object> param,
                                 @RequestParam MultipartFile thumbnail) {
 
+        param.put("thumbnail", thumbnail);
         System.out.println(param);
+        introMngService.updateIntro(param);
 
         return "redirect:/" + "admin/intro";
     }
@@ -211,6 +215,8 @@ public class AdminController {
         String showStatus = (String) param.get("showStatus");
         if (showStatus != null) {
             param.put("showStatus", 1);
+        } else {
+            param.put("showStatus", 0);
         }
         param.put("title_img", titleImg);
         param.put("thumbnail_img", thumbnail);
@@ -275,6 +281,8 @@ public class AdminController {
         String showStatus = (String) param.get("showStatus");
         if (showStatus != null) {
             param.put("showStatus", 1);
+        } else {
+            param.put("showStatus", 0);
         }
         param.put("thumbnail_img", thumbnail);
         param.put("userVo", userVo);
@@ -316,6 +324,8 @@ public class AdminController {
         String showStatus = (String) param.get("showStatus");
         if (showStatus != null) {
             param.put("showStatus", 1);
+        } else {
+            param.put("showStatus", 0);
         }
 
         param.put("thumbnail_img", thumbnail);
@@ -370,6 +380,8 @@ public class AdminController {
         String showStatus = (String) param.get("showStatus");
         if (showStatus != null) {
             param.put("showStatus", 1);
+        } else {
+            param.put("showStatus", 0);
         }
 
         param.put("title_img", titleImg);

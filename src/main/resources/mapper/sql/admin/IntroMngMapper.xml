@@ -9,7 +9,7 @@
             , A.title
             , A.content
             , A.depth
-            , CASE WHEN A.location = 0 then 0 ELSE 1 END AS location
+            , A.location
             , CONCAT(B.original_name, type) AS oriFileName
             , CONCAT(B.name, type) AS fileName
         FROM (
@@ -19,7 +19,6 @@
                 intro
             WHERE 1 = 1
                 AND organization_code = #{orgCode}
-                AND is_use = 1
                 AND is_delete = 0
         ) A
         LEFT JOIN file B
@@ -36,6 +35,7 @@
              , intro.file_id
              , CONCAT(f.original_name, f.`type`) AS ori_thumbnail_img
              , CONCAT(f.name, f.`type`) AS thumbnail_img
+             , intro.create_user
           FROM intro
           JOIN file f
             ON f.id = intro.file_id
@@ -50,27 +50,42 @@
 
     <insert id="insertIntro" parameterType="map">
         <selectKey resultType="int" keyProperty="depth" order="BEFORE">
-            SELECT (MAX(depth) + 1) FROM intro WHERE organization_code = #{orgCode}
+            SELECT (MAX(depth) + 1) FROM intro WHERE organization_code = #{userVo.organizationCode}
         </selectKey>
         INSERT INTO intro
                   ( organization_code
                   , title
                   , content
-                  , depth
+                  , `depth`
                   , file_id
-                  , is_use
                   , is_delete
                   , location
+                  , create_user
+                  , create_datetime
+                  , update_user
+                  , update_datetime
                   )
              VALUES
-                  ( #{orgCode}
+                  ( #{userVo.organizationCode}
                   , #{title}
                   , #{content}
                   , #{depth}
                   , #{thumbnailNo}
-                  , #{showStatus}
                   , 0
                   , #{align}
+                  , #{userVo.id}
+                  , SYSDATE()
+                  , #{userVo.id}
+                  , SYSDATE()
                   )
     </insert>
+
+    <update id="updateIntro" parameterType="map">
+        UPDATE intro
+           SET title = #{title}
+             , content = #{content}
+             , location = #{align}
+             , update_datetime = SYSDATE()
+         WHERE id = #{introId}
+    </update>
 </mapper>

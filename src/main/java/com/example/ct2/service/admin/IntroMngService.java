@@ -54,4 +54,17 @@ public class IntroMngService {
         }
         return result;
     }
+
+    @Transactional
+    public int updateIntro(Map<String, Object> param) {
+        int result = -1;
+
+        MultipartFile thumbnail = (MultipartFile) param.get("thumbnail");
+
+        int updateThumbnail = fileService.updateFile(thumbnail, Integer.parseInt((String) param.get("file_id")));
+        if(updateThumbnail > 0) {
+            result = introMngMapper.updateIntro(param);
+        }
+        return result;
+    }
 }

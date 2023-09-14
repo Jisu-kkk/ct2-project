@@ -85,7 +85,6 @@ $(document).ready(function () {
 });
 
 function saveDepth(depthList) {
-  console.log(depthList);
   $.ajax({
     url : "/admin/updateIntroDepth",
     data : JSON.stringify({'depthList' : depthList}),
