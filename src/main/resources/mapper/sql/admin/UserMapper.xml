@@ -10,9 +10,12 @@
              , gu.mobile_phone AS phone
              , gu.name AS userName
              , gu.organization_code AS organizationCode
+             , o.name AS orgName
           FROM groupware.basic_account bc
           JOIN groupware.user gu
             ON gu.id = bc.user_id
+          JOIN organization o
+            ON o.code = gu.organization_code
          WHERE bc.email = #{email}
     </select>
 

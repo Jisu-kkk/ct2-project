@@ -12,7 +12,6 @@
                 SELECT *
                   FROM intro
                  WHERE organization_code = #{orgCode}
-                   AND is_use = 1
                    AND is_delete = 0
               ORDER BY depth DESC
                ) intro

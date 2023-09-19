@@ -11,4 +11,5 @@ public class UserVo {
     private String phone;
     private String userName;
     private String organizationCode;
+    private String orgName;
 }

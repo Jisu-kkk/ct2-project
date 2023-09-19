@@ -52,11 +52,6 @@ public class AdminController {
         return "admin/login/login";
     }
 
-    @PostMapping("/auth")
-    public String auth(Model model) {
-        return "admin/main/index";
-    }
-
     @GetMapping("/index")
     public String home(Model model, Map<String, Object> param) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -80,6 +75,7 @@ public class AdminController {
         model.addAttribute("projectShowCnt", projectShowCnt);
         model.addAttribute("projectHideCnt", projectHideCnt);
         model.addAttribute("introList", introList);
+        model.addAttribute("userVo", userVo);
 
         return "admin/main/index";
     }
