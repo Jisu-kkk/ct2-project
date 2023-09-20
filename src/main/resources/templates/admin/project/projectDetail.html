@@ -6,7 +6,9 @@
         <div class="title">
             {% if project != null %}
             <h2>프로젝트 수정</h2>
-            <button class="ui button red right floated" id="deleteProject">삭제</button>
+                {% if project.create_user == userVo.id %}
+                <button class="ui button red right floated" id="deleteProject">삭제</button>
+                {% endif %}
             {% else %}
             <h2>프로젝트 등록</h2>
             {% endif %}
@@ -98,7 +100,9 @@
                     <div class="ui right aligned header">
                         <a href="/admin/project" class="ui button grey">목록</a>
                         {% if project != null %}
-                        <button class="ui button primary" id="btnUpdate">프로젝트 수정</button>
+                            {% if project.create_user == userVo.id %}
+                                <button class="ui button primary" id="btnUpdate">프로젝트 수정</button>
+                            {% endif %}
                         {% else %}
                         <button class="ui button primary" id="btnRegist">프로젝트 등록</button>
                         {% endif %}

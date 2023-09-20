@@ -302,6 +302,7 @@ public class AdminController {
         model.addAttribute("projectTagList", projectTagList);
         model.addAttribute("projectTag", projectTag);
         model.addAttribute("tagList", tagList);
+        model.addAttribute("userVo", commonService.getUserVo());
         return "admin/project/projectDetail";
     }
 
