@@ -1,5 +1,7 @@
 package com.example.ct2.config;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -21,9 +23,8 @@ public class MyBatisConfig {
     String mPath;
 
     @Bean(name = "dataSource")
-    @ConfigurationProperties(prefix = "spring.datasource")
     public DataSource dataSource() {
-        return DataSourceBuilder.create().build();
+    return new HikariDataSource(hikariConfig());
     }
 
     @Bean(name = "SqlSessionFactory")
@@ -38,4 +39,9 @@ public class MyBatisConfig {
     public SqlSessionTemplate SqlSessionTemplate(@Qualifier("SqlSessionFactory") SqlSessionFactory firstSqlSessionFactory) {
         return new SqlSessionTemplate(firstSqlSessionFactory);
     }
+    @Bean
+        @ConfigurationProperties(prefix = "spring.datasource.hikari")
+        public HikariConfig hikariConfig( ){
+        return new HikariConfig();
+        }
 }

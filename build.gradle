@@ -50,6 +50,8 @@ dependencies {
 
 	// Spring Security 추가
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	compileOnly 'com.zaxxer:HikariCP:3.4.5'
 }
 
 tasks.named('test') {
