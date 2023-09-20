@@ -4,11 +4,13 @@
 <div class="content" id="content">
   <div class="content-header">
     <div class="title">
-      {% if status == "add" %}
-      <h2>본부소개 등록</h2>
-      {% elseif status == "edit" %}
+      {% if intro.id != null %}
       <h2>본부소개 수정</h2>
-      <button class="ui button red right floated">삭제</button>
+        {% if intro.create_user == userVo.id %}
+        <button class="ui button red right floated">삭제</button>
+        {% endif %}
+      {% else %}
+      <h2>본부소개 등록</h2>
       {% endif %}
     </div>
   </div>
@@ -91,10 +93,12 @@
             <!-- 버튼 -->
             <div class="ui right aligned header">
               <a href="/admin/intro" class="ui button grey">목록</a>
-              {% if status == "add" %}
+              {% if intro.id != null %}
+                {% if intro.create_user == userVo.id %}
+                <button class="ui button primary" id="btnUpdate">본부소개 수정</button>
+                {% endif %}
+              {% else %}
               <button class="ui button primary" id="btnRegist">본부소개 등록</button>
-              {% elseif status == "edit" %}
-              <button class="ui button primary" id="btnUpdate">본부소개 수정</button>
               {% endif %}
             </div>
 

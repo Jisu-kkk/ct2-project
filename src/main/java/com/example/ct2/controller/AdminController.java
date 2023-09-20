@@ -54,8 +54,7 @@ public class AdminController {
 
     @GetMapping("/index")
     public String home(Model model, Map<String, Object> param) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserVo userVo = (UserVo) authentication.getPrincipal();
+        UserVo userVo = commonService.getUserVo();
         /*TODO_받아와야하는 부분*/
         param.put("orgCode", userVo.getOrganizationCode());
 
@@ -82,8 +81,7 @@ public class AdminController {
 
     @GetMapping("/intro")
     public String intro(Model model, Map<String, Object> param) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserVo userVo = (UserVo) authentication.getPrincipal();
+        UserVo userVo = commonService.getUserVo();
         /*TODO_받아와야하는 부분*/
         param.put("orgCode", userVo.getOrganizationCode());
 
@@ -116,8 +114,7 @@ public class AdminController {
     public String addIntroPost(@RequestParam Map<String, Object> param,
                                @RequestParam MultipartFile thumbnail) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserVo userVo = (UserVo) authentication.getPrincipal();
+        UserVo userVo = commonService.getUserVo();
 
         String showStatus = (String) param.get("showStatus");
         if (showStatus != null) {
@@ -140,9 +137,10 @@ public class AdminController {
         param.put("introId", introId);
 
         Map<String, Object> intro = introMngService.selectIntro(param);
+        UserVo userVo = commonService.getUserVo();
 
-        model.addAttribute("status", "edit");
         model.addAttribute("intro", intro);
+        model.addAttribute("userVo", userVo);
         return "admin/intro/introDetail";
     }
 
@@ -151,7 +149,6 @@ public class AdminController {
                                 @RequestParam MultipartFile thumbnail) {
 
         param.put("thumbnail", thumbnail);
-        System.out.println(param);
         introMngService.updateIntro(param);
 
         return "redirect:/" + "admin/intro";
@@ -161,8 +158,7 @@ public class AdminController {
     public String wikiList(@RequestParam(required = false) Map<String, Object> param,
                            @RequestParam(defaultValue = "1") int curPage,
                            Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserVo userVo = (UserVo) authentication.getPrincipal();
+        UserVo userVo = commonService.getUserVo();
         param.put("orgCode", userVo.getOrganizationCode());
 
         param.put("tagType", "BO002");
@@ -204,9 +200,7 @@ public class AdminController {
                               @RequestParam MultipartFile titleImg,
                               HttpServletRequest request,
                               Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserVo userVo = (UserVo) authentication.getPrincipal();
-
+        UserVo userVo = commonService.getUserVo();
         // 사용여부
         String showStatus = (String) param.get("showStatus");
         if (showStatus != null) {
@@ -227,8 +221,7 @@ public class AdminController {
     public String project(@RequestParam(required = false) Map<String, Object> param,
                           @RequestParam(defaultValue = "1") int curPage,
                           Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserVo userVo = (UserVo) authentication.getPrincipal();
+        UserVo userVo = commonService.getUserVo();
 
         param.put("orgCode", userVo.getOrganizationCode());
         param.put("tagType", "BO001");
@@ -270,8 +263,7 @@ public class AdminController {
                                  @RequestParam MultipartFile thumbnail,
                                  HttpServletRequest request,
                                  Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserVo userVo = (UserVo) authentication.getPrincipal();
+        UserVo userVo = commonService.getUserVo();
 
         // 사용여부
         String showStatus = (String) param.get("showStatus");

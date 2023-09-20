@@ -3,7 +3,10 @@ package com.example.ct2.service.Common;
 import com.example.ct2.repo.Common.CommonMapper;
 import com.example.ct2.repo.admin.ProjectMngMapper;
 import com.example.ct2.repo.admin.WikiMapper;
+import com.example.ct2.vo.admin.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -57,6 +60,11 @@ public class CommonService {
 
     public Map<String, Object> selectOrgUserProfileOne(Map<String, Object> param) {
         return commonMapper.selectOrgUserProfileOne(param);
+    }
+
+    public UserVo getUserVo() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return (UserVo) authentication.getPrincipal();
     }
 
 }
