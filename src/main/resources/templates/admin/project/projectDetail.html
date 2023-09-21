@@ -90,8 +90,7 @@
                             <input type="file" name="thumbnail" id="thumbnail" accept="image/gif,image/jpeg,image/png"
                                    value="/images/{{ project.thumbnail_img }}">
                             <label for="thumbnail" class="ui button black">첨부파일</label>
-                            <span class="fileList" id="thumbnailTxt">
-                            </span>
+                            <span class="fileList" id="thumbnailTxt"></span>
                         </div>
                         <span class="guideText">1개의 이미지 파일만 등록 가능합니다. (380x250)</span>
                     </div>
@@ -101,10 +100,10 @@
                         <a href="/admin/project" class="ui button grey">목록</a>
                         {% if project != null %}
                             {% if project.create_user == userVo.id %}
-                                <button class="ui button primary" id="btnUpdate">프로젝트 수정</button>
+                                <button type="button" class="ui button primary" id="btnUpdate">프로젝트 수정</button>
                             {% endif %}
                         {% else %}
-                        <button class="ui button primary" id="btnRegist">프로젝트 등록</button>
+                        <button type="button" class="ui button primary" id="btnRegist">프로젝트 등록</button>
                         {% endif %}
                     </div>
                 </div>
@@ -174,12 +173,39 @@
     }
 
     function validation() {
+
+        if ($("input[name=serviceName]").val() == '') {
+            alert("서비스명을 입력해주세요.");
+            return false;
+        }
+
+        if ($("input[name=clientName]").val() == '') {
+            alert("고객사명을 입력해주세요.");
+            return false;
+        }
+
+        if ($("input[name=finishDate]").val() == '') {
+            alert("수행 완료일을 입력해주세요.");
+            return false;
+        }
+
         var projectTagList = new Array();
         $('input:checkbox[name=hashTag]:checked').each(function(){
            projectTagList.push($(this).val());
         });
 
         $("#projectTag").val(projectTagList);
+        if ($("#projectTag").val() =='') {
+            alert("프로젝트 유형을 선택해주세요.");
+            return false;
+        }
+
+        if ($("#thumbnailTxt").html() == '') {
+            alert("썸네일 이미지를 첨부해주세요.");
+            return false;
+        }
+
+        return true;
     }
 
     function setData() {
