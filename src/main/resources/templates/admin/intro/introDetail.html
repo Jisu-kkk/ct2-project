@@ -48,7 +48,7 @@
               <div class="title">타이틀</div>
               <div class="card-body">
                 <div class="ui input">
-                  <input type="text" name="title" placeholder="타이틀을 입력해주세요." value="{{ intro.title }}">
+                  <input type="text" name="title" placeholder="타이틀을 입력해주세요." value="{{ intro.title }}" maxlength="100">
                 </div>
               </div>
             </div>
@@ -59,7 +59,7 @@
               <div class="card-body">
                 <div class="ui form">
                   <div class="field">
-                    <textarea name="content" rows="5" placeholder="타이틀에 대한 부가설명을 입력해주세요.">{{ intro.content }}</textarea>
+                    <textarea name="content" rows="5" placeholder="타이틀에 대한 부가설명을 입력해주세요." maxlength="200">{{ intro.content }}</textarea>
                   </div>
                 </div>
               </div>

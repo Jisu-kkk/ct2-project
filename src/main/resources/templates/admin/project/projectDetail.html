@@ -35,7 +35,7 @@
                             <div class="title">서비스명</div>
                             <div class="card-body">
                                 <div class="ui input">
-                                    <input type="text" name="serviceName" placeholder="서비스명을 입력해주세요." value="{{ project.name }}">
+                                    <input type="text" name="serviceName" placeholder="서비스명을 입력해주세요." value="{{ project.name }}" maxlength="100">
                                 </div>
                             </div>
                         </div>
@@ -45,7 +45,7 @@
                             <div class="title">고객사명</div>
                             <div class="card-body">
                                 <div class="ui input">
-                                    <input type="text" name="clientName" placeholder="고객사명을 입력해주세요." value="{{ project.client_name }}">
+                                    <input type="text" name="clientName" placeholder="고객사명을 입력해주세요." value="{{ project.client_name }}" maxlength="100">
                                 </div>
                             </div>
                         </div>
