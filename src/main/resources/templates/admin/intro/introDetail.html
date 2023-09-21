@@ -72,20 +72,7 @@
                 <input type="hidden" name="file_id" value="{{ intro.file_id }}">
                 <input type="file" name="thumbnail" id="thumbnail" accept="image/gif,image/jpeg,image/png" value="/images/{{ intro.thumbnail_img }}">
                 <label for="thumbnail" class="ui button black">첨부파일</label>
-                <span class="fileList">
-                  {% if intro != null %}
-                  <label>{{ intro.ori_thumbnail_img }}</label>
-                  <button class="delete" onclick="fileDelete(this);">
-                    <i class="icon close"></i>
-                  </button>
-                  {% endif %}
-                  <!-- 파일표기[S] -->
-                  <!--<label>wallpaper_20220411180152_2880_1880_sunset.jpg</label>
-                  <button class="delete" onclick="fileDelete(this);">
-                      <i class="icon close"></i>
-                  </button>-->
-                  <!-- 파일표기[E] -->
-                </span>
+                <span class="fileList" id="thumbnailTxt"></span>
               </div>
               <span class="guideText">1개의 이미지 파일만 등록 가능합니다. (450x230)</span>
             </div>
@@ -95,10 +82,10 @@
               <a href="/admin/intro" class="ui button grey">목록</a>
               {% if intro.id != null %}
                 {% if intro.create_user == userVo.id %}
-                <button class="ui button primary" id="btnUpdate">본부소개 수정</button>
+                <button type="button" class="ui button primary" id="btnUpdate">본부소개 수정</button>
                 {% endif %}
               {% else %}
-              <button class="ui button primary" id="btnRegist">본부소개 등록</button>
+              <button type="button" class="ui button primary" id="btnRegist">본부소개 등록</button>
               {% endif %}
             </div>
 
@@ -114,9 +101,6 @@
 <script type="text/javascript">
 /* file[S] */
 $(document).ready(function () {
-  $('input[type=file]').on('change', function(e){
-    fileCheck(e);
-  });
 
   $("#btnRegist, #btnUpdate").on('click', function() {
     if (validation()) {
@@ -129,11 +113,29 @@ $(document).ready(function () {
     $("#introForm").submit();
   });
 
+  $('input[type=file]').on('change', function(e){
+    fileCheck(e);
+  });
+
   setData();
 });
 
 function validation() {
+  if ($('input[name=title]').val() == '') {
+    alert("제목을 입력해주세요.");
+    return false;
+  }
 
+  if ($('textarea[name=content]').val() == '') {
+    alert("부가설명을 입력해주세요.");
+    return false;
+  }
+
+  if ($("#thumbnailTxt").html() == '') {
+    alert("썸네일 이미지를 첨부해주세요.");
+    return false;
+  }
+  return true;
 }
 
 function fileCheck(e) {
@@ -159,6 +161,16 @@ function setData() {
       $(this).prop('checked', true);
     }
   });
+
+  var thumbnailTxt = "";
+  var thumbnail_img = '{{ intro.ori_thumbnail_img }}';
+  if (thumbnail_img != '') {
+    thumbnailTxt += '<label>' + thumbnail_img + '</label>';
+    thumbnailTxt += '<button class="delete" onclick="fileDelete(this);">';
+    thumbnailTxt +=   '<i class="icon close"></i>';
+    thumbnailTxt += '</button>';
+    $("#thumbnailTxt").html(thumbnailTxt);
+  }
 }
 /* file[E] */
 </script>
