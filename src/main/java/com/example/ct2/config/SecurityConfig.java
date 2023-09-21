@@ -4,8 +4,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Configuration
 public class SecurityConfig{
@@ -37,13 +46,30 @@ public class SecurityConfig{
             .usernameParameter("email")	// login에 필요한 id 값을 email로 설정 (default는 username)
             .passwordParameter("password")	// login에 필요한 password 값을 password(default)로 설정
             .defaultSuccessUrl("/admin/index")	// login에 성공하면 /admin/index로 redirect
-            .failureUrl("/admin/login");
+            .successHandler(new AuthenticationSuccessHandler() {
+                @Override
+                public void onAuthenticationSuccess(HttpServletRequest httpServletRequest,
+                                                    HttpServletResponse response,
+                                                    Authentication authentication) throws IOException, ServletException {
+                    System.out.println("authentication:: "+ authentication.getName());
+                    response.sendRedirect("/admin/index");
+                }
+            })
+            .failureHandler(new AuthenticationFailureHandler() {
+                @Override
+                public void onAuthenticationFailure(HttpServletRequest httpServletRequest,
+                                                    HttpServletResponse response,
+                                                    AuthenticationException e) throws IOException, ServletException {
+                    System.out.println("exception:: "+e.getMessage());
+                    response.sendRedirect("/admin/login?error=true");
+                }
+            })
+            .failureUrl("/admin/login?error=true");
 
         // logout 설정
         http
             .logout()
-            .logoutUrl("/admin/logout")
-            .logoutSuccessUrl("/admin/login");
+            .logoutUrl("/admin/logout");
         return http.build();
     }
 }

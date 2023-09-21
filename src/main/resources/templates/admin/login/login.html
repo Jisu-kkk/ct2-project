@@ -36,7 +36,11 @@
           </div>
           <div class="ui fluid large red submit button" id="login">Login</div>
         </div>
-        <div class="ui error message"></div>
+        {% if error != null %}
+        <div class="ui error message" style="display : block;">
+          아이디 혹은 비밀번호가 틀렸습니다.
+        </div>
+        {% endif %}
       </form>
     </div>
   </div>
@@ -62,9 +66,15 @@
     function validation() {
       var email = $("input[name=email]").val();
       var pwd = $("input[name=password]").val();
+      var regExp = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.[a-zA-Z]{2,4}$/;
 
       if (email == '' || email.length == 0) {
         alert("이메일을 입력해 주세요.");
+        return false;
+      }
+
+      if (!regExp.test(email)) {
+        alert("이메일 형식이 아닙니다.");
         return false;
       }
 

@@ -48,7 +48,14 @@ public class AdminController {
     private FileService fileService;
 
     @GetMapping("/login")
-    public String login(Model model) {
+    public String login(@RequestParam(required = false) String error,
+                        Model model) {
+        model.addAttribute("error", error);
+        return "admin/login/login";
+    }
+
+    @GetMapping("/logout")
+    public String logout(Model model) {
         return "admin/login/login";
     }
 
