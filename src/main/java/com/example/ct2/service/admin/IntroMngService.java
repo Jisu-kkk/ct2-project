@@ -67,4 +67,20 @@ public class IntroMngService {
         }
         return result;
     }
+
+    @Transactional
+    public int deleteIntro(Map<String, Object> param) {
+        int result = -1;
+
+        Long introId = (Long) param.get("introId");
+        if (introId == null) {
+            param.put("introId", param.get("id"));
+        }
+
+        int deleteIntro = introMngMapper.deleteIntro(param);
+        if (deleteIntro > 0) {
+            fileService.deleteFile((Long) param.get("file_id"));
+        }
+        return result;
+    }
 }

@@ -4,18 +4,25 @@
 <mapper namespace="com.example.ct2.repo.IntroMapper">
 
     <select id="selectIntroList" resultType="map" parameterType="map">
-        SELECT title
-             , content
-             , CONCAT(original_name, type) AS oriFileName
-             , CONCAT(name, type) AS fileName
-          FROM (
-                SELECT *
-                  FROM intro
-                 WHERE organization_code = #{orgCode}
-                   AND is_delete = 0
-              ORDER BY depth DESC
-               ) intro
-     LEFT JOIN file f
-            ON f.id = intro.file_id
+        SELECT
+            A.id
+            , A.title
+            , A.content
+            , A.depth
+            , A.location
+            , CONCAT(B.original_name, type) AS oriFileName
+            , CONCAT(B.name, type) AS fileName
+        FROM (
+            SELECT
+                *
+            FROM
+                intro
+            WHERE 1 = 1
+                AND organization_code = #{orgCode}
+                AND is_delete = 0
+        ) A
+        LEFT JOIN file B
+        ON B.id = A.file_id
+        ORDER BY A.depth ASC
     </select>
 </mapper>

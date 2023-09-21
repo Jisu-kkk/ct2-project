@@ -7,7 +7,7 @@
       {% if intro.id != null %}
       <h2>본부소개 수정</h2>
         {% if intro.create_user == userVo.id %}
-        <button class="ui button red right floated">삭제</button>
+        <button class="ui button red right floated" id="deleteIntro">삭제</button>
         {% endif %}
       {% else %}
       <h2>본부소개 등록</h2>
@@ -123,6 +123,12 @@ $(document).ready(function () {
       $("#introForm").submit();
     }
   });
+
+  $("#deleteIntro").on('click', function() {
+    $("#introForm").attr("action", "/admin/deleteIntro");
+    $("#introForm").submit();
+  });
+
   setData();
 });
 

@@ -9,26 +9,26 @@
 
     {% for intro in introList %}
       <div class="row">
-        {% if loop.index % 2 == 0 or loop.index == 0 %}
-          <div class="six wide left floated column img-wrapp">
-            <!--{# img #}-->
-            <img src="../semantic/themes/default/assets/images/ct2-intro-crop-image-{{ loop.index + 1 }}.png" class="ui large bordered rounded image">
-            <!--<img src="/images/{{ intro.fileName }}" class="ui large bordered rounded image">-->
-          </div>
-          <div class="nine wide column">
-            <h3 class="ui header">{{ intro.title }}</h3>
-            <p>{{ intro.content }}</p>
-          </div>
+        {% if intro.location == 1 %}
+        <div class="nine wide column">
+          <h3 class="ui header">{{ intro.title }}</h3>
+          <p>{{ intro.content }}</p>
+        </div>
+        <div class="six wide right floated column img-wrapp">
+          <!--{# img #}-->
+          <img src="../semantic/themes/default/assets/images/ct2-intro-crop-image-{{ loop.index + 1 }}.png" class="ui large bordered rounded image">
+          <!--<img src="/images/{{ intro.fileName }}" class="ui large bordered rounded image">-->
+        </div>
         {% else %}
-          <div class="nine wide column">
-            <h3 class="ui header">{{ intro.title }}</h3>
-            <p>{{ intro.content }}</p>
-          </div>
-          <div class="six wide right floated column img-wrapp">
-            <!--{# img #}-->
-            <img src="../semantic/themes/default/assets/images/ct2-intro-crop-image-{{ loop.index + 1 }}.png" class="ui large bordered rounded image">
-            <!--<img src="/images/{{ intro.fileName }}" class="ui large bordered rounded image">-->
-          </div>
+        <div class="six wide left floated column img-wrapp">
+          <!--{# img #}-->
+          <img src="../semantic/themes/default/assets/images/ct2-intro-crop-image-{{ loop.index + 1 }}.png" class="ui large bordered rounded image">
+          <!--<img src="/images/{{ intro.fileName }}" class="ui large bordered rounded image">-->
+        </div>
+        <div class="nine wide column">
+          <h3 class="ui header">{{ intro.title }}</h3>
+          <p>{{ intro.content }}</p>
+        </div>
         {% endif %}
       </div>
     {% endfor %}

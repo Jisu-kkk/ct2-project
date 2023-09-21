@@ -161,6 +161,16 @@ public class AdminController {
         return "redirect:/" + "admin/intro";
     }
 
+    @PostMapping("/deleteIntro")
+    public String deleteIntro(@RequestParam Map<String, Object> param) {
+        System.out.println(param);
+        int introId = Integer.parseInt((String) param.get("introId"));
+        Map<String, Object> selectIntro = introMngService.selectIntro(param);
+        introMngService.deleteIntro(selectIntro);
+
+        return "redirect:/" + "admin/intro";
+    }
+
     @GetMapping("/wikiList")
     public String wikiList(@RequestParam(required = false) Map<String, Object> param,
                            @RequestParam(defaultValue = "1") int curPage,

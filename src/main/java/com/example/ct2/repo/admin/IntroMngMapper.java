@@ -20,4 +20,6 @@ public interface IntroMngMapper {
 
     int updateIntro(Map<String, Object> param);
 
+    int deleteIntro(Map<String, Object> param);
+
 }
