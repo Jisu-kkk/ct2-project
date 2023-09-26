@@ -24,7 +24,7 @@
                     <div class="row">
                       {% if intro.location == 0 %}
                       <div class="six wide left floated column img-wrapp">
-                        <img class="ui left floated large bordered rounded image" src="../semantic/themes/default/assets/images/ct2-intro-crop-image-{{ intro.id }}.png">
+                        <img class="ui left floated large bordered rounded image" src="/images/{{ intro.fileName }}">
                         <!--<img class="ui left floated large bordered rounded image" src="https://www.emotion.co.kr/pc/img/02_img_02.cd3f8a5d.webp">-->
                         <!--<img class="ui left floated large bordered rounded image" src="/images/{{ intro.fileName }}">-->
                       </div>
@@ -42,7 +42,7 @@
                         <p>{{ intro.content }}</p>
                       </div>
                       <div class="six wide right floated column img-wrapp">
-                        <img class="ui right floated large bordered rounded image" src="../semantic/themes/default/assets/images/ct2-intro-crop-image-{{ intro.id }}.png">
+                        <img class="ui left floated large bordered rounded image" src="/images/{{ intro.fileName }}">
                       </div>
                       {% endif %}
                     </div>

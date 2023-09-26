@@ -7,6 +7,11 @@
             <div class="card-inner clean">
                 <div class="card-body">
                     <h1 class="main-title">{{ userVo.userName }}님 😃<br> 안녕하세요!</h1>
+                    {#
+                    {% if userVo.role_id > 5 %}
+                    <button class="main-button on">프로젝트 문의 현황 보기</button>
+                    {% endif %}
+                    #}
                     <!-- 조직장 -->
                     <!--<button class="main-button on">프로젝트 문의 현황 보기</button>-->
                     <!-- 공통 -->
@@ -96,7 +101,7 @@
                                         <div class="row">
                                         {% if intro.location == 0 %}
                                             <div class="six wide left floated column img-wrapp">
-                                                <img class="ui left floated large bordered rounded image" src="../semantic/themes/default/assets/images/ct2-intro-crop-image-{{ intro.id }}.png">
+                                                <img class="ui left floated large bordered rounded image" src="/images/{{ intro.fileName }}">
                                                 <!--<img class="ui left floated large bordered rounded image" src="https://www.emotion.co.kr/pc/img/02_img_02.cd3f8a5d.webp">-->
                                                 <!--<img class="ui left floated large bordered rounded image" src="/images/{{ intro.fileName }}">-->
                                             </div>
@@ -110,7 +115,7 @@
                                                 <p>{{ intro.content }}</p>
                                             </div>
                                             <div class="six wide right floated column img-wrapp">
-                                                <img class="ui right floated large bordered rounded image" src="../semantic/themes/default/assets/images/ct2-intro-crop-image-{{ intro.id }}.png">
+                                                <img class="ui right floated large bordered rounded image" src="/images/{{ intro.fileName }}">
                                                 <!--<img class="ui right floated large bordered rounded image" src="https://www.emotion.co.kr/pc/img/02_img_03.d71a6f53.webp">-->
                                                 <!--<img class="ui left floated large bordered rounded image" src="/images/{{ intro.fileName }}">-->
                                             </div>

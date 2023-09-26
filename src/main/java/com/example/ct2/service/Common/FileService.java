@@ -66,7 +66,6 @@ public class FileService {
         Map<String, Object> param = new HashMap<>();
 
         param.put("file_id", fileId);
-        Map<String, Object> selectFile = fileMapper.selectFile(param);
 
         String fileRealName = file.getOriginalFilename();
 
@@ -78,11 +77,15 @@ public class FileService {
 
             String fileExtension = fileRealName.substring(fileRealName.lastIndexOf("."),fileRealName.length());
 
-            File saveFile = new File(uploadDir + ((String) selectFile.get("name")) + fileExtension);
+            UUID uuid = UUID.randomUUID();
+            String[] uuids = uuid.toString().split("-");
+            String uniqueName = uuids[0];
+
+            File saveFile = new File(uploadDir + uniqueName + fileExtension);
 
             param.put("file_id", fileId);
             param.put("original_name", realName);
-            param.put("name", selectFile.get("name"));
+            param.put("name", uniqueName);
             param.put("path", uploadDir);
             param.put("type", fileExtension);
             param.put("size", size);
