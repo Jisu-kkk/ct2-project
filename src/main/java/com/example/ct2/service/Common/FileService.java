@@ -39,7 +39,7 @@ public class FileService {
         String[] uuids = uuid.toString().split("-");
         String uniqueName = uuids[0];
 
-        File saveFile = new File(uploadDir+"\\"+uniqueName + fileExtension);
+        File saveFile = new File(uploadDir + uniqueName + fileExtension);
 
         param.put("original_name", realName);
         param.put("name", uniqueName);
@@ -78,7 +78,7 @@ public class FileService {
 
             String fileExtension = fileRealName.substring(fileRealName.lastIndexOf("."),fileRealName.length());
 
-            File saveFile = new File(uploadDir+"\\"+((String) selectFile.get("name")) + fileExtension);
+            File saveFile = new File(uploadDir + ((String) selectFile.get("name")) + fileExtension);
 
             param.put("file_id", fileId);
             param.put("original_name", realName);
