@@ -66,6 +66,7 @@ public class FileService {
         Map<String, Object> param = new HashMap<>();
 
         param.put("file_id", fileId);
+        Map<String, Object> selectFile = fileMapper.selectFile(param);
 
         String fileRealName = file.getOriginalFilename();
 
@@ -82,6 +83,9 @@ public class FileService {
             String uniqueName = uuids[0];
 
             File saveFile = new File(uploadDir + uniqueName + fileExtension);
+            File delFile = new File(uploadDir
+                                    + (String) selectFile.get("name")
+                                    + (String) selectFile.get("type"));
 
             param.put("file_id", fileId);
             param.put("original_name", realName);
@@ -91,8 +95,12 @@ public class FileService {
             param.put("size", size);
 
             try {
-                file.transferTo(saveFile);
-                result = fileMapper.updateFile(param);
+                if (delFile.exists()) {
+                    if (delFile.delete()) {
+                        file.transferTo(saveFile);
+                        result = fileMapper.updateFile(param);
+                    }
+                }
             } catch (IllegalStateException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -113,7 +121,7 @@ public class FileService {
 
         Map<String, Object> selectFile = fileMapper.selectFile(param);
 
-        File delFile = new File(uploadDir + "\\"
+        File delFile = new File(uploadDir
                                 + ((String) selectFile.get("name"))
                                 + ((String) selectFile.get("type")));
 
