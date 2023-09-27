@@ -36,7 +36,7 @@
                                             <i class="dropdown icon"></i>
                                             <div class="default text" id="showStatusTxt">공개여부</div>
                                             <div class="menu">
-                                                <div class="item" name="showStatusValue">전체</div>
+                                                <div class="item" name="showStatusValue" data-value="-1">전체</div>
                                                 <div class="item" name="showStatusValue" data-value="1">공개</div>
                                                 <div class="item" name="showStatusValue" data-value="0">비공개</div>
                                             </div>
@@ -110,7 +110,7 @@
                             <div class="ui pagination menu">
 
                                 {% if pagination.startPage > 1 %}
-                                <a class="icon item" href="/admin/project?curPage={{ pagination.startPage - 1 }}">
+                                <a class="icon item" onclick="paging({{ pagination.startPage - 1 }})">
                                   <i class="left chevron icon"></i>
                                 </a>
                                 {% endif %}
@@ -129,7 +129,7 @@
                                 {% endfor %}
 
                                 {% if pagination.endPage + 1 <= pagination.pageCnt %}
-                                <a class="icon item" href="/admin/project?curPage={{ pagination.endPage + 1 }}">
+                                <a class="icon item" onclick="paging({{ pagination.endPage + 1 }})">
                                   <i class="right chevron icon"></i>
                                 </a>
                                 {% endif %}
