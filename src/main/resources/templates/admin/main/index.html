@@ -90,79 +90,43 @@
                                 <span>자세히 보기 <i class="icon long arrow alternate right"></i></span>
                             </button>
                         </div>
-                    {% for intro in introList %}
-                        {% if loop.length == 0 %}
-                        <h4 class="no-data">작성된 본부소개가 없습니다. 본부소개를 등록해 주세요<span>🤗</span></h4>
+                        {% if introList.size > 0 %}
+                            {% for intro in introList %}
+                            <div class="card-body">
+                                <div class="intro-wrap">
+                                    <div class="intro-con">
+                                        <div class="ui middle aligned stackable grid container">
+                                            <div class="row">
+                                            {% if intro.location == 0 %}
+                                                <div class="six wide left floated column img-wrapp">
+                                                    <img class="ui left floated large bordered rounded image" src="/images/{{ intro.fileName }}">
+                                                    <!--<img class="ui left floated large bordered rounded image" src="https://www.emotion.co.kr/pc/img/02_img_02.cd3f8a5d.webp">-->
+                                                    <!--<img class="ui left floated large bordered rounded image" src="/images/{{ intro.fileName }}">-->
+                                                </div>
+                                                <div class="nine wide column">
+                                                    <h3 class="ui header">{{ intro.title }}</h3>
+                                                    <p>{{ intro.content }}</p>
+                                                </div>
+                                            {% else %}
+                                                <div class="nine wide column">
+                                                    <h3 class="ui header">{{ intro.title }}</h3>
+                                                    <p>{{ intro.content }}</p>
+                                                </div>
+                                                <div class="six wide right floated column img-wrapp">
+                                                    <img class="ui right floated large bordered rounded image" src="/images/{{ intro.fileName }}">
+                                                    <!--<img class="ui right floated large bordered rounded image" src="https://www.emotion.co.kr/pc/img/02_img_03.d71a6f53.webp">-->
+                                                    <!--<img class="ui left floated large bordered rounded image" src="/images/{{ intro.fileName }}">-->
+                                                </div>
+                                            {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
                         {% else %}
-                        <div class="card-body">
-                            <div class="intro-wrap">
-                                <div class="intro-con">
-                                    <div class="ui middle aligned stackable grid container">
-                                        <div class="row">
-                                        {% if intro.location == 0 %}
-                                            <div class="six wide left floated column img-wrapp">
-                                                <img class="ui left floated large bordered rounded image" src="/images/{{ intro.fileName }}">
-                                                <!--<img class="ui left floated large bordered rounded image" src="https://www.emotion.co.kr/pc/img/02_img_02.cd3f8a5d.webp">-->
-                                                <!--<img class="ui left floated large bordered rounded image" src="/images/{{ intro.fileName }}">-->
-                                            </div>
-                                            <div class="nine wide column">
-                                                <h3 class="ui header">{{ intro.title }}</h3>
-                                                <p>{{ intro.content }}</p>
-                                            </div>
-                                        {% else %}
-                                            <div class="nine wide column">
-                                                <h3 class="ui header">{{ intro.title }}</h3>
-                                                <p>{{ intro.content }}</p>
-                                            </div>
-                                            <div class="six wide right floated column img-wrapp">
-                                                <img class="ui right floated large bordered rounded image" src="/images/{{ intro.fileName }}">
-                                                <!--<img class="ui right floated large bordered rounded image" src="https://www.emotion.co.kr/pc/img/02_img_03.d71a6f53.webp">-->
-                                                <!--<img class="ui left floated large bordered rounded image" src="/images/{{ intro.fileName }}">-->
-                                            </div>
-                                        {% endif %}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            <h4 class="no-data">작성된 본부소개가 없습니다. 본부소개를 등록해 주세요<span>🤗</span></h4>
                         {% endif %}
-                    {% endfor %}
-                        <!--Contents[S]-->
-                        <!--<div class="card-body">
-                            <div class="intro-wrap">
-                                <div class="intro-con">
-                                    <div class="ui middle aligned stackable grid container">
-                                        <div class="row reveal active">
-                                            <div class="six wide left floated column img-wrapp">
-                                                <img class="ui left floated large bordered rounded image" src="https://www.emotion.co.kr/pc/img/02_img_02.cd3f8a5d.webp">
-                                            </div>
-                                            <div class="nine wide column">
-                                                <h3 class="ui header">우리는 사람을 향한 따뜻한 감성과 이성적 사고를 겸비한 디지털 전문가 집단입니다.</h3>
-                                                <p>다양한 실전 경험과 지식을 갖춘 전문가들이 당신의 사업 파트너가 되어 높은 수준의 구축과 안정적인 운영 서비스를 제공합니다.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="intro-wrap">
-                                <div class="intro-con">
-                                    <div class="ui middle aligned stackable grid container">
-                                        <div class="row reveal active">
-                                            <div class="nine wide column">
-                                                <h3 class="ui header">사고의 폭과 깊이를 확장시키는 수평적이고 자유로운 분위기 속에서 함께 성장합니다.</h3>
-                                                <p>우리는 각자의 개성과 관점을 존중하고 서로 다름을 이해하며 공동의 목표를 향해 나아갑니다. 동료를 향한 신뢰는 유연한 팀 문화를 만들고 그 속에서 몰입을 통한 폭발적인 성장을 경험하게 됩니다.</p>
-                                            </div>
-                                            <div class="six wide right floated column img-wrapp">
-                                                <img class="ui right floated large bordered rounded image" src="https://www.emotion.co.kr/pc/img/02_img_03.d71a6f53.webp">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>-->
-                        <!--Contents[E]-->
                     </div>
                 </div>
             </div>

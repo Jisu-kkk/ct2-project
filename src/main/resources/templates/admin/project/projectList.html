@@ -81,27 +81,34 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {% for project in projectList %}
-                            <tr>
-                                <td class="center aligned">{{ project.num }}</td>
-                                <td class="center aligned">
-                                    <a href="/admin/editProject?projectId={{ project.id }}">{{ project.projectName }}</a>
-                                </td>
-                                <td class="center aligned">{{ project.client_name }}</td>
-                                {% if project.useYn == true %}
-                                <td class="center aligned positive"><i class="icon circle outline"></i></td>
-                                {% else %}
-                                <td class="center aligned negative"><i class="icon close"></i></td>
-                                {% endif %}
-                                <td class="center aligned">{{ project.userName }}</td>
-                                <td class="center aligned">{{ project.update_time }}</td>
-                            </tr>
-                            {% endfor %}
+                            {% if projectList.size > 0 %}
+                                {% for project in projectList %}
+                                <tr>
+                                    <td class="center aligned">{{ project.num }}</td>
+                                    <td class="center aligned">
+                                        <a href="/admin/editProject?projectId={{ project.id }}">{{ project.projectName }}</a>
+                                    </td>
+                                    <td class="center aligned">{{ project.client_name }}</td>
+                                    {% if project.useYn == true %}
+                                    <td class="center aligned positive"><i class="icon circle outline"></i></td>
+                                    {% else %}
+                                    <td class="center aligned negative"><i class="icon close"></i></td>
+                                    {% endif %}
+                                    <td class="center aligned">{{ project.userName }}</td>
+                                    <td class="center aligned">{{ project.update_time }}</td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td class="center aligned" colspan="6">데이터가 없습니다.</td>
+                                </tr>
+                            {% endif %}
                             </tbody>
                         </table>
 
                         <div class="ui center aligned header">
                             <div class="ui pagination menu">
+
                                 {% if pagination.startPage > 1 %}
                                 <a class="icon item" href="/admin/project?curPage={{ pagination.startPage - 1 }}">
                                   <i class="left chevron icon"></i>
@@ -126,6 +133,7 @@
                                   <i class="right chevron icon"></i>
                                 </a>
                                 {% endif %}
+
                             </div>
                         </div>
 

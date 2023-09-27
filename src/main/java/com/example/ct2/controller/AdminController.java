@@ -227,7 +227,7 @@ public class AdminController {
         }
         param.put("title_img", titleImg);
         param.put("thumbnail_img", thumbnail);
-        param.put("orgCode", userVo.getOrganizationCode());
+        param.put("userVo", userVo);
 
         int result = wikiService.insertWiki(param);
 

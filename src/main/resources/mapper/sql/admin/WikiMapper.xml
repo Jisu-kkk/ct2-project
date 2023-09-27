@@ -18,7 +18,7 @@
     </sql>
 
     <sql id="showStatusCondition">
-        <if test="showStatus != null and showStatus != ''">
+        <if test="showStatus != null and showStatus != '' and showStatus != -1">
             AND b.is_use = #{showStatus}
         </if>
     </sql>
@@ -100,14 +100,14 @@
                   , thumbnail_img
                   )
              VALUES
-                  ( #{orgCode}
+                  ( #{userVo.organizationCode}
                   , #{title}
                   , #{subTitle}
                   , #{content}
                   , 'BO002'
-                  , 1
+                  , #{userVo.id}
                   , SYSDATE()
-                  , 1
+                  , #{userVo.id}
                   , SYSDATE()
                   , #{showStatus}
                   , 0

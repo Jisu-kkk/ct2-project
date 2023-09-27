@@ -13,45 +13,45 @@
       <div class="card-inner">
         <div class="card-body">
           <div class="ui innerContent cardContainer">
-          {% for intro in introList %}
-            {% if loop.length == 0 %}
-            <h4>작성된 본부소개가 없습니다. 본부소개를 등록해 주세요<span>🤗</span></h4>
-            {% else %}
-            <div id="{{ intro.id }}" class="card-body draggable" name="introContent" draggable="true" title="컨텐츠를 드래그하여 위/아래로 순서변경이 가능합니다.">
-              <div class="intro-wrap">
-                <div class="intro-con">
-                  <div class="ui middle aligned stackable grid container">
-                    <div class="row">
-                      {% if intro.location == 0 %}
-                      <div class="six wide left floated column img-wrapp">
-                        <img class="ui left floated large bordered rounded image" src="/images/{{ intro.fileName }}">
-                        <!--<img class="ui left floated large bordered rounded image" src="https://www.emotion.co.kr/pc/img/02_img_02.cd3f8a5d.webp">-->
-                        <!--<img class="ui left floated large bordered rounded image" src="/images/{{ intro.fileName }}">-->
+            {% if introList.size > 0 %}
+              {% for intro in introList%}
+              <div id="{{ intro.id }}" class="card-body draggable" name="introContent" draggable="true" title="컨텐츠를 드래그하여 위/아래로 순서변경이 가능합니다.">
+                <div class="intro-wrap">
+                  <div class="intro-con">
+                    <div class="ui middle aligned stackable grid container">
+                      <div class="row">
+                        {% if intro.location == 0 %}
+                        <div class="six wide left floated column img-wrapp">
+                          <img class="ui left floated large bordered rounded image" src="/images/{{ intro.fileName }}">
+                          <!--<img class="ui left floated large bordered rounded image" src="https://www.emotion.co.kr/pc/img/02_img_02.cd3f8a5d.webp">-->
+                          <!--<img class="ui left floated large bordered rounded image" src="/images/{{ intro.fileName }}">-->
+                        </div>
+                        <div class="nine wide column">
+                          <a class="ui header" href="/admin/editIntro?introId={{ intro.id }}">
+                            <h3 class="ui header">{{ intro.title }}</h3>
+                          </a>
+                          <p>{{ intro.content }}</p>
+                        </div>
+                        {% else %}
+                        <div class="nine wide column">
+                          <a class="ui header" href="/admin/editIntro?introId={{ intro.id }}">
+                            <h3 class="ui header">{{ intro.title }}</h3>
+                          </a>
+                          <p>{{ intro.content }}</p>
+                        </div>
+                        <div class="six wide right floated column img-wrapp">
+                          <img class="ui left floated large bordered rounded image" src="/images/{{ intro.fileName }}">
+                        </div>
+                        {% endif %}
                       </div>
-                      <div class="nine wide column">
-                        <a class="ui header" href="/admin/editIntro?introId={{ intro.id }}">
-                          <h3 class="ui header">{{ intro.title }}</h3>
-                        </a>
-                        <p>{{ intro.content }}</p>
-                      </div>
-                      {% else %}
-                      <div class="nine wide column">
-                        <a class="ui header" href="/admin/editIntro?introId={{ intro.id }}">
-                          <h3 class="ui header">{{ intro.title }}</h3>
-                        </a>
-                        <p>{{ intro.content }}</p>
-                      </div>
-                      <div class="six wide right floated column img-wrapp">
-                        <img class="ui left floated large bordered rounded image" src="/images/{{ intro.fileName }}">
-                      </div>
-                      {% endif %}
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+              {% endfor %}
+            {% else %}
+            <h4>작성된 본부소개가 없습니다. 본부소개를 등록해 주세요<span>🤗</span></h4>
             {% endif %}
-          {% endfor %}
           </div>
           <!-- 버튼 -->
           {% if introList.size() < 5 %}

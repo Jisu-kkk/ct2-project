@@ -39,7 +39,7 @@
                       <i class="dropdown icon"></i>
                       <div class="default text" id="showStatusText">공개여부</div>
                       <div class="menu" tabindex="-1">
-                        <div class="item" name="showStatusValue">전체</div>
+                        <div class="item" name="showStatusValue" data-value="-1">전체</div>
                         <div class="item" name="showStatusValue" data-value="1">공개</div>
                         <div class="item" name="showStatusValue" data-value="0">비공개</div>
                       </div>
@@ -85,7 +85,7 @@
                 </tr>
               </thead>
               <tbody>
-
+              {% if selectWikiList.size > 0 %}
                 {% for wiki in selectWikiList %}
                 <tr>
                   <td class="center aligned">{{ wiki.num }}</td>
@@ -104,7 +104,11 @@
                   <td class="center aligned">{{ wiki.create_time }}</td>
                 </tr>
                 {% endfor %}
-
+              {% else %}
+                <tr>
+                  <td class="center aligned" colspan="5">데이터가 없습니다.</td>
+                </tr>
+              {% endif %}
               </tbody>
             </table>
 
@@ -112,7 +116,7 @@
               <div class="ui pagination menu">
 
                 {% if pagination.startPage > 1 %}
-                <a class="icon item" href="/admin/wikiList?curPage={{ pagination.startPage - 1 }}">
+                <a class="icon item" onclick="paging({{ pagination.startPage - 1 }})">
                   <i class="left chevron icon"></i>
                 </a>
                 {% endif %}
@@ -131,7 +135,7 @@
                 {% endfor %}
 
                 {% if pagination.endPage + 1 <= pagination.pageCnt %}
-                <a class="icon item" href="/admin/wikiList?curPage={{ pagination.endPage + 1 }}">
+                <a class="icon item" onclick="paging({{ pagination.endPage + 1 }})">
                   <i class="right chevron icon"></i>
                 </a>
                 {% endif %}
