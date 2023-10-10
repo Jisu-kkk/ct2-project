@@ -358,6 +358,7 @@ public class AdminController {
         Map<String, Object> param = new HashMap<>();
         param.put("tagType", "BO002");
 
+        UserVo userVo = commonService.getUserVo();
         Map<String, Object> wiki = wikiService.selectWiki(wikiId);
         List<Integer> wikiTagList = wikiService.selectWikiTagList(wikiId);
         String wikiTag = "";
@@ -371,6 +372,7 @@ public class AdminController {
         // 해시태그 전체
         List<Map<String, Object>> tagList = commonService.selectTagList(param);
 
+        model.addAttribute("userVo", userVo);
         model.addAttribute("wiki", wiki);
         model.addAttribute("wikiTagList", wikiTagList);
         model.addAttribute("wikiTag", wikiTag);

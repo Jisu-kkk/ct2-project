@@ -11,7 +11,9 @@
     <div class="title">
       {% if wiki.id != null %}
       <h2>Wiki 수정</h2>
-      <button class="ui button red right floated" id="deleteWiki">삭제</button>
+        {% if wiki.create_user == userVo.id or userVo.role_id > 5 %}
+        <button class="ui button red right floated" id="deleteWiki">삭제</button>
+        {% endif %}
       {% else %}
       <h2>Wiki 등록</h2>
       {% endif %}
@@ -119,7 +121,9 @@
           <div class="ui right aligned header">
             <a href="/admin/wikiList" class="ui button grey">목록</a>
             {% if wiki.id != null %}
-            <button type="button" class="ui button primary" id="btnUpdate">Wiki 수정</button>
+              {% if wiki.create_user == userVo.id or userVo.role_id > 5 %}
+              <button type="button" class="ui button primary" id="btnUpdate">Wiki 수정</button>
+              {% endif %}
             {% else %}
             <button type="button" class="ui button primary" id="btnRegist">Wiki 등록</button>
             {% endif %}

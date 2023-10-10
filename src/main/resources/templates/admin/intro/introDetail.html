@@ -6,7 +6,7 @@
     <div class="title">
       {% if intro.id != null %}
       <h2>본부소개 수정</h2>
-        {% if intro.create_user == userVo.id %}
+        {% if intro.create_user == userVo.id or userVo.role_id > 5 %}
         <button class="ui button red right floated" id="deleteIntro">삭제</button>
         {% endif %}
       {% else %}
@@ -81,7 +81,7 @@
             <div class="ui right aligned header">
               <a href="/admin/intro" class="ui button grey">목록</a>
               {% if intro.id != null %}
-                {% if intro.create_user == userVo.id %}
+                {% if intro.create_user == userVo.id or userVo.role_id > 5 %}
                 <button type="button" class="ui button primary" id="btnUpdate">본부소개 수정</button>
                 {% endif %}
               {% else %}

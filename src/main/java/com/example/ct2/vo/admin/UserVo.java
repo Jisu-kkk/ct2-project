@@ -12,4 +12,6 @@ public class UserVo {
     private String userName;
     private String organizationCode;
     private String orgName;
+    private Long role_id;
+    private String alias;
 }

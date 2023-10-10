@@ -11,11 +11,15 @@
              , gu.name AS userName
              , gu.organization_code AS organizationCode
              , o.name AS orgName
+             , gu.role_id
+             , r.alias
           FROM groupware.basic_account bc
           JOIN groupware.user gu
             ON gu.id = bc.user_id
           JOIN organization o
             ON o.code = gu.organization_code
+          JOIN groupware.`role` r
+            ON r.id = gu.role_id
          WHERE bc.email = #{email}
     </select>
 
@@ -26,9 +30,13 @@
              , gu.mobile_phone AS phone
              , gu.name AS userName
              , gu.organization_code AS organizationCode
+             , gu.role_id
+             , r.alias
           FROM groupware.basic_account bc
           JOIN groupware.user gu
             ON gu.id = bc.user_id
+          JOIN groupware.`role` r
+            ON r.id = gu.role_id
          WHERE bc.user_id = #{id}
     </select>
 
