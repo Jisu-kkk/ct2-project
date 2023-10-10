@@ -96,11 +96,10 @@ public class FileService {
 
             try {
                 if (delFile.exists()) {
-                    if (delFile.delete()) {
-                        file.transferTo(saveFile);
-                        result = fileMapper.updateFile(param);
-                    }
+                    delFile.delete();
                 }
+                file.transferTo(saveFile);
+                result = fileMapper.updateFile(param);
             } catch (IllegalStateException e) {
                 e.printStackTrace();
             } catch (IOException e) {

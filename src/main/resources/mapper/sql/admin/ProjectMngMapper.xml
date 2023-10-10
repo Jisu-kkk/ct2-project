@@ -29,11 +29,9 @@
     <sql id="titleCondition">
         <if test="title != null and title != ''">
             AND (
-                pj.name LIKE CONCAT('%', #{title}, '%')
+                pj.client_name LIKE CONCAT('%', #{title}, '%')
                 OR
                 pj.name LIKE CONCAT('%', #{title}, '%')
-                OR
-                u.name LIKE CONCAT('%', #{title}, '%')
                 )
         </if>
     </sql>
