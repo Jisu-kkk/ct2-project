@@ -126,7 +126,7 @@
                 htmlCode +=   '</div>';
 
                 htmlCode +=   '<div class="content">';
-                htmlCode +=     '<a href="/main/{{ session.getAttribute("org").lowerName }}/detail/' + blog.id + '" class="header">' + blog.id + '</a>';
+                htmlCode +=     '<a href="/main/{{ session.getAttribute("org").lowerName }}/detail/' + blog.id + '" class="header">' + blog.title + '</a>';
                 htmlCode +=     '<div class="description">' + blog.sub_title + '</div>';
                 htmlCode +=     '<div class="meta">';
                 htmlCode +=       '<span>' + blog.create_datetime + '</span>';
