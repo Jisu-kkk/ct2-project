@@ -81,6 +81,7 @@ public class MainController {
     public String blogDetail(@PathVariable("orgName") String orgName, @PathVariable("blogId") Long blogId, Model model, HttpSession session) {
 
         model.addAttribute("blogDetail", blogService.selectBlogDetail(blogId));
+        model.addAttribute("orgName", orgName);
 
         return "main/blogDetail";
     }

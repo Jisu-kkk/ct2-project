@@ -11,7 +11,7 @@
 <!-- Banner [E] -->
 
 <!-- Detail [S] -->
-<div class="ui vertical stripe segment detailContent">
+<div class="ui vertical stripe detailContent">
   <div class="ui container">
     <h1 class="ui header">{{ blogDetail.title | raw}}</h1>
 
@@ -23,4 +23,10 @@
   </div>
 </div>
 <!-- Detail [E] -->
+
+<div class="ui container right aligned">
+  <div class="ui row more">
+    <a href="/main/{{ orgName }}/blogList" class="ui button red">목록 <i class="right arrow icon"></i></a>
+  </div>
+</div>
 {% endblock %}
