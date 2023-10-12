@@ -49,6 +49,9 @@
         $("#login_user_img").attr("src", result.profile_img);
         $("#login_user_name").text(result.name_grade);
         $("#login_user_team").text(result.org_nm);
+        if (result.org_nm !== '이모션') {
+          $("#orgTitle").text("e·motion " + result.org_nm);
+        }
       },
       error : function(error) {
         console.log(error);
@@ -61,7 +64,8 @@
 <div class="inner">
   <div class="top">
     <a class="logo" href="/admin/index">
-      <span class="admin">e·motion CT2</span>
+      <span class="admin" id="orgTitle">e·motion</span>
+      <span class="admin" id="login_user_org"></span>
     </a>
   </div>
 

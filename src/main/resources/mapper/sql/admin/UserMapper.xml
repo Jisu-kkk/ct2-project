@@ -10,7 +10,7 @@
              , gu.mobile_phone AS phone
              , gu.name AS userName
              , gu.organization_code AS organizationCode
-             , o.name AS orgName
+             , REGEXP_REPLACE(o.name, '본부|부문', '') AS orgName
              , gu.role_id
              , r.alias
           FROM groupware.basic_account bc
