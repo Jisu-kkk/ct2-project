@@ -42,39 +42,11 @@
      LEFT JOIN groupware.user u
             ON u.id = pj.create_user
         <include refid="tagCondition" />
-         WHERE pj.organization_code = 'BS003002'
+         WHERE pj.organization_code = #{orgCode}
            AND pj.is_delete = 0
         <include refid="showStatusCondition" />
         <include refid="titleCondition" />
         <include refid="userIdCondition" />
-
-        <!--SELECT
-            COUNT(pj.id)
-        FROM
-            project pj
-            JOIN (
-                SELECT project_id FROM (
-                    SELECT user.id FROM user
-                    WHERE 1 = 1
-                        AND status_code = 'MB100001'
-                        AND organization_code IN (
-                            SELECT
-                                code
-                            FROM
-                                organization
-                            WHERE 1 = 1
-                                <include refid="showStatusCondition" />
-                                AND is_delete = 0
-                                AND parent_code = 'BS003002'
-                        )
-                ) uu
-                JOIN project_member pjm
-                ON pjm.user_id = uu.id
-                GROUP BY project_id
-            ) mpj
-            ON mpj.project_id = pj.id
-            LEFT JOIN file f
-            ON f.id = pj.file_id-->
     </select>
 
     <select id="selectProjectList" resultType="map" parameterType="map">
@@ -94,7 +66,7 @@
              LEFT JOIN groupware.user u
                     ON u.id = pj.create_user
                 <include refid="tagCondition" />
-                 WHERE pj.organization_code = 'BS003002'
+                 WHERE pj.organization_code = #{orgCode}
                    AND pj.is_delete = 0
                 <include refid="showStatusCondition" />
                 <include refid="titleCondition" />
