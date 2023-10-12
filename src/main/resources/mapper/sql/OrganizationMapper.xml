@@ -5,8 +5,8 @@
 
     <select id="selectOrg" resultType="Map" parameterType="string">
         SELECT code AS orgCode
-             , TRIM(REGEXP_REPLACE(UPPER(name), '본부|부문', '')) AS name
-             , TRIM(REGEXP_REPLACE(LOWER(name), '본부|부문', '')) AS lowerName
+             , UPPER(name) AS name
+             , LOWER(name) AS lowerName
           FROM organization
          WHERE name LIKE CONCAT(#{type}, '%')
     </select>

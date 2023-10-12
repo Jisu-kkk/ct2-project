@@ -78,7 +78,7 @@
         SELECT
             A.name
             , (select value from groupware.code where code = A.grade_code) as code_nm
-            , REGEXP_REPLACE((select name from groupware.organization where code = #{orgCode}), '본부|부문', '') as org_nm
+            , (select name from groupware.organization where code = #{orgCode}) as org_nm
             , CONCAT(A.name, ' ', (select value from groupware.code where code = A.grade_code)) AS name_grade
             , A.grade_code
             , A.organization_code
