@@ -2,11 +2,13 @@ package com.example.ct2.service.admin;
 
 import com.example.ct2.repo.admin.WikiMapper;
 import com.example.ct2.service.Common.FileService;
+import com.example.ct2.service.Common.S3FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +21,11 @@ public class WikiService {
     @Autowired
     private FileService fileService;
 
+    @Autowired
+    private S3FileService s3Service;
+
+    private String wikiFolder = "wiki/";
+
     public int selectWikiListCnt(Map<String, Object> param) {
         return wikiMapper.selectWikiListCnt(param);
     }
@@ -29,20 +36,22 @@ public class WikiService {
     }
 
     @Transactional
-    public int insertWiki(Map<String, Object> param) {
+    public int insertWiki(Map<String, Object> param) throws IOException {
         int result = -1;
         int insertWiki = -1;
 
         MultipartFile thumbnail = (MultipartFile) param.get("thumbnail_img");
         MultipartFile titleImg = (MultipartFile) param.get("title_img");
 
+        //int titleImgNo = s3Service.insertFile(titleImg, wikiFolder);
+        //int thumbnailNo = s3Service.insertFile(thumbnail, wikiFolder);
+
         int titleImgNo = fileService.insertFile(titleImg);
         int thumbnailNo = fileService.insertFile(thumbnail);
 
-        if (thumbnailNo > 0 && titleImgNo > 0) {
+        if (titleImgNo > 0 && thumbnailNo > 0) {
             param.put("titleImgNo", titleImgNo);
             param.put("thumbnailNo", thumbnailNo);
-
             insertWiki = wikiMapper.insertWiki(param);
         }
 
@@ -53,6 +62,7 @@ public class WikiService {
                 param.put("tag_id", tag);
                 wikiMapper.insertWikiTag(param);
             }
+            result = insertWiki;
         }
 
         return result;
