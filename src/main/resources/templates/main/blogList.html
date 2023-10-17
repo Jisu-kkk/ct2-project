@@ -6,6 +6,7 @@
     <input type="hidden" id="currentPage" value="0"/>
     <input type="hidden" id="endPage" value="1"/>
     <input type="hidden" id="postCnt" value="10"/>
+    <input type="hidden" id="filterTag" value="{{ filterTag }}"/>
 
     <!--tag-->
     <div class="ui container">
@@ -34,6 +35,11 @@
 {% block blogListScript %}
   <script type="text/javascript">
     var filterTag = [];
+    var filterTagVal = $("#filterTag").val();
+    if (filterTagVal.length > 0) {
+      filterTag = filterTagVal.split(",");
+      setLabel();
+    }
     $(document).ready(function() {
       selectBlogList();
 
@@ -126,7 +132,7 @@
                 htmlCode +=   '</div>';
 
                 htmlCode +=   '<div class="content">';
-                htmlCode +=     '<a href="/main/{{ session.getAttribute("org").lowerName }}/detail/' + blog.id + '" class="header">' + blog.title + '</a>';
+                htmlCode +=     '<a href="/main/{{ session.getAttribute("org").lowerName }}/detail/' + blog.id + '?filterTag=' + filterTag + '" class="header">' + blog.title + '</a>';
                 htmlCode +=     '<div class="description">' + blog.sub_title + '</div>';
                 htmlCode +=     '<div class="meta">';
                 htmlCode +=       '<span>' + blog.create_datetime + '</span>';
@@ -151,6 +157,21 @@
             console.log(error);
           }
 
+        });
+      }
+    }
+
+    function setLabel() {
+      if (filterTag.length > 0) {
+        $("a.ui.label").each(function(index, item){
+          var label = $(this);
+          var value = label.data('value');
+          label.removeClass("active");
+          filterTag.forEach(function(index, item){
+            if (value == index) {
+              label.addClass("active");
+            }
+          });
         });
       }
     }

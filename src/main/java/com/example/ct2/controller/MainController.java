@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -65,7 +66,9 @@ public class MainController {
     }
 
     @RequestMapping("/{orgName}/blogList")
-    public String blogList(@PathVariable String orgName, Model model, HttpSession session) {
+    public String blogList(@PathVariable String orgName, Model model,
+                           @RequestParam(defaultValue = "") String filterTag,
+                           HttpSession session) {
         Map<String, Object> org = (Map<String, Object>) session.getAttribute("org");
         Map<String, Object> param = new HashMap<>();
         param.put("tagType", "BO002");
@@ -74,15 +77,19 @@ public class MainController {
         List<Map<String, Object>> tagList = commonService.selectTagList(param);
 
         model.addAttribute("tagList", tagList);
+        model.addAttribute("filterTag", filterTag);
         return "main/blogList";
     }
 
     @GetMapping("/{orgName}/detail/{blogId}")
-    public String blogDetail(@PathVariable("orgName") String orgName, @PathVariable("blogId") Long blogId, Model model, HttpSession session) {
+    public String blogDetail(@PathVariable("orgName") String orgName,
+                             @PathVariable("blogId") Long blogId,
+                             @RequestParam(defaultValue = "") String filterTag,
+                             Model model, HttpSession session) {
 
         model.addAttribute("blogDetail", blogService.selectBlogDetail(blogId));
         model.addAttribute("orgName", orgName);
-
+        model.addAttribute("filterTag", filterTag);
         return "main/blogDetail";
     }
 }
