@@ -1,7 +1,10 @@
 package com.example.ct2.service.Common;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.example.ct2.repo.Common.FileMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -27,7 +29,7 @@ public class S3FileService {
     @Autowired
     private FileMapper fileMapper;
 
-    private final AmazonS3 amazonS3;
+    private final AmazonS3Client amazonS3Client;
 
     @Transactional
     public int insertFile(MultipartFile file, String saveFolder){
@@ -47,15 +49,12 @@ public class S3FileService {
             objMeta.setContentLength(file.getInputStream().available());
             objMeta.setContentType(file.getContentType()); // 메타데이터 값을 image/png로 변경
 
-            // putObject(버킷명, 파일명, 파일데이터, 메타데이터)로 S3에 객체 등록
-            amazonS3.putObject(bucket
-                    , saveFolder + uniqueName + fileExtension
-                    , file.getInputStream(), objMeta);
-
-            // 조회 시
-            String url = URLDecoder.decode(amazonS3.getUrl(bucket, saveFolder + uniqueName + fileExtension).toString(), "utf-8");
-            System.out.println("+++++ insertFileUrl +++++");
-            System.out.println(url);
+            amazonS3Client.putObject(
+                    new PutObjectRequest(bucket,
+                            saveFolder + uniqueName + fileExtension,
+                            file.getInputStream(),
+                            objMeta)
+            );
 
             param.put("original_name", fileRealName.substring(0, lastStr));
             param.put("name", uniqueName);
@@ -66,8 +65,60 @@ public class S3FileService {
             fileMapper.insertFile(param);
             result = (int) param.get("fileId");
 
-        } catch (IOException e) {
+        } catch (AmazonS3Exception s3Exception) {
+            s3Exception.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
+        }
+        return result;
+    }
+
+    @Transactional
+    public int updateFile(MultipartFile file, String saveFolder, int fileId) {
+        int result = -1;
+        try {
+            int delResult = deleteFile((long) fileId);
+            if (delResult > 0) {
+                result = insertFile(file, saveFolder);
+            }
+        } catch (AmazonS3Exception s3Exception) {
+            s3Exception.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @Transactional
+    public int deleteFile(Long fileId) {
+        int result = -1;
+
+        try {
+            Map<String, Object> param = new HashMap<>();
+            param.put("file_id", fileId);
+            String fileKey = fileKey(param);
+
+            // 이미지 삭제
+            boolean isObjectExist = amazonS3Client.doesObjectExist(bucket, fileKey);
+            if (isObjectExist) {
+                amazonS3Client.deleteObject(bucket, fileKey);
+                result = fileMapper.deleteFile(param);
+            }
+        } catch(AmazonS3Exception s3Exception) {
+            s3Exception.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public String fileKey(Map<String, Object> param) {
+        String result = "";
+        Map<String, Object> selectFile = fileMapper.selectFile(param);
+        if (selectFile != null) {
+            result = (String) selectFile.get("path");
+            result += (String) selectFile.get("name");
+            result += (String) selectFile.get("type");
         }
         return result;
     }

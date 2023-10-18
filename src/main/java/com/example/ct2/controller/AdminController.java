@@ -9,15 +9,13 @@ import com.example.ct2.service.admin.WikiService;
 import com.example.ct2.vo.Pagination;
 import com.example.ct2.vo.admin.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,9 +23,6 @@ import java.util.Map;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-
-    @Value("${resource.path}")
-    private String resourcePath;
 
     @Autowired
     private IntroMngService introMngService;
@@ -40,12 +35,6 @@ public class AdminController {
 
     @Autowired
     private CommonService commonService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private FileService fileService;
 
     @GetMapping("/login")
     public String login(@RequestParam(required = false) String error,
@@ -216,7 +205,7 @@ public class AdminController {
                               @RequestParam MultipartFile thumbnail,
                               @RequestParam MultipartFile titleImg,
                               HttpServletRequest request,
-                              Model model) {
+                              Model model) throws IOException {
         UserVo userVo = commonService.getUserVo();
         // 사용여부
         String showStatus = (String) param.get("showStatus");

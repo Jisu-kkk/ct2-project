@@ -170,6 +170,8 @@
              , content = #{content}
              , update_datetime = SYSDATE()
              , is_use = #{showStatus}
+             , title_img = #{titleImgId}
+             , thumbnail_img = #{thumbImgId}
          WHERE id = #{wikiId}
     </update>
 
