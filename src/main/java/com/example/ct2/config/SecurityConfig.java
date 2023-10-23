@@ -10,6 +10,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.firewall.DefaultHttpFirewall;
+import org.springframework.security.web.firewall.HttpFirewall;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +31,11 @@ public class SecurityConfig{
         return web -> web.ignoring()
                 .antMatchers("/semantic/**")
                 .antMatchers("/images/**");
+    }
+
+    @Bean
+    public HttpFirewall getHttpFirewall() {
+        return new DefaultHttpFirewall();
     }
 
     @Bean

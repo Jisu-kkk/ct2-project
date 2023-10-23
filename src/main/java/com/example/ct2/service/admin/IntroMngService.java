@@ -2,7 +2,9 @@ package com.example.ct2.service.admin;
 
 import com.example.ct2.repo.admin.IntroMngMapper;
 import com.example.ct2.service.Common.FileService;
+import com.example.ct2.service.Common.S3FileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,7 +20,9 @@ public class IntroMngService {
     private IntroMngMapper introMngMapper;
 
     @Autowired
-    private FileService fileService;
+    private S3FileService s3Service;
+
+    private String introFolder = "intro/";
 
     public List<Map<String, Object>> selectIntroList(Map<String, Object> org) {
         return introMngMapper.selectIntroList(org);
@@ -46,7 +50,8 @@ public class IntroMngService {
         int result = -1;
 
         MultipartFile thumbnail = (MultipartFile) param.get("thumbnail_img");
-        int thumbnailNo = fileService.insertFile(thumbnail);
+        //int thumbnailNo = fileService.insertFile(thumbnail);
+        int thumbnailNo = s3Service.insertFile(thumbnail, introFolder);
 
         if (thumbnailNo > 0) {
             param.put("thumbnailNo", thumbnailNo);
@@ -61,7 +66,9 @@ public class IntroMngService {
 
         MultipartFile thumbnail = (MultipartFile) param.get("thumbnail");
 
-        int updateThumbnail = fileService.updateFile(thumbnail, Integer.parseInt((String) param.get("file_id")));
+        //int updateThumbnail = fileService.updateFile(thumbnail, Integer.parseInt((String) param.get("file_id")));
+        int updateThumbnail = s3Service.updateFile(thumbnail, introFolder, Integer.parseInt((String) param.get("file_id")));
+        param.put("file_id", updateThumbnail);
         if(updateThumbnail > 0) {
             result = introMngMapper.updateIntro(param);
         }
@@ -79,7 +86,8 @@ public class IntroMngService {
 
         int deleteIntro = introMngMapper.deleteIntro(param);
         if (deleteIntro > 0) {
-            fileService.deleteFile((Long) param.get("file_id"));
+            //fileService.deleteFile((Long) param.get("file_id"));
+            s3Service.deleteFile((Long) param.get("file_id"));
         }
         return result;
     }

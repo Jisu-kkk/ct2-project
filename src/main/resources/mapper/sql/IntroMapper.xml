@@ -10,8 +10,8 @@
             , A.content
             , A.depth
             , A.location
-            , CONCAT(B.original_name, type) AS oriFileName
-            , CONCAT(B.name, type) AS fileName
+            , CONCAT(B.path, B.original_name, type) AS oriFileName
+            , CONCAT(B.path, B.name, type) AS fileName
         FROM (
             SELECT
                 *

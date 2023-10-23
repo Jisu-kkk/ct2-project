@@ -2,7 +2,9 @@ package com.example.ct2.service.admin;
 
 import com.example.ct2.repo.admin.ProjectMngMapper;
 import com.example.ct2.service.Common.FileService;
+import com.example.ct2.service.Common.S3FileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,7 +19,9 @@ public class ProjectMngService {
     private ProjectMngMapper projectMngMapper;
 
     @Autowired
-    private FileService fileService;
+    private S3FileService s3Service;
+
+    private String pjFolder = "project/";
 
     public int selectProjectListCnt(Map<String, Object> param) {
         return projectMngMapper.selectProjectListCnt(param);
@@ -33,7 +37,8 @@ public class ProjectMngService {
         int insertProject = -1;
 
         MultipartFile thumbnail = (MultipartFile) param.get("thumbnail_img");
-        int thumbnailNo = fileService.insertFile(thumbnail);
+        //int thumbnailNo = fileService.insertFile(thumbnail);
+        int thumbnailNo = s3Service.insertFile(thumbnail, pjFolder);
 
         if (thumbnailNo > 0) {
             param.put("thumbnailNo", thumbnailNo);
@@ -68,7 +73,9 @@ public class ProjectMngService {
         Map<String, Object> selectProject = selectProject(Integer.parseInt((String)param.get("projectId")));
         MultipartFile thumbnail = (MultipartFile) param.get("thumbnail_img");
 
-        int updateThumbnail = fileService.updateFile(thumbnail, ((Long)selectProject.get("file_id")).intValue());
+        //int updateThumbnail = fileService.updateFile(thumbnail, ((Long)selectProject.get("file_id")).intValue());
+        int updateThumbnail = s3Service.updateFile(thumbnail, pjFolder, ((Long)selectProject.get("file_id")).intValue());
+        param.put("file_id", updateThumbnail);
 
         if (updateThumbnail > 0) {
             updateProject = projectMngMapper.updateProject(param);
@@ -99,7 +106,8 @@ public class ProjectMngService {
         if (deleteProjectTag > 0) {
             int delProject = projectMngMapper.deleteProject(param);
             if (delProject > 0) {
-                fileService.deleteFile((Long) param.get("file_id"));
+                s3Service.deleteFile((Long) param.get("file_id"));
+                //fileService.deleteFile((Long) param.get("file_id"));
             }
         }
         return result;

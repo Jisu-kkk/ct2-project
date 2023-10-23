@@ -1,6 +1,5 @@
 package com.example.ct2.service.Common;
 
-import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.ObjectMetadata;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -77,9 +75,13 @@ public class S3FileService {
     public int updateFile(MultipartFile file, String saveFolder, int fileId) {
         int result = -1;
         try {
-            int delResult = deleteFile((long) fileId);
-            if (delResult > 0) {
-                result = insertFile(file, saveFolder);
+            if (file.getOriginalFilename().length() > 0) {
+                int delResult = deleteFile((long) fileId);
+                if (delResult > 0) {
+                    result = insertFile(file, saveFolder);
+                }
+            } else {
+                result = fileId;
             }
         } catch (AmazonS3Exception s3Exception) {
             s3Exception.printStackTrace();
@@ -112,6 +114,7 @@ public class S3FileService {
         return result;
     }
 
+    // 이미지 키값 조회
     public String fileKey(Map<String, Object> param) {
         String result = "";
         Map<String, Object> selectFile = fileMapper.selectFile(param);

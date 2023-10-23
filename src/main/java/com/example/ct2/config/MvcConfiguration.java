@@ -29,9 +29,9 @@ public class MvcConfiguration implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/static/semantic/")
                 .setCachePeriod(60 * 60 * 24 * 365);
 
-        /* '/images/**'로 호출하는 자원은 '/static/img/' 폴더 아래에서 찾는다. */
+        /* '/images/**'로 호출하는 자원은 resourcePath에서 찾는다. */
         registry.addResourceHandler(imagesPath)
-                .addResourceLocations("file:///" + resourcePath)
+                .addResourceLocations(resourcePath)
                 .setCachePeriod(3600)
                 .resourceChain(true)
                 .addResolver(new PathResourceResolver());

@@ -147,6 +147,7 @@
              , finish_date = #{finishDate}
              , is_use = #{showStatus}
              , update_datetime = SYSDATE()
+             , file_id = #{file_id}
          WHERE id = #{projectId}
     </update>
 

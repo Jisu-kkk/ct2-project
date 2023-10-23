@@ -9,8 +9,8 @@
              , pj.client_name
              , DATE_FORMAT(pj.finish_date, '%Y.%m') AS finish_date
              , f.id AS file_id
-             , CONCAT(f.original_name, f.type) AS oriFileName
-             , CONCAT(f.name, f.type) AS fileName
+             , CONCAT(f.path, f.original_name, f.type) AS oriFileName
+             , CONCAT(f.path, f.name, f.type) AS fileName
           FROM project pj
      LEFT JOIN file f
             ON f.id = pj.file_id

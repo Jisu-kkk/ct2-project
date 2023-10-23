@@ -19,9 +19,6 @@ public class WikiService {
     private WikiMapper wikiMapper;
 
     @Autowired
-    private FileService fileService;
-
-    @Autowired
     private S3FileService s3Service;
 
     private String wikiFolder = "wiki/";
@@ -43,11 +40,8 @@ public class WikiService {
         MultipartFile thumbnail = (MultipartFile) param.get("thumbnail_img");
         MultipartFile titleImg = (MultipartFile) param.get("title_img");
 
-        //int titleImgNo = s3Service.insertFile(titleImg, wikiFolder);
-        //int thumbnailNo = s3Service.insertFile(thumbnail, wikiFolder);
-
-        int titleImgNo = fileService.insertFile(titleImg);
-        int thumbnailNo = fileService.insertFile(thumbnail);
+        int titleImgNo = s3Service.insertFile(titleImg, wikiFolder);
+        int thumbnailNo = s3Service.insertFile(thumbnail, wikiFolder);
 
         if (titleImgNo > 0 && thumbnailNo > 0) {
             param.put("titleImgNo", titleImgNo);
@@ -82,11 +76,16 @@ public class WikiService {
         int updateWiki = -1;
 
         Map<String, Object> selectWiki = selectWiki(Integer.parseInt((String)param.get("wikiId")));
-        MultipartFile thumbnail = (MultipartFile) param.get("thumbnail_img");
         MultipartFile titleImg = (MultipartFile) param.get("title_img");
+        MultipartFile thumbnail = (MultipartFile) param.get("thumbnail_img");
 
-        int updateThumbnail = fileService.updateFile(thumbnail, ((Long)selectWiki.get("thumbnailNo")).intValue());
-        int updateTitleImg = fileService.updateFile(titleImg, ((Long)selectWiki.get("titleImgNo")).intValue());
+        // 대표이미지
+        int updateTitleImg = s3Service.updateFile(titleImg, wikiFolder, ((Long)selectWiki.get("titleImgNo")).intValue());
+        param.put("titleImgId", updateTitleImg);
+
+        // 썸네일 이미지
+        int updateThumbnail = s3Service.updateFile(thumbnail, wikiFolder, ((Long)selectWiki.get("thumbnailNo")).intValue());
+        param.put("thumbImgId", updateThumbnail);
 
         // 이미지 수정
         if (updateThumbnail > 0 && updateTitleImg > 0) {
@@ -123,8 +122,8 @@ public class WikiService {
             // wiki 삭제
             int delWiki = wikiMapper.deleteWiki(param);
             if (delWiki > 0) {
-                fileService.deleteFile((Long) param.get("thumbnailNo"));
-                fileService.deleteFile((Long) param.get("titleImgNo"));
+                s3Service.deleteFile((Long) param.get("thumbnailNo"));
+                s3Service.deleteFile((Long) param.get("titleImgNo"));
             }
         }
 

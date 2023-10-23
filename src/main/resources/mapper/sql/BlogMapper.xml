@@ -37,12 +37,12 @@
              , b.content
              , DATE_FORMAT(b.create_datetime, '%Y.%m.%d') AS create_datetime
              , (
-                SELECT CONCAT(f.name, f.type)
+                SELECT CONCAT(f.path, f.name, f.type)
                   FROM file f
                  WHERE b.title_img = f.id
                ) AS title_img
              , (
-                SELECT CONCAT(f.name, f.type)
+                SELECT CONCAT(f.path, f.name, f.type)
                   FROM file f
                  WHERE b.thumbnail_img = f.id
                ) AS thumbnail_img
@@ -69,12 +69,12 @@
              , b.sub_title
              , b.content
              , (
-				SELECT CONCAT(f.name, f.type)
+				SELECT CONCAT(f.path, f.name, f.type)
 				  FROM file f
 				 WHERE b.title_img = f.id
 			   ) AS title_img
              , (
-				SELECT CONCAT(f.name, f.type)
+				SELECT CONCAT(f.path, f.name, f.type)
 				  FROM file f
 				 WHERE b.thumbnail_img = f.id
 			   ) AS thumbnail_img

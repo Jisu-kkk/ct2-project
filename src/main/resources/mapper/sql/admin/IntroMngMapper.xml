@@ -10,8 +10,8 @@
             , A.content
             , A.depth
             , A.location
-            , CONCAT(B.original_name, type) AS oriFileName
-            , CONCAT(B.name, type) AS fileName
+            , CONCAT(B.path, B.original_name, type) AS oriFileName
+            , CONCAT(B.path, B.name, type) AS fileName
         FROM (
             SELECT
                 *
@@ -34,7 +34,7 @@
              , intro.location
              , intro.file_id
              , CONCAT(f.original_name, f.`type`) AS ori_thumbnail_img
-             , CONCAT(f.name, f.`type`) AS thumbnail_img
+             , CONCAT(f.path, f.name, f.`type`) AS thumbnail_img
              , intro.create_user
           FROM intro
           JOIN file f
@@ -86,6 +86,7 @@
              , content = #{content}
              , location = #{align}
              , update_datetime = SYSDATE()
+             , file_id = #{file_id}
          WHERE id = #{introId}
     </update>
 
