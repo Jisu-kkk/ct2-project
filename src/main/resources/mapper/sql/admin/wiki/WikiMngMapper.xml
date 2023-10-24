@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.ct2.admin.wiki.mapper.WikiMngMapper">
+
+    <sql id="wikiCondition">
+    </sql>
+
+    <sql id="hashTagCondition">
+        <if test="hashTag != null and hashTag != 0">
+          JOIN (
+                SELECT board_id
+                  FROM board_tag
+                 WHERE tag_id = #{hashTag}
+               ) bt
+            ON bt.board_id = b.id
+        </if>
+    </sql>
+
+    <sql id="showStatusCondition">
+        <if test="showStatus != null and showStatus != '' and showStatus != -1">
+            AND b.is_use = #{showStatus}
+        </if>
+    </sql>
+
+    <sql id="userIdCondition">
+        <if test="userId != null and userId != 0">
+            AND u.id = #{userId}
+        </if>
+    </sql>
+
+    <sql id="titleCondition">
+        <if test="title != null and title != ''">
+            AND b.title LIKE CONCAT('%', #{title}, '%')
+        </if>
+    </sql>
+
+    <select id="selectWikiListCnt" resultType="int" parameterType="map">
+        SELECT COUNT(b.id)
+          FROM board b
+     LEFT JOIN groupware.user u
+            ON u.id = b.create_user
+        <include refid="hashTagCondition" />
+         WHERE b.organization_code = #{orgCode}
+           AND b.is_delete = 0
+           AND b.board_category = 'BO002'
+        <include refid="showStatusCondition" />
+        <include refid="userIdCondition" />
+        <include refid="titleCondition" />
+    </select>
+
+    <select id="selectWikiList" resultType="map" parameterType="map">
+        SELECT ROW_NUMBER() OVER(ORDER BY b.update_datetime DESC, b.create_datetime DESC) AS num
+             , A.*
+          FROM (
+                SELECT b.id
+                     , b.title
+                     , b.is_use AS useYn
+                     , u.name
+                     , DATE_FORMAT(b.update_datetime, '%Y.%m.%d') AS update_time
+                     , DATE_FORMAT(b.create_datetime, '%Y.%m.%d') AS create_time
+                     , b.update_datetime
+                     , b.create_datetime
+                  FROM board b
+             LEFT JOIN groupware.user u
+                    ON u.id = b.create_user
+        <include refid="hashTagCondition" />
+                 WHERE b.organization_code = #{orgCode}
+                   AND b.is_delete = 0
+        <include refid="showStatusCondition" />
+        <include refid="userIdCondition" />
+        <include refid="titleCondition" />
+              ORDER BY b.update_datetime DESC
+                     , b.create_datetime DESC
+               ) A
+         LIMIT #{pagination.startIndex}, #{pagination.pageSize} -- 페이징
+    </select>
+
+    <insert id="insertWiki" parameterType="map">
+        <selectKey keyProperty="board_id" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO board
+                  ( organization_code
+                  , title
+                  , sub_title
+                  , content
+                  , board_category
+                  , create_user
+                  , create_datetime
+                  , update_user
+                  , update_datetime
+                  , is_use
+                  , is_delete
+                  , title_img
+                  , thumbnail_img
+                  )
+             VALUES
+                  ( #{userVo.organizationCode}
+                  , #{title}
+                  , #{subTitle}
+                  , #{content}
+                  , 'BO002'
+                  , #{userVo.id}
+                  , SYSDATE()
+                  , #{userVo.id}
+                  , SYSDATE()
+                  , #{showStatus}
+                  , 0
+                  , #{titleImgNo}
+                  , #{thumbnailNo}
+                  )
+    </insert>
+
+    <insert id="insertWikiTag" parameterType="map">
+        INSERT INTO board_tag
+                  ( board_id
+                  , tag_id )
+             VALUES
+                  ( #{board_id}
+                  , #{tag_id}
+                  )
+    </insert>
+
+    <select id="selectWiki" parameterType="int" resultType="map">
+        SELECT b.id
+             , b.title
+             , b.sub_title
+             , b.content
+             , b.create_user
+             , is_use
+             , title_img AS titleImgNo
+             , (
+                SELECT CONCAT(f.original_name, f.type)
+                  FROM file f
+                 WHERE b.title_img = f.id
+               ) AS ori_title_img
+             , (
+                SELECT CONCAT(f.name, f.type)
+                  FROM file f
+                 WHERE b.title_img = f.id
+               ) AS title_img
+             , thumbnail_img AS thumbnailNo
+             , (
+                 SELECT CONCAT(f.original_name, f.type)
+                   FROM file f
+                  WHERE b.thumbnail_img = f.id
+               ) AS ori_thumbnail_img
+             , (
+                SELECT CONCAT(f.name, f.type)
+                  FROM file f
+                 WHERE b.thumbnail_img = f.id
+               ) AS thumbnail_img
+          FROM board b
+         WHERE id = #{wikiId}
+    </select>
+
+    <select id="selectWikiTagList" parameterType="int" resultType="int" >
+        SELECT t.tag_id
+          FROM board_tag bt
+     LEFT JOIN tag t
+            ON t.tag_id = bt.tag_id
+         WHERE bt.board_id = #{wikiId}
+    </select>
+
+    <update id="updateWiki" parameterType="map">
+        UPDATE board
+           SET title = #{title}
+             , sub_title = #{subTitle}
+             , content = #{content}
+             , update_datetime = SYSDATE()
+             , is_use = #{showStatus}
+             , title_img = #{titleImgId}
+             , thumbnail_img = #{thumbImgId}
+         WHERE id = #{wikiId}
+    </update>
+
+    <delete id="deleteWikiTag" parameterType="map">
+        DELETE FROM board_tag WHERE board_id = #{wikiId}
+    </delete>
+
+    <update id="deleteWiki" parameterType="map">
+        UPDATE board
+           SET is_delete = 1
+             , title_img = 0
+             , thumbnail_img = 0
+         WHERE id = #{wikiId}
+    </update>
+
+</mapper>

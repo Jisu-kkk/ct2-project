@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.ct2.admin.project.mapper.ProjectMngMapper">
+
+    <sql id="showStatusCondition">
+        <if test="showStatus != null and showStatus != '' and showStatus != -1">
+            AND is_use = #{showStatus}
+        </if>
+    </sql>
+
+    <sql id="tagCondition">
+        <if test="tag != null and tag != 0">
+            JOIN (
+                    SELECT project_id
+                      FROM project_tag
+                     WHERE tag_id = #{tag}
+                 ) pt
+              ON pt.project_id = pj.id
+        </if>
+    </sql>
+
+    <sql id="userIdCondition">
+        <if test="userId != null and userId != 0">
+            AND pj.create_user = #{userId}
+        </if>
+    </sql>
+
+    <sql id="titleCondition">
+        <if test="title != null and title != ''">
+            AND (
+                pj.client_name LIKE CONCAT('%', #{title}, '%')
+                OR
+                pj.name LIKE CONCAT('%', #{title}, '%')
+                )
+        </if>
+    </sql>
+
+    <select id="selectProjectListCnt" resultType="int" parameterType="map">
+        SELECT COUNT(pj.id)
+          FROM project pj
+     LEFT JOIN groupware.user u
+            ON u.id = pj.create_user
+        <include refid="tagCondition" />
+         WHERE pj.organization_code = #{orgCode}
+           AND pj.is_delete = 0
+        <include refid="showStatusCondition" />
+        <include refid="titleCondition" />
+        <include refid="userIdCondition" />
+    </select>
+
+    <select id="selectProjectList" resultType="map" parameterType="map">
+        SELECT ROW_NUMBER() OVER(ORDER BY pj.update_datetime DESC, pj.create_datetime DESC) AS num
+             , A.*
+          FROM (
+                SELECT pj.id
+                     , pj.client_name
+                     , pj.name AS projectName
+                     , is_use AS useYn
+                     , u.name AS userName
+                     , DATE_FORMAT(pj.update_datetime, '%Y.%m.%d') AS update_time
+                     , DATE_FORMAT(pj.create_datetime, '%Y.%m.%d') AS create_time
+                     , pj.create_datetime
+                     , pj.update_datetime
+                  FROM project pj
+             LEFT JOIN groupware.user u
+                    ON u.id = pj.create_user
+                <include refid="tagCondition" />
+                 WHERE pj.organization_code = #{orgCode}
+                   AND pj.is_delete = 0
+                <include refid="showStatusCondition" />
+                <include refid="titleCondition" />
+                <include refid="userIdCondition" />
+               ) A
+         LIMIT #{pagination.startIndex}, #{pagination.pageSize} -- 페이징
+    </select>
+
+    <select id="selectProject" parameterType="int" resultType="map">
+        SELECT pj.id
+             , pj.client_name
+             , pj.name
+             , DATE_FORMAT(pj.finish_date, '%Y.%m.%d') AS finish_date
+             , CONCAT(f.original_name, f.`type`) AS ori_thumbnail_img
+             , CONCAT(f.name, f.`type`) AS thumbnail_img
+             , pj.create_user
+             , pj.file_id
+          FROM project pj
+          JOIN file f
+            ON f.id = pj.file_id
+         WHERE pj.id = #{projectId}
+    </select>
+
+    <select id="selectProjectTagList" parameterType="int" resultType="int">
+        SELECT t.tag_id
+          FROM project_tag pt
+     LEFT JOIN tag t
+            ON t.tag_id = pt.tag_id
+         WHERE pt.project_id = #{projectId}
+    </select>
+
+    <insert id="insertProject" parameterType="map">
+        <selectKey keyProperty="projectId" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO project
+                  ( client_name
+                  , name
+                  , finish_date
+                  , is_use
+                  , is_delete
+                  , create_user
+                  , create_datetime
+                  , update_user
+                  , update_datetime
+                  , file_id
+                  , organization_code
+                  )
+             VALUES
+                  ( #{clientName}
+                  , #{serviceName}
+                  , #{finishDate}
+                  , #{showStatus}
+                  , 0
+                  , #{userVo.id}
+                  , SYSDATE()
+                  , #{userVo.id}
+                  , SYSDATE()
+                  , #{thumbnailNo}
+                  , #{userVo.organizationCode}
+                  )
+    </insert>
+
+    <insert id="insertProjectTag" parameterType="map">
+        INSERT INTO project_tag
+                  ( project_id
+                  , tag_id )
+             VALUES
+                  ( #{projectId}
+                  , #{tag_id}
+                  )
+    </insert>
+
+    <update id="updateProject" parameterType="map">
+        UPDATE project
+           SET name = #{serviceName}
+             , client_name = #{clientName}
+             , finish_date = #{finishDate}
+             , is_use = #{showStatus}
+             , update_datetime = SYSDATE()
+             , file_id = #{file_id}
+         WHERE id = #{projectId}
+    </update>
+
+    <delete id="deleteProjectTag" parameterType="map">
+        DELETE FROM project_tag WHERE project_id = #{projectId}
+    </delete>
+
+    <delete id="deleteProject" parameterType="map">
+        UPDATE project
+           SET is_delete = 1
+             , file_id = 0
+         WHERE id = #{projectId}
+    </delete>
+
+</mapper>

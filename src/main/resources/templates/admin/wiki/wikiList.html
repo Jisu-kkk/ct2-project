@@ -15,7 +15,7 @@
         <div class="card-body">
           <!-- search-area -->
           <div class="search-area">
-            <form name="searchParam" action="/admin/wikiList" method="get">
+            <form name="searchParam" action="/admin/wiki/list" method="get">
               <input type="hidden" name="curPage" id="curPage" value="{{ pagination.curPage }}">
               <div class="ui grid">
                 <div class="three column row">
@@ -90,7 +90,7 @@
                 <tr>
                   <td class="center aligned">{{ wiki.num }}</td>
                   <td class="single line">
-                    <a href="/admin/editWiki?wikiId={{ wiki.id }}">{{ wiki.title }}</a>
+                    <a href="/admin/wiki/edit?wikiId={{ wiki.id }}">{{ wiki.title }}</a>
                   </td>
 
 
@@ -126,9 +126,6 @@
                     <a class="item active">
                   {% else %}
                       <a class="icon item" onclick="paging({{ pageNum }})">
-                      {#
-                      <a class="icon item" href="/admin/wikiList?curPage={{ pageNum }}">
-                        #}
                   {% endif %}
                       {{ pageNum }}
                     </a>
@@ -144,7 +141,7 @@
             </div>
 
             <div class="ui right aligned header">
-              <button class="ui button primary" onclick="location.href='/admin/addWiki'">등록</button>
+              <button class="ui button primary" onclick="location.href='/admin/wiki/insert'">등록</button>
             </div>
 
           </div>

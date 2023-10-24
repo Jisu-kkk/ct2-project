@@ -27,14 +27,14 @@
                           <!--<img class="ui left floated large bordered rounded image" src="/images/{{ intro.fileName }}">-->
                         </div>
                         <div class="nine wide column">
-                          <a class="ui header" href="/admin/editIntro?introId={{ intro.id }}">
+                          <a class="ui header" href="/admin/intro/edit?introId={{ intro.id }}">
                             <h3 class="ui header">{{ intro.title }}</h3>
                           </a>
                           <p>{{ intro.content }}</p>
                         </div>
                         {% else %}
                         <div class="nine wide column">
-                          <a class="ui header" href="/admin/editIntro?introId={{ intro.id }}">
+                          <a class="ui header" href="/admin/intro/edit?introId={{ intro.id }}">
                             <h3 class="ui header">{{ intro.title }}</h3>
                           </a>
                           <p>{{ intro.content }}</p>
@@ -56,7 +56,7 @@
           <!-- 버튼 -->
           {% if introList.size() < 5 %}
           <div class="ui right aligned header">
-            <a href="/admin/addIntro" class="ui button primary">등록</a>
+            <a href="/admin/intro/insert" class="ui button primary">등록</a>
           </div>
           {% endif %}
         </div>
@@ -86,7 +86,7 @@ $(document).ready(function () {
 
 function saveDepth(depthList) {
   $.ajax({
-    url : "/admin/updateIntroDepth",
+    url : "/admin/intro/updateDepth",
     data : JSON.stringify({'depthList' : depthList}),
     type : "POST",
     async : false,

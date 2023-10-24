@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.ct2.main.intro.mapper.IntroMapper">
+
+    <select id="selectIntroList" resultType="map" parameterType="map">
+        SELECT
+            A.id
+            , A.title
+            , A.content
+            , A.depth
+            , A.location
+            , CONCAT(B.path, B.original_name, type) AS oriFileName
+            , CONCAT(B.path, B.name, type) AS fileName
+        FROM (
+            SELECT
+                *
+            FROM
+                intro
+            WHERE 1 = 1
+                AND organization_code = #{orgCode}
+                AND is_delete = 0
+        ) A
+        LEFT JOIN file B
+        ON B.id = A.file_id
+        ORDER BY A.depth ASC
+    </select>
+</mapper>

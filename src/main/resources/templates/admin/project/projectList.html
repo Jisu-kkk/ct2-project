@@ -13,7 +13,7 @@
                 <div class="card-body">
                     <!-- search-area -->
                     <div class="search-area">
-                        <form name="searchPram" action="/admin/project" method="get">
+                        <form name="searchPram" action="/admin/project/list" method="get">
                             <input type="hidden" name="curPage" id="curPage" value="{{ pagination.curPage }}">
                             <div class="ui grid">
                                 <div class="three column row">
@@ -86,7 +86,7 @@
                                 <tr>
                                     <td class="center aligned">{{ project.num }}</td>
                                     <td class="center aligned">
-                                        <a href="/admin/editProject?projectId={{ project.id }}">{{ project.projectName }}</a>
+                                        <a href="/admin/project/edit?projectId={{ project.id }}">{{ project.projectName }}</a>
                                     </td>
                                     <td class="center aligned">{{ project.client_name }}</td>
                                     {% if project.useYn == true %}
@@ -120,9 +120,6 @@
                                     <a class="item active">
                                   {% else %}
                                       <a class="icon item" onclick="paging({{ pageNum }})">
-                                      {#
-                                      <a class="icon item" href="/admin/project?curPage={{ pageNum }}">
-                                        #}
                                   {% endif %}
                                       {{ pageNum }}
                                     </a>
@@ -138,7 +135,7 @@
                         </div>
 
                         <div class="ui right aligned header">
-                            <button class="ui button primary" onclick="location.href='/admin/addProject'">등록</button>
+                            <button class="ui button primary" onclick="location.href='/admin/project/insert'">등록</button>
                         </div>
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 package com.example.ct2.config;
 
-import com.example.ct2.service.UserService;
-import com.example.ct2.vo.admin.UserVo;
+import com.example.ct2.admin.common.service.UserService;
+import com.example.ct2.admin.common.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;

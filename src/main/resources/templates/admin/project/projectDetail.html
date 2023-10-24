@@ -14,7 +14,7 @@
             {% endif %}
         </div>
     </div>
-    <form name="projectForm" id="projectForm" action="{{ project != null ? '/admin/editProject' : '/admin/addProject' }}" method="post" enctype="multipart/form-data">
+    <form name="projectForm" id="projectForm" action="{{ project != null ? '/admin/project/edit' : '/admin/project/insert' }}" method="post" enctype="multipart/form-data">
         <input type="hidden" name="projectId" value="{{ project.id }}"/>
         <div class="card-layout">
             <div class="card col-12">
@@ -97,7 +97,7 @@
 
                     <!-- 버튼 -->
                     <div class="ui right aligned header">
-                        <a href="/admin/project" class="ui button grey">목록</a>
+                        <a href="/admin/project/list" class="ui button grey">목록</a>
                         {% if project != null %}
                             {% if project.create_user == userVo.id or userVo.role_id > 5 %}
                             <button type="button" class="ui button primary" id="btnUpdate">프로젝트 수정</button>
@@ -127,7 +127,7 @@
         });
 
         $("#deleteProject").on('click', function() {
-            $("#projectForm").attr("action", "/admin/deleteProject");
+            $("#projectForm").attr("action", "/admin/project/delete");
             $("#projectForm").submit();
         });
 

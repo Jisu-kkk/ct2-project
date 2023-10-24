@@ -14,7 +14,7 @@
       {% endif %}
     </div>
   </div>
-  <form name="introForm" id="introForm" action="{{ intro != null ? '/admin/editIntro' : '/admin/addIntro' }}" method="post" enctype="multipart/form-data">
+  <form name="introForm" id="introForm" action="{{ intro != null ? '/admin/intro/edit' : '/admin/intro/insert' }}" method="post" enctype="multipart/form-data">
     <input type="hidden" name="introId" value="{{ intro.id }}"/>
     <div class="card-layout">
       <div class="card col-12">
@@ -79,7 +79,7 @@
 
             <!-- 버튼 -->
             <div class="ui right aligned header">
-              <a href="/admin/intro" class="ui button grey">목록</a>
+              <a href="/admin/intro/list" class="ui button grey">목록</a>
               {% if intro.id != null %}
                 {% if intro.create_user == userVo.id or userVo.role_id > 5 %}
                 <button type="button" class="ui button primary" id="btnUpdate">본부소개 수정</button>
@@ -109,7 +109,7 @@ $(document).ready(function () {
   });
 
   $("#deleteIntro").on('click', function() {
-    $("#introForm").attr("action", "/admin/deleteIntro");
+    $("#introForm").attr("action", "/admin/intro/delete");
     $("#introForm").submit();
   });
 
